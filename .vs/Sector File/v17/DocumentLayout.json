@@ -1,0 +1,116 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Vedam\\source\\repos\\Sector File\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|c:\\users\\vedam\\source\\repos\\sector file\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|solutionrelative:login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|C:\\Users\\Vedam\\source\\repos\\Sector File\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|solutionrelative:login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|c:\\users\\vedam\\source\\repos\\sector file\\sidstardataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|solutionrelative:sidstardataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|C:\\Users\\Vedam\\source\\repos\\Sector File\\sidstardataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|solutionrelative:sidstardataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|c:\\users\\vedam\\source\\repos\\sector file\\airportdataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|solutionrelative:airportdataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|C:\\Users\\Vedam\\source\\repos\\Sector File\\airportdataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7D8A5924-665F-4AFB-8CC9-DB99644CC650}|Sector File.csproj|solutionrelative:airportdataform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\Vedam\\source\\repos\\Sector File\\Login.cs",
+              "RelativeDocumentMoniker": "Login.cs",
+              "ToolTip": "C:\\Users\\Vedam\\source\\repos\\Sector File\\Login.cs",
+              "RelativeToolTip": "Login.cs",
+              "ViewState": "AQIAAK0AAAAAAAAAAAAswLgAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T12:15:15.981Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Vedam\\source\\repos\\Sector File\\Login.cs",
+              "RelativeDocumentMoniker": "Login.cs",
+              "ToolTip": "C:\\Users\\Vedam\\source\\repos\\Sector File\\Login.cs [Design]",
+              "RelativeToolTip": "Login.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T12:14:59.131Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SidStarDataForm.cs",
+              "DocumentMoniker": "C:\\Users\\Vedam\\source\\repos\\Sector File\\SidStarDataForm.cs",
+              "RelativeDocumentMoniker": "SidStarDataForm.cs",
+              "ToolTip": "C:\\Users\\Vedam\\source\\repos\\Sector File\\SidStarDataForm.cs",
+              "RelativeToolTip": "SidStarDataForm.cs",
+              "ViewState": "AQIAALkBAAAAAAAAAADwv8cBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T23:48:31.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SidStarDataForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Vedam\\source\\repos\\Sector File\\SidStarDataForm.cs",
+              "RelativeDocumentMoniker": "SidStarDataForm.cs",
+              "ToolTip": "C:\\Users\\Vedam\\source\\repos\\Sector File\\SidStarDataForm.cs [Design]",
+              "RelativeToolTip": "SidStarDataForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T23:48:29.971Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "airportDataForm.cs",
+              "DocumentMoniker": "C:\\Users\\Vedam\\source\\repos\\Sector File\\airportDataForm.cs",
+              "RelativeDocumentMoniker": "airportDataForm.cs",
+              "ToolTip": "C:\\Users\\Vedam\\source\\repos\\Sector File\\airportDataForm.cs",
+              "RelativeToolTip": "airportDataForm.cs",
+              "ViewState": "AQIAALQBAAAAAAAAAAAowMcBAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T23:15:38.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "airportDataForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Vedam\\source\\repos\\Sector File\\airportDataForm.cs",
+              "RelativeDocumentMoniker": "airportDataForm.cs",
+              "ToolTip": "C:\\Users\\Vedam\\source\\repos\\Sector File\\airportDataForm.cs [Design]",
+              "RelativeToolTip": "airportDataForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T23:15:18.735Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
