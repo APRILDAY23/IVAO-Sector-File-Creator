@@ -1,0 +1,22 @@
+C:\Users\Vedam\source\repos\Sector File\bin\x86\Debug\net8.0-windows\Sector File.exe
+C:\Users\Vedam\source\repos\Sector File\bin\x86\Debug\net8.0-windows\Sector File.deps.json
+C:\Users\Vedam\source\repos\Sector File\bin\x86\Debug\net8.0-windows\Sector File.runtimeconfig.json
+C:\Users\Vedam\source\repos\Sector File\bin\x86\Debug\net8.0-windows\Sector File.dll
+C:\Users\Vedam\source\repos\Sector File\bin\x86\Debug\net8.0-windows\Sector File.pdb
+C:\Users\Vedam\source\repos\Sector File\bin\x86\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.csproj.AssemblyReference.cache
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.g.resources
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector_File.Form1.resources
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector_File.LoadingForm.resources
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector_File.Login.resources
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.csproj.GenerateResource.cache
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.AssemblyInfoInputs.cache
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.AssemblyInfo.cs
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.csproj.CoreCompileInputs.cache
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector F.D0D8776F.Up2Date
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.dll
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\refint\Sector File.dll
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.pdb
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\Sector File.genruntimeconfig.cache
+C:\Users\Vedam\source\repos\Sector File\obj\x86\Debug\net8.0-windows\ref\Sector File.dll
