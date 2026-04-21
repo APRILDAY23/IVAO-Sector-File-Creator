@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "Ana Sayfa",
+    "nav_dashboard": "Gösterge paneli",
     "nav_airport": "Havalimanı Verileri",
     "nav_fir": "FIR Verileri",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "Uçuş Takvimleri",
     "nav_ground": "Yer Düzeni",
+    "nav_country": "Ülke Verileri",
+    "nav_osm": "OSM Verileri",
     "nav_settings": "Ayarlar",
+    "nav_credits": "Katkıda Bulunanlar",
+    "nav_signout": "Çıkış yap",
     "nav_back": "Geri",
+    "nav_close_sidebar": "Kenar çubuğunu kapat",
 
     "welcome_title": "IVAO Sector File Creator'a Hoş Geldiniz",
     "welcome_hint": "IVAO için üçüncü taraf sektör dosyası oluşturma aracı.",
@@ -20,9 +26,15 @@
     "login_opening": "Tarayıcı açılıyor...",
 
     "settings_appearance": "GÖRÜNÜM",
+    "settings_title": "Ayarlar",
+    "settings_subtitle": "Görünüm ve Tercihler",
+    "settings_description": "Uygulamanın görünümünü özelleştirin. Dil değişiklikleri için yeniden başlatma gereklidir.",
     "settings_theme": "Tema:",
     "settings_theme_light": "Açık",
     "settings_theme_dark": "Koyu",
+    "settings_dark_mode": "Karanlık mod",
+    "settings_dark_mode_desc": "Karanlık mod yakında gelecek bir güncellemede geliyor.",
+    "settings_coming_soon": "Yakında",
     "settings_language": "DİL",
     "settings_language_label": "Dil:",
     "settings_language_restart": "Yeni dili uygulamak için uygulamayı yeniden başlatın.",
@@ -37,6 +49,8 @@
     "settings_update_available": "mevcut",
     "settings_checking": "Kontrol ediliyor...",
     "settings_downloading": "İndiriliyor",
+
+    "btn_restart_now": "Şimdi yeniden başlat",
 
     "airport_fetch": "Getir",
     "airport_export": "Dışa aktar",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "Erişim reddedildi - yalnızca personel hesapları.",
     "error_invalid_file": "Lütfen yalnızca KML dosyaları yükleyin.",
+    "error_no_data": "Kaydedilecek veri yok. Önce veri çekin.",
+    "error_no_data_title": "Veri yok",
+    "error_fetch": "Veri çekme hatası",
+    "error_fetch_title": "Hata",
+    "error_input_required_title": "Giriş gerekli",
+    "error_save_title": "Hata",
+
+    "msg_saved_title": "Kaydedildi",
+    "msg_export_title": "Dışa aktarma tamamlandı",
 
     "airac_offline": "AIRAC çevrimdışı",
     "airac_days_left": "gün kaldı"

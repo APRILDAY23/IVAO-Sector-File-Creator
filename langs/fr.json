@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "Accueil",
+    "nav_dashboard": "Tableau de bord",
     "nav_airport": "Données Aéroport",
     "nav_fir": "Données FIR",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "Horaires de Vol",
     "nav_ground": "Plan de Sol",
+    "nav_country": "Données Pays",
+    "nav_osm": "Données OSM",
     "nav_settings": "Paramètres",
+    "nav_credits": "Crédits",
+    "nav_signout": "Se déconnecter",
     "nav_back": "Retour",
+    "nav_close_sidebar": "Fermer la barre",
 
     "welcome_title": "Bienvenue dans IVAO Sector File Creator",
     "welcome_hint": "Outil tiers de création de fichiers de secteur pour IVAO.",
@@ -20,9 +26,15 @@
     "login_opening": "Ouverture du navigateur...",
 
     "settings_appearance": "APPARENCE",
+    "settings_title": "Paramètres",
+    "settings_subtitle": "Apparence et Préférences",
+    "settings_description": "Personnalisez l'aspect de l'application. Les changements de langue nécessitent un redémarrage.",
     "settings_theme": "Thème :",
     "settings_theme_light": "Clair",
     "settings_theme_dark": "Sombre",
+    "settings_dark_mode": "Mode sombre",
+    "settings_dark_mode_desc": "Le mode sombre arrive bientôt dans une prochaine mise à jour.",
+    "settings_coming_soon": "Bientôt disponible",
     "settings_language": "LANGUE",
     "settings_language_label": "Langue :",
     "settings_language_restart": "Redémarrez l'application pour appliquer la nouvelle langue.",
@@ -37,6 +49,8 @@
     "settings_update_available": "disponible",
     "settings_checking": "Vérification...",
     "settings_downloading": "Téléchargement",
+
+    "btn_restart_now": "Redémarrer maintenant",
 
     "airport_fetch": "Récupérer",
     "airport_export": "Exporter",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "Accès refusé - comptes personnel uniquement.",
     "error_invalid_file": "Veuillez télécharger uniquement des fichiers KML.",
+    "error_no_data": "Aucune donnée à sauvegarder. Récupérez d'abord les données.",
+    "error_no_data_title": "Aucune donnée",
+    "error_fetch": "Erreur lors de la récupération des données",
+    "error_fetch_title": "Erreur",
+    "error_input_required_title": "Entrée requise",
+    "error_save_title": "Erreur",
+
+    "msg_saved_title": "Sauvegardé",
+    "msg_export_title": "Exportation terminée",
 
     "airac_offline": "AIRAC hors ligne",
     "airac_days_left": "jours restants"

@@ -17,6 +17,9 @@ namespace Sector_File
     // ─────────────────────────────────────────────────────────────────────────
     public partial class MainForm : Form
     {
+        // ── Localisation shorthand ───────────────────────────────────────────
+        private static string L(string key) => Localization.Get(key);
+
         // ── Auth / user state ────────────────────────────────────────────────
         private int    _userId;
         private string _firstName = "";

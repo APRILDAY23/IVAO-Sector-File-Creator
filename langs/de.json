@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "Startseite",
+    "nav_dashboard": "Dashboard",
     "nav_airport": "Flughafendaten",
     "nav_fir": "FIR-Daten",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "Flugpläne",
     "nav_ground": "Bodenlayout",
+    "nav_country": "Länderdaten",
+    "nav_osm": "OSM-Daten",
     "nav_settings": "Einstellungen",
+    "nav_credits": "Mitwirkende",
+    "nav_signout": "Abmelden",
     "nav_back": "Zurück",
+    "nav_close_sidebar": "Seitenleiste schließen",
 
     "welcome_title": "Willkommen beim IVAO Sector File Creator",
     "welcome_hint": "Drittanbieter-Tool zur Erstellung von IVAO-Sektordateien.",
@@ -20,9 +26,15 @@
     "login_opening": "Browser wird geöffnet...",
 
     "settings_appearance": "ERSCHEINUNGSBILD",
+    "settings_title": "Einstellungen",
+    "settings_subtitle": "Erscheinungsbild & Einstellungen",
+    "settings_description": "Passen Sie das Erscheinungsbild der App an. Sprachänderungen erfordern einen Neustart.",
     "settings_theme": "Design:",
     "settings_theme_light": "Hell",
     "settings_theme_dark": "Dunkel",
+    "settings_dark_mode": "Dunkelmodus",
+    "settings_dark_mode_desc": "Der Dunkelmodus kommt bald in einem zukünftigen Update.",
+    "settings_coming_soon": "Demnächst",
     "settings_language": "SPRACHE",
     "settings_language_label": "Sprache:",
     "settings_language_restart": "Starten Sie die App neu, um die neue Sprache anzuwenden.",
@@ -37,6 +49,8 @@
     "settings_update_available": "verfügbar",
     "settings_checking": "Überprüfe...",
     "settings_downloading": "Herunterladen",
+
+    "btn_restart_now": "Jetzt neu starten",
 
     "airport_fetch": "Abrufen",
     "airport_export": "Exportieren",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "Zugriff verweigert - nur Mitarbeiterkonten.",
     "error_invalid_file": "Bitte nur KML-Dateien hochladen.",
+    "error_no_data": "Keine Daten zum Speichern. Bitte zuerst Daten abrufen.",
+    "error_no_data_title": "Keine Daten",
+    "error_fetch": "Fehler beim Abrufen der Daten",
+    "error_fetch_title": "Fehler",
+    "error_input_required_title": "Eingabe erforderlich",
+    "error_save_title": "Fehler",
+
+    "msg_saved_title": "Gespeichert",
+    "msg_export_title": "Export abgeschlossen",
 
     "airac_offline": "AIRAC offline",
     "airac_days_left": "Tage verbleibend"

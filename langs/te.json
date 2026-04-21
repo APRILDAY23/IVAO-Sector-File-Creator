@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "హోమ్",
+    "nav_dashboard": "డాష్‌బోర్డ్",
     "nav_airport": "విమానాశ్రయ డేటా",
     "nav_fir": "FIR డేటా",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "విమాన షెడ్యూళ్లు",
     "nav_ground": "గ్రౌండ్ లేఅవుట్",
+    "nav_country": "దేశ డేటా",
+    "nav_osm": "OSM డేటా",
     "nav_settings": "సెట్టింగ్లు",
+    "nav_credits": "క్రెడిట్స్",
+    "nav_signout": "సైన్ అవుట్",
     "nav_back": "వెనుకకు",
+    "nav_close_sidebar": "సైడ్‌బార్ మూసివేయి",
 
     "welcome_title": "IVAO Sector File Creator కి స్వాగతం",
     "welcome_hint": "IVAO కోసం థర్డ్-పార్టీ సెక్టర్ ఫైల్ నిర్మాణ సాధనం.",
@@ -20,9 +26,15 @@
     "login_opening": "బ్రౌజర్ తెరుచుచున్నాము...",
 
     "settings_appearance": "రూపం",
+    "settings_title": "సెట్టింగ్లు",
+    "settings_subtitle": "రూపం మరియు ప్రాధాన్యతలు",
+    "settings_description": "యాప్ రూపాన్ని అనుకూలీకరించండి. భాష మార్పులకు రీస్టార్ట్ అవసరం.",
     "settings_theme": "థీమ్:",
     "settings_theme_light": "లేత",
     "settings_theme_dark": "చీకటి",
+    "settings_dark_mode": "డార్క్ మోడ్",
+    "settings_dark_mode_desc": "డార్క్ మోడ్ త్వరలో రానున్న అప్‌డేట్‌లో వస్తుంది.",
+    "settings_coming_soon": "త్వరలో వస్తుంది",
     "settings_language": "భాష",
     "settings_language_label": "భాష:",
     "settings_language_restart": "కొత్త భాషను వర్తించడానికి యాప్‌ని రీస్టార్ట్ చేయండి.",
@@ -37,6 +49,8 @@
     "settings_update_available": "అందుబాటులో ఉంది",
     "settings_checking": "తనిఖీ చేస్తున్నాము...",
     "settings_downloading": "డౌన్‌లోడ్ అవుతున్నాము",
+
+    "btn_restart_now": "ఇప్పుడు పున:ప్రారంభించు",
 
     "airport_fetch": "పొందు",
     "airport_export": "ఎగుమతి చేయి",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "యాక్సెస్ నిరాకరించబడింది - స్టాఫ్ అకౌంట్లు మాత్రమే.",
     "error_invalid_file": "దయచేసి KML ఫైళ్లు మాత్రమే అప్‌లోడ్ చేయండి.",
+    "error_no_data": "సేవ్ చేయడానికి డేటా లేదు. ముందు డేటా తీసుకురండి.",
+    "error_no_data_title": "డేటా లేదు",
+    "error_fetch": "డేటా తీసుకురావడంలో లోపం",
+    "error_fetch_title": "లోపం",
+    "error_input_required_title": "ఇన్‌పుట్ అవసరం",
+    "error_save_title": "లోపం",
+
+    "msg_saved_title": "సేవ్ అయింది",
+    "msg_export_title": "ఎగుమతి పూర్తైంది",
 
     "airac_offline": "AIRAC ఆఫ్‌లైన్",
     "airac_days_left": "రోజులు మిగిలాయి"

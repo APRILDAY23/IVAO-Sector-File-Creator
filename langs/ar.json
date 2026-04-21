@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "الرئيسية",
+    "nav_dashboard": "لوحة التحكم",
     "nav_airport": "بيانات المطار",
     "nav_fir": "بيانات FIR",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "جداول الرحلات",
     "nav_ground": "تخطيط الأرضية",
+    "nav_country": "بيانات البلد",
+    "nav_osm": "بيانات OSM",
     "nav_settings": "الإعدادات",
+    "nav_credits": "الاعتمادات",
+    "nav_signout": "تسجيل الخروج",
     "nav_back": "رجوع",
+    "nav_close_sidebar": "إغلاق الشريط الجانبي",
 
     "welcome_title": "مرحباً بك في IVAO Sector File Creator",
     "welcome_hint": "أداة طرف ثالث لإنشاء ملفات قطاع IVAO.",
@@ -20,9 +26,15 @@
     "login_opening": "فتح المتصفح...",
 
     "settings_appearance": "المظهر",
+    "settings_title": "الإعدادات",
+    "settings_subtitle": "المظهر والتفضيلات",
+    "settings_description": "خصص مظهر التطبيق. تغييرات اللغة تتطلب إعادة تشغيل.",
     "settings_theme": "السمة:",
     "settings_theme_light": "فاتح",
     "settings_theme_dark": "داكن",
+    "settings_dark_mode": "الوضع المظلم",
+    "settings_dark_mode_desc": "سيأتي الوضع المظلم قريباً في تحديث مستقبلي.",
+    "settings_coming_soon": "قريباً",
     "settings_language": "اللغة",
     "settings_language_label": "اللغة:",
     "settings_language_restart": "أعد تشغيل التطبيق لتطبيق اللغة الجديدة.",
@@ -37,6 +49,8 @@
     "settings_update_available": "متاح",
     "settings_checking": "جارٍ التحقق...",
     "settings_downloading": "جارٍ التنزيل",
+
+    "btn_restart_now": "إعادة التشغيل الآن",
 
     "airport_fetch": "جلب",
     "airport_export": "تصدير",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "تم رفض الوصول - حسابات الموظفين فقط.",
     "error_invalid_file": "يرجى تحميل ملفات KML فقط.",
+    "error_no_data": "لا توجد بيانات للحفظ. يرجى جلب البيانات أولاً.",
+    "error_no_data_title": "لا توجد بيانات",
+    "error_fetch": "خطأ في جلب البيانات",
+    "error_fetch_title": "خطأ",
+    "error_input_required_title": "إدخال مطلوب",
+    "error_save_title": "خطأ",
+
+    "msg_saved_title": "تم الحفظ",
+    "msg_export_title": "اكتمل التصدير",
 
     "airac_offline": "AIRAC غير متصل",
     "airac_days_left": "أيام متبقية"

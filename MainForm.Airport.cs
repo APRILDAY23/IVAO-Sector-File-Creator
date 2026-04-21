@@ -48,7 +48,7 @@ namespace Sector_File
             {
                 MessageBox.Show(
                     "Enter a 4-letter airport ICAO (e.g. VABB) or 2-letter FIR prefix (e.g. VA).",
-                    "Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("error_input_required_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -206,8 +206,8 @@ namespace Sector_File
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error fetching data:\n{ex.Message}",
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{L("error_fetch")}:\n{ex.Message}",
+                    L("error_fetch_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -853,8 +853,8 @@ namespace Sector_File
         {
             if (string.IsNullOrEmpty(data))
             {
-                MessageBox.Show("No data to download. Fetch data first.",
-                    "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(L("error_no_data"),
+                    L("error_no_data_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             string term = apRegionBox.Text.Trim().ToUpper();
@@ -867,7 +867,7 @@ namespace Sector_File
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(dlg.FileName, data);
-                MessageBox.Show($"Saved to {dlg.FileName}", "Saved",
+                MessageBox.Show($"Saved to {dlg.FileName}", L("msg_saved_title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

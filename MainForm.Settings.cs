@@ -86,7 +86,7 @@ namespace Sector_File
 
             this.settingsTitle = new Label
             {
-                Text        = "Settings",
+                Text        = L("settings_title"),
                 Font        = new Font("Segoe UI", 22f, FontStyle.Bold),
                 ForeColor   = Color.FromArgb(17, 24, 39),
                 Dock        = DockStyle.Top,
@@ -100,7 +100,7 @@ namespace Sector_File
 
             this.settingsSubLabel = new Label
             {
-                Text        = "Appearance & Preferences",
+                Text        = L("settings_subtitle"),
                 Font        = new Font("Segoe UI", 10.5f),
                 ForeColor   = Color.FromArgb(107, 114, 128),
                 Dock        = DockStyle.Top,
@@ -114,9 +114,7 @@ namespace Sector_File
 
             this.settingsDescLabel = new Label
             {
-                Text        = "Customise the look and feel of IVAO ATC Utilities. " +
-                              "Changes apply instantly across the entire application " +
-                              "without needing to restart.",
+                Text        = L("settings_description"),
                 Font        = new Font("Segoe UI", 10f),
                 ForeColor   = Color.FromArgb(55, 65, 81),
                 Dock        = DockStyle.Top,
@@ -189,7 +187,7 @@ namespace Sector_File
 
             this.settingsDmTitle = new Label
             {
-                Text      = "Dark Mode",
+                Text      = L("settings_dark_mode"),
                 Font      = new Font("Segoe UI", 11f, FontStyle.Bold),
                 ForeColor = LightText,
                 Location  = new Point(74, 14),
@@ -199,7 +197,7 @@ namespace Sector_File
 
             this.themeHintLabel = new Label
             {
-                Text      = "Dark mode is coming soon in a future update.",
+                Text      = L("settings_dark_mode_desc"),
                 Font      = new Font("Segoe UI", 8.5f),
                 ForeColor = LightMuted,
                 Location  = new Point(74, 38),
@@ -209,7 +207,7 @@ namespace Sector_File
 
             var comingSoonBadge = new Label
             {
-                Text      = "Coming Soon",
+                Text      = L("settings_coming_soon"),
                 Font      = new Font("Segoe UI", 7.5f, FontStyle.Bold),
                 ForeColor = Color.FromArgb(180, 120, 0),
                 BackColor = Color.FromArgb(255, 243, 205),
@@ -390,7 +388,7 @@ namespace Sector_File
             };
             var langLabel = new Label
             {
-                Text      = "Language:",
+                Text      = L("settings_language_label"),
                 Font      = new Font("Segoe UI", 9f),
                 ForeColor = Color.FromArgb(55, 65, 81),
                 Location  = new Point(20, 24),
@@ -411,7 +409,7 @@ namespace Sector_File
             langCombo.SelectedIndex = Math.Max(0, langs.FindIndex(l => l.Code == ConfigManager.Language));
             var langRestartBtn = new Button
             {
-                Text      = "Restart Now",
+                Text      = L("btn_restart_now"),
                 Font      = new Font("Segoe UI", 9f),
                 Location  = new Point(120, 54),
                 Width     = 120,
@@ -423,7 +421,12 @@ namespace Sector_File
                 Visible   = false,
             };
             langRestartBtn.FlatAppearance.BorderSize = 0;
-            langRestartBtn.Click += (s, e) => Application.Restart();
+            langRestartBtn.Visible = ConfigManager.Language != Localization.CurrentCode;
+            langRestartBtn.Click += (s, e) =>
+            {
+                System.Diagnostics.Process.Start(Application.ExecutablePath);
+                Application.Exit();
+            };
             langCombo.SelectedIndexChanged += (s, e) =>
             {
                 if (langCombo.SelectedItem is LangItem item)

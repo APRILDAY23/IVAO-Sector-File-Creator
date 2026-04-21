@@ -48,7 +48,7 @@ namespace Sector_File
             string ext = Path.GetExtension(ofd.FileName).ToLowerInvariant();
             if (ext != ".kml" && ext != ".kmz")
             {
-                MessageBox.Show("Please select a KML or KMZ file.", "Invalid File",
+                MessageBox.Show(L("error_invalid_file"), L("error_fetch_title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -407,8 +407,8 @@ namespace Sector_File
         {
             if (string.IsNullOrEmpty(data))
             {
-                MessageBox.Show("No data to save - import a KML file first.",
-                    "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(L("error_no_data"), L("error_no_data_title"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             string name = string.IsNullOrEmpty(_grKmlPath)
@@ -422,7 +422,7 @@ namespace Sector_File
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(dlg.FileName, data);
-                MessageBox.Show($"Saved to {dlg.FileName}", "Saved",
+                MessageBox.Show($"Saved to {dlg.FileName}", L("msg_saved_title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }

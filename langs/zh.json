@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "主页",
+    "nav_dashboard": "仪表板",
     "nav_airport": "机场数据",
     "nav_fir": "FIR 数据",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "航班时刻表",
     "nav_ground": "地面布局",
+    "nav_country": "国家数据",
+    "nav_osm": "OSM 数据",
     "nav_settings": "设置",
+    "nav_credits": "致谢",
+    "nav_signout": "退出登录",
     "nav_back": "返回",
+    "nav_close_sidebar": "关闭侧边栏",
 
     "welcome_title": "欢迎使用 IVAO Sector File Creator",
     "welcome_hint": "用于创建 IVAO 扇区文件的第三方工具。",
@@ -20,9 +26,15 @@
     "login_opening": "正在打开浏览器...",
 
     "settings_appearance": "外观",
+    "settings_title": "设置",
+    "settings_subtitle": "外观与偏好",
+    "settings_description": "自定义应用外观。语言更改需要重启。",
     "settings_theme": "主题：",
     "settings_theme_light": "浅色",
     "settings_theme_dark": "深色",
+    "settings_dark_mode": "深色模式",
+    "settings_dark_mode_desc": "深色模式将在未来的更新中推出。",
+    "settings_coming_soon": "即将推出",
     "settings_language": "语言",
     "settings_language_label": "语言：",
     "settings_language_restart": "重启应用程序以应用新语言。",
@@ -37,6 +49,8 @@
     "settings_update_available": "可用",
     "settings_checking": "检查中...",
     "settings_downloading": "下载中",
+
+    "btn_restart_now": "立即重启",
 
     "airport_fetch": "获取",
     "airport_export": "导出",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "访问被拒绝 - 仅限员工账户。",
     "error_invalid_file": "请仅上传 KML 文件。",
+    "error_no_data": "没有数据可保存，请先获取数据。",
+    "error_no_data_title": "无数据",
+    "error_fetch": "获取数据出错",
+    "error_fetch_title": "错误",
+    "error_input_required_title": "需要输入",
+    "error_save_title": "错误",
+
+    "msg_saved_title": "已保存",
+    "msg_export_title": "导出完成",
 
     "airac_offline": "AIRAC 离线",
     "airac_days_left": "天剩余"

@@ -74,7 +74,7 @@ namespace Sector_File
         private void LoginButton_Click(object sender, EventArgs e)
         {
             LoginButton.Enabled = false;
-            LoginButton.Text    = "Opening browser...";
+            LoginButton.Text    = Localization.Get("login_opening");
             StartListener();
             string url = $"{AuthorizationEndpoint}?response_type=code&client_id={ClientId}" +
                          $"&redirect_uri={RedirectUri}&scope={Scopes}&state={State}";
@@ -133,10 +133,10 @@ namespace Sector_File
                             this.Invoke((MethodInvoker)delegate
                             {
                                 LoginButton.Enabled = true;
-                                LoginButton.Text    = "Login with IVAO SSO";
+                                LoginButton.Text    = Localization.Get("login_button");
                                 MessageBox.Show(
-                                    "Access denied - staff accounts only.",
-                                    "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    Localization.Get("error_access_denied"),
+                                    Localization.Get("error_fetch_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                             });
                         }
                     }

@@ -4,13 +4,19 @@
   "author": "Veda Moola",
   "strings": {
     "nav_home": "Home",
+    "nav_dashboard": "Dashboard",
     "nav_airport": "Airport Data",
     "nav_fir": "FIR Data",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "Flight Schedules",
     "nav_ground": "Ground Layout",
+    "nav_country": "Country Data",
+    "nav_osm": "OSM Data",
     "nav_settings": "Settings",
+    "nav_credits": "Credits",
+    "nav_signout": "Sign Out",
     "nav_back": "Back",
+    "nav_close_sidebar": "Close sidebar",
 
     "welcome_title": "Welcome to IVAO Sector File Creator",
     "welcome_hint": "Third party sector file creation tool for IVAO.",
@@ -20,9 +26,15 @@
     "login_opening": "Opening browser...",
 
     "settings_appearance": "APPEARANCE",
+    "settings_title": "Settings",
+    "settings_subtitle": "Appearance & Preferences",
+    "settings_description": "Customise the look and feel of the app. Language changes require a restart.",
     "settings_theme": "Theme:",
     "settings_theme_light": "Light",
     "settings_theme_dark": "Dark",
+    "settings_dark_mode": "Dark Mode",
+    "settings_dark_mode_desc": "Dark mode is coming soon in a future update.",
+    "settings_coming_soon": "Coming Soon",
     "settings_language": "LANGUAGE",
     "settings_language_label": "Language:",
     "settings_language_restart": "Restart the app to apply the new language.",
@@ -37,6 +49,8 @@
     "settings_update_available": "available",
     "settings_checking": "Checking...",
     "settings_downloading": "Downloading",
+
+    "btn_restart_now": "Restart Now",
 
     "airport_fetch": "Fetch",
     "airport_export": "Export",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "Access denied - staff accounts only.",
     "error_invalid_file": "Please upload only KML files.",
+    "error_no_data": "No data to save. Fetch data first.",
+    "error_no_data_title": "No Data",
+    "error_fetch": "Error fetching data",
+    "error_fetch_title": "Error",
+    "error_input_required_title": "Input Required",
+    "error_save_title": "Error",
+
+    "msg_saved_title": "Saved",
+    "msg_export_title": "Export Complete",
 
     "airac_offline": "AIRAC offline",
     "airac_days_left": "days left"

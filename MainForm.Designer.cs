@@ -535,14 +535,14 @@ namespace Sector_File
             };
 
             // ── Nav items ─────────────────────────────────────────────────
-            this.navDashboardCard = MakeSidebarNavItem("🏠", "Dashboard",        "Home");
-            this.navSidStarCard   = MakeSidebarNavItem("✈",  "SID & STAR",       "Generate procedures");
-            this.navAirportCard   = MakeSidebarNavItem("🏗", "Airport Data",     "Runways, freq & navaids");
-            this.navFirCard       = MakeSidebarNavItem("📡", "FIR Data",         "FIR boundaries & ATC");
-            this.navCountryCard   = MakeSidebarNavItem("🌍", "Country Data",     "National boundary data");
-            this.navKmlCard       = MakeSidebarNavItem("🗺", "Ground Layout",    "Import KML ground files");
-            this.navOsmCard       = MakeSidebarNavItem("🗂", "OSM Data",         "Coming soon");
-            this.navFlightCard    = MakeSidebarNavItem("📋", "Flight Schedules", "Search ADS-B flight data");
+            this.navDashboardCard = MakeSidebarNavItem("🏠", L("nav_dashboard"), L("nav_home"));
+            this.navSidStarCard   = MakeSidebarNavItem("✈",  L("nav_sidstar"),   "");
+            this.navAirportCard   = MakeSidebarNavItem("🏗", L("nav_airport"),   "");
+            this.navFirCard       = MakeSidebarNavItem("📡", L("nav_fir"),       "");
+            this.navCountryCard   = MakeSidebarNavItem("🌍", L("nav_country"),   "");
+            this.navKmlCard       = MakeSidebarNavItem("🗺", L("nav_ground"),    "");
+            this.navOsmCard       = MakeSidebarNavItem("🗂", L("nav_osm"),       "");
+            this.navFlightCard    = MakeSidebarNavItem("📋", L("nav_flights"),   "");
 
             var atcSectionLabel    = MakeSidebarSectionLabel("ATC");
             var flightSectionLabel = MakeSidebarSectionLabel("Flight");
@@ -550,19 +550,19 @@ namespace Sector_File
             var sectionDivider     = new Panel { Dock = DockStyle.Top, Height = 1, BackColor = Color.FromArgb(226, 232, 240) };
             var flightMiscDivider  = new Panel { Dock = DockStyle.Top, Height = 1, BackColor = Color.FromArgb(226, 232, 240) };
 
-            WireSidebarItem(this.navDashboardCard, () => { NavigateTo(welcomePage, "Home");            SetActiveSidebarItem(navDashboardCard); });
-            WireSidebarItem(this.navSidStarCard,   () => { NavigateTo(sidStarPage, "SID & STAR");      SetActiveSidebarItem(navSidStarCard); });
-            WireSidebarItem(this.navAirportCard,   () => { NavigateTo(airportPage, "Airport Data");    SetActiveSidebarItem(navAirportCard); });
-            WireSidebarItem(this.navFirCard,       () => { NavigateTo(firPage,      "FIR Data");        SetActiveSidebarItem(navFirCard); });
-            WireSidebarItem(this.navCountryCard,   () => { NavigateTo(countryPage, "Country Data");    SetActiveSidebarItem(navCountryCard); });
-            WireSidebarItem(this.navKmlCard,       () => { NavigateTo(groundPage,  "Ground Layout");   SetActiveSidebarItem(navKmlCard); });
-            WireSidebarItem(this.navOsmCard,       () => { NavigateTo(osmPage,     "OSM Data");        SetActiveSidebarItem(navOsmCard); });
-            WireSidebarItem(this.navFlightCard,    () => { NavigateTo(flightPage,  "Flight Schedules"); SetActiveSidebarItem(navFlightCard); });
+            WireSidebarItem(this.navDashboardCard, () => { NavigateTo(welcomePage, L("nav_home"));      SetActiveSidebarItem(navDashboardCard); });
+            WireSidebarItem(this.navSidStarCard,   () => { NavigateTo(sidStarPage, L("nav_sidstar"));  SetActiveSidebarItem(navSidStarCard); });
+            WireSidebarItem(this.navAirportCard,   () => { NavigateTo(airportPage, L("nav_airport"));  SetActiveSidebarItem(navAirportCard); });
+            WireSidebarItem(this.navFirCard,       () => { NavigateTo(firPage,     L("nav_fir"));      SetActiveSidebarItem(navFirCard); });
+            WireSidebarItem(this.navCountryCard,   () => { NavigateTo(countryPage, L("nav_country"));  SetActiveSidebarItem(navCountryCard); });
+            WireSidebarItem(this.navKmlCard,       () => { NavigateTo(groundPage,  L("nav_ground"));   SetActiveSidebarItem(navKmlCard); });
+            WireSidebarItem(this.navOsmCard,       () => { NavigateTo(osmPage,     L("nav_osm"));      SetActiveSidebarItem(navOsmCard); });
+            WireSidebarItem(this.navFlightCard,    () => { NavigateTo(flightPage,  L("nav_flights"));  SetActiveSidebarItem(navFlightCard); });
 
             // ── MISC nav items (inside scrollable nav) ────────────────────
-            this.navSettingsBtn = MakeSidebarNavItem("⚙",  "Settings", "App preferences");
-            this.navCreditsBtn  = MakeSidebarNavItem("ℹ",  "Credits",  "About this tool");
-            this.navLogoutBtn   = MakeSidebarNavItem("⏻",  "Sign Out", "");
+            this.navSettingsBtn = MakeSidebarNavItem("⚙",  L("nav_settings"), "");
+            this.navCreditsBtn  = MakeSidebarNavItem("ℹ",  L("nav_credits"),  "");
+            this.navLogoutBtn   = MakeSidebarNavItem("⏻",  L("nav_signout"),  "");
             // Tint the logout icon red
             var logoutInner = this.navLogoutBtn.Controls.OfType<Panel>().FirstOrDefault(p => p.Tag?.ToString() == "inner");
             if (logoutInner != null)
@@ -593,7 +593,7 @@ namespace Sector_File
                 _navStack.Push((loginPage, "Login"));
                 UpdateNav();
                 loginButton.Enabled = true;
-                loginButton.Text    = "Continue with IVAO SSO";
+                loginButton.Text    = L("login_button");
             });
 
             // ── Collapse / expand button ───────────────────────────────────
@@ -605,7 +605,7 @@ namespace Sector_File
             };
             var collapseBtn = new Button
             {
-                Text      = "‹   Close sidebar",
+                Text      = "‹   " + L("nav_close_sidebar"),
                 Font      = new Font("Segoe UI", 13f),
                 ForeColor = Color.FromArgb(100, 116, 139),
                 BackColor = Color.Transparent,
@@ -632,7 +632,7 @@ namespace Sector_File
                     _sidebarCollapsed  = false;
                     sidebarPanel.Width = (this.WindowState == FormWindowState.Maximized)
                         ? SidebarMaximized : SidebarNormal;
-                    collapseBtn.Text = "‹   Close sidebar";
+                    collapseBtn.Text = "‹   " + L("nav_close_sidebar");
                 }
             };
 
@@ -1110,7 +1110,7 @@ namespace Sector_File
 
             this.loginButton = new Button
             {
-                Text      = "Continue with IVAO SSO",
+                Text      = L("login_button"),
                 Font      = new Font("Segoe UI", 11f, FontStyle.Bold),
                 BackColor = Color.FromArgb(12, 50, 160),
                 ForeColor = Color.White,
@@ -1281,7 +1281,7 @@ namespace Sector_File
             // ── Title ─────────────────────────────────────────────────────
             this.hubWelcomeLabel = new Label
             {
-                Text        = "Welcome to IVAO Sector File Creator",
+                Text        = L("welcome_title"),
                 Font        = new Font("Segoe UI", 22f, FontStyle.Bold),
                 ForeColor   = Color.FromArgb(17, 24, 39),
                 Dock        = DockStyle.Top,
@@ -1296,7 +1296,7 @@ namespace Sector_File
             // ── Subtitle / user hint ──────────────────────────────────────
             this.hubHintLabel = new Label
             {
-                Text        = "Third party sector file creation tool for IVAO.",
+                Text        = L("welcome_hint"),
                 Font        = new Font("Segoe UI", 10.5f),
                 ForeColor   = Color.FromArgb(107, 114, 128),
                 Dock        = DockStyle.Top,
@@ -1553,7 +1553,7 @@ namespace Sector_File
             };
             var disclaimerLabel = new Label
             {
-                Text      = "⚠  This is a third-party app and is NOT an official IVAO application.",
+                Text      = "⚠  " + L("disclaimer"),
                 Font      = new Font("Segoe UI", 9f, FontStyle.Bold),
                 ForeColor = Color.White,
                 Dock      = DockStyle.Fill,

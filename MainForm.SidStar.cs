@@ -30,7 +30,7 @@ namespace Sector_File
             string icao = ssIcaoBox.Text.Trim().ToUpper();
             if (string.IsNullOrEmpty(icao))
             {
-                MessageBox.Show("Please enter an ICAO airport code.", "Input Required",
+                MessageBox.Show("Please enter an ICAO airport code.", L("error_input_required_title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -167,7 +167,7 @@ namespace Sector_File
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error fetching data:\n{ex.Message}", "Network Error",
+                MessageBox.Show($"{L("error_fetch")}:\n{ex.Message}", L("error_fetch_title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -643,7 +643,7 @@ namespace Sector_File
         {
             if (string.IsNullOrEmpty(data))
             {
-                MessageBox.Show("No data to save. Generate first.", "No Data",
+                MessageBox.Show(L("error_no_data"), L("error_no_data_title"),
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -660,7 +660,7 @@ namespace Sector_File
                 try
                 {
                     File.WriteAllText(dlg.FileName, data);
-                    MessageBox.Show($"Saved to {dlg.FileName}", "Saved",
+                    MessageBox.Show($"Saved to {dlg.FileName}", L("msg_saved_title"),
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)

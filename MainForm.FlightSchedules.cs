@@ -29,18 +29,18 @@ namespace Sector_File
             {
                 MessageBox.Show(
                     "Enter at least a departure or arrival airport ICAO code (e.g. VTBS).",
-                    "Airport Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("error_input_required_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (dep.Length > 0 && dep.Length != 4)
             {
                 MessageBox.Show("Departure airport must be a 4-letter ICAO code.",
-                    "Invalid ICAO", MessageBoxButtons.OK, MessageBoxIcon.Warning); return;
+                    L("error_input_required_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return;
             }
             if (arr.Length > 0 && arr.Length != 4)
             {
                 MessageBox.Show("Arrival airport must be a 4-letter ICAO code.",
-                    "Invalid ICAO", MessageBoxButtons.OK, MessageBoxIcon.Warning); return;
+                    L("error_input_required_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning); return;
             }
 
             // mode 0 = Departures, mode 1 = Arrivals
@@ -453,12 +453,12 @@ namespace Sector_File
                 wb.SaveAs(dlg.FileName);
 
                 MessageBox.Show($"Saved to:\n{dlg.FileName}",
-                    "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    L("msg_export_title"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Export failed: {ex.Message}",
-                    "Export Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    L("error_save_title"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

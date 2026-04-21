@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "होम",
+    "nav_dashboard": "डैशबोर्ड",
     "nav_airport": "हवाई अड्डा डेटा",
     "nav_fir": "FIR डेटा",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "उड़ान अनुसूची",
     "nav_ground": "ग्राउंड लेआउट",
+    "nav_country": "देश डेटा",
+    "nav_osm": "OSM डेटा",
     "nav_settings": "सेटिंग्स",
+    "nav_credits": "श्रेय",
+    "nav_signout": "साइन आउट",
     "nav_back": "वापस",
+    "nav_close_sidebar": "साइडबार बंद करें",
 
     "welcome_title": "IVAO Sector File Creator में आपका स्वागत है",
     "welcome_hint": "IVAO के लिए तृतीय-पक्ष सेक्टर फ़ाइल निर्माण उपकरण।",
@@ -20,9 +26,15 @@
     "login_opening": "ब्राउज़र खोल रहे हैं...",
 
     "settings_appearance": "दिखावट",
+    "settings_title": "सेटिंग्स",
+    "settings_subtitle": "रूप और प्राथमिकताएं",
+    "settings_description": "ऐप का रूप अनुकूलित करें। भाषा परिवर्तन के लिए पुनः आरंभ आवश्यक है।",
     "settings_theme": "थीम:",
     "settings_theme_light": "हल्का",
     "settings_theme_dark": "गहरा",
+    "settings_dark_mode": "डार्क मोड",
+    "settings_dark_mode_desc": "डार्क मोड जल्द ही एक भविष्य के अपडेट में आएगा।",
+    "settings_coming_soon": "जल्द आ रहा है",
     "settings_language": "भाषा",
     "settings_language_label": "भाषा:",
     "settings_language_restart": "नई भाषा लागू करने के लिए ऐप को पुनः आरंभ करें।",
@@ -37,6 +49,8 @@
     "settings_update_available": "उपलब्ध",
     "settings_checking": "जांच हो रही है...",
     "settings_downloading": "डाउनलोड हो रहा है",
+
+    "btn_restart_now": "अभी पुनः आरंभ करें",
 
     "airport_fetch": "प्राप्त करें",
     "airport_export": "निर्यात करें",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "पहुंच अस्वीकृत - केवल स्टाफ खाते।",
     "error_invalid_file": "कृपया केवल KML फ़ाइलें अपलोड करें।",
+    "error_no_data": "सहेजने के लिए कोई डेटा नहीं। पहले डेटा प्राप्त करें।",
+    "error_no_data_title": "कोई डेटा नहीं",
+    "error_fetch": "डेटा प्राप्त करने में त्रुटि",
+    "error_fetch_title": "त्रुटि",
+    "error_input_required_title": "इनपुट आवश्यक",
+    "error_save_title": "त्रुटि",
+
+    "msg_saved_title": "सहेजा गया",
+    "msg_export_title": "निर्यात पूर्ण",
 
     "airac_offline": "AIRAC ऑफलाइन",
     "airac_days_left": "दिन शेष"

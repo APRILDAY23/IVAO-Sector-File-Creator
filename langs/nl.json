@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "Home",
+    "nav_dashboard": "Dashboard",
     "nav_airport": "Luchthavengegevens",
     "nav_fir": "FIR-gegevens",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "Vluchtroosters",
     "nav_ground": "Grondindeling",
+    "nav_country": "Landsgegevens",
+    "nav_osm": "OSM-gegevens",
     "nav_settings": "Instellingen",
+    "nav_credits": "Credits",
+    "nav_signout": "Uitloggen",
     "nav_back": "Terug",
+    "nav_close_sidebar": "Zijbalk sluiten",
 
     "welcome_title": "Welkom bij IVAO Sector File Creator",
     "welcome_hint": "Tool van derden voor het maken van IVAO-sectorbestanden.",
@@ -20,9 +26,15 @@
     "login_opening": "Browser openen...",
 
     "settings_appearance": "UITERLIJK",
+    "settings_title": "Instellingen",
+    "settings_subtitle": "Uiterlijk en Voorkeuren",
+    "settings_description": "Pas het uiterlijk van de app aan. Taalwijzigingen vereisen een herstart.",
     "settings_theme": "Thema:",
     "settings_theme_light": "Licht",
     "settings_theme_dark": "Donker",
+    "settings_dark_mode": "Donkere modus",
+    "settings_dark_mode_desc": "De donkere modus komt binnenkort in een toekomstige update.",
+    "settings_coming_soon": "Binnenkort",
     "settings_language": "TAAL",
     "settings_language_label": "Taal:",
     "settings_language_restart": "Herstart de app om de nieuwe taal toe te passen.",
@@ -37,6 +49,8 @@
     "settings_update_available": "beschikbaar",
     "settings_checking": "Controleren...",
     "settings_downloading": "Downloaden",
+
+    "btn_restart_now": "Nu herstarten",
 
     "airport_fetch": "Ophalen",
     "airport_export": "Exporteren",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "Toegang geweigerd - alleen personeelsaccounts.",
     "error_invalid_file": "Upload alleen KML-bestanden.",
+    "error_no_data": "Geen gegevens om op te slaan. Haal eerst gegevens op.",
+    "error_no_data_title": "Geen gegevens",
+    "error_fetch": "Fout bij ophalen van gegevens",
+    "error_fetch_title": "Fout",
+    "error_input_required_title": "Invoer vereist",
+    "error_save_title": "Fout",
+
+    "msg_saved_title": "Opgeslagen",
+    "msg_export_title": "Export voltooid",
 
     "airac_offline": "AIRAC offline",
     "airac_days_left": "dagen resterend"

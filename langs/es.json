@@ -4,13 +4,19 @@
   "author": "Auto-translated",
   "strings": {
     "nav_home": "Inicio",
+    "nav_dashboard": "Panel de control",
     "nav_airport": "Datos de Aeropuerto",
     "nav_fir": "Datos FIR",
     "nav_sidstar": "SID & STAR",
     "nav_flights": "Horarios de Vuelo",
     "nav_ground": "Plano de Tierra",
+    "nav_country": "Datos de País",
+    "nav_osm": "Datos OSM",
     "nav_settings": "Configuración",
+    "nav_credits": "Créditos",
+    "nav_signout": "Cerrar sesión",
     "nav_back": "Atrás",
+    "nav_close_sidebar": "Cerrar barra lateral",
 
     "welcome_title": "Bienvenido a IVAO Sector File Creator",
     "welcome_hint": "Herramienta de terceros para crear archivos de sector de IVAO.",
@@ -20,9 +26,15 @@
     "login_opening": "Abriendo navegador...",
 
     "settings_appearance": "APARIENCIA",
+    "settings_title": "Configuración",
+    "settings_subtitle": "Apariencia y Preferencias",
+    "settings_description": "Personaliza el aspecto de la aplicación. Los cambios de idioma requieren reinicio.",
     "settings_theme": "Tema:",
     "settings_theme_light": "Claro",
     "settings_theme_dark": "Oscuro",
+    "settings_dark_mode": "Modo oscuro",
+    "settings_dark_mode_desc": "El modo oscuro llegará pronto en una actualización futura.",
+    "settings_coming_soon": "Próximamente",
     "settings_language": "IDIOMA",
     "settings_language_label": "Idioma:",
     "settings_language_restart": "Reinicie la aplicación para aplicar el nuevo idioma.",
@@ -37,6 +49,8 @@
     "settings_update_available": "disponible",
     "settings_checking": "Verificando...",
     "settings_downloading": "Descargando",
+
+    "btn_restart_now": "Reiniciar ahora",
 
     "airport_fetch": "Obtener",
     "airport_export": "Exportar",
@@ -57,6 +71,15 @@
 
     "error_access_denied": "Acceso denegado - solo cuentas de personal.",
     "error_invalid_file": "Por favor suba solo archivos KML.",
+    "error_no_data": "No hay datos para guardar. Obtenga los datos primero.",
+    "error_no_data_title": "Sin datos",
+    "error_fetch": "Error al obtener datos",
+    "error_fetch_title": "Error",
+    "error_input_required_title": "Entrada requerida",
+    "error_save_title": "Error",
+
+    "msg_saved_title": "Guardado",
+    "msg_export_title": "Exportación completada",
 
     "airac_offline": "AIRAC sin conexión",
     "airac_days_left": "días restantes"

@@ -167,7 +167,7 @@ namespace Sector_File
             if (string.IsNullOrEmpty(term))
             {
                 MessageBox.Show("Enter a FIR identifier (e.g. VTBB, WSSS, VABF).",
-                    "Input Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("error_input_required_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -184,7 +184,7 @@ namespace Sector_File
                 !doRestricted && !doDanger && !doProhibited)
             {
                 MessageBox.Show("Select at least one airspace type to fetch.",
-                    "Nothing Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("error_input_required_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -900,7 +900,7 @@ namespace Sector_File
             if (string.IsNullOrEmpty(data))
             {
                 MessageBox.Show($"No {label} data to save - run a search first.",
-                    "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("error_no_data_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             string term = firSearchBox.Text.Trim().ToUpper();
@@ -949,7 +949,7 @@ namespace Sector_File
             if (string.IsNullOrEmpty(combined.Trim()))
             {
                 MessageBox.Show("No airspace data to save - run a search first.",
-                    "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("error_no_data_title"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
