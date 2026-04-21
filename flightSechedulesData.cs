@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Org.BouncyCastle.Math.Primes;
 using Newtonsoft.Json;
 using ClosedXML.Excel;
 
@@ -185,7 +184,7 @@ namespace Sector_File
             {
                 client.BaseAddress = new Uri("https://flightradar24-com.p.rapidapi.com");
                 client.DefaultRequestHeaders.Add("x-rapidapi-host", "flightradar24-com.p.rapidapi.com");
-                client.DefaultRequestHeaders.Add("x-rapidapi-key", "cc04b039a6msh3bace4737eb7256p1523a8jsn0041b081ec4e");
+                client.DefaultRequestHeaders.Add("x-rapidapi-key", ConfigManager.AeroDataBoxApiKey);
 
                 try
                 {

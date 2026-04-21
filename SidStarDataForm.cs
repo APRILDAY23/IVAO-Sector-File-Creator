@@ -1,604 +1,660 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static Org.BouncyCastle.Math.Primes;
+using Newtonsoft.Json.Linq;
 
 namespace Sector_File
 {
     public partial class SidStarDataForm : Form
     {
         private int userIdInput;
-        private string airacDirectory = "https://portal.in.ivao.aero/core/nav_data_2309019312309/data/nav_data_2309019312309";
-        private string sidOutput;
-        private string starOutput;
+        private const string ApiBaseUrl = "https://airac.net/api/v1";
+
+        // Sector file output buffers
+        private string sidOutput  = "";
+        private string starOutput = "";
+
+        // ────────────────────────────────────────────────────────────────────
+        // Constructor
+        // ────────────────────────────────────────────────────────────────────
 
         public SidStarDataForm(int userId)
         {
             userIdInput = userId;
-            this.Icon = new Icon("./tools.ico");
+            this.Icon = new System.Drawing.Icon("./tools.ico");
             InitializeComponent();
-            searchButton.Click += SearchButton_Click;
-            downloadSidButton.Click += DownloadSidButton_Click;
+
+            searchButton.Click      += SearchButton_Click;
+            downloadSidButton.Click  += DownloadSidButton_Click;
             downloadStarButton.Click += DownloadStarButton_Click;
         }
 
+        // ────────────────────────────────────────────────────────────────────
+        // Form load — fetch current AIRAC cycle and display it in the header
+        // ────────────────────────────────────────────────────────────────────
+
+        private async void SidStarDataForm_Load(object sender, EventArgs e)
+        {
+            await LoadAiracCycleAsync();
+        }
+
+        private async Task LoadAiracCycleAsync()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync($"{ApiBaseUrl}/airac/current");
+                    if (!response.IsSuccessStatusCode) return;
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    JObject obj  = JObject.Parse(json);
+                    JObject data = obj["data"] as JObject;
+                    if (data == null) return;
+
+                    string cycle        = data["cycle"]?.ToString() ?? "?";
+                    int    daysLeft     = data["days_remaining"]?.Value<int>() ?? 0;
+                    string effectiveRaw = data["effective_date"]?.ToString() ?? "";
+                    string expiryRaw    = data["expiration_date"]?.ToString() ?? "";
+
+                    // Parse dates for display
+                    string effectiveDate = DateTime.TryParse(effectiveRaw, out DateTime eff)
+                        ? eff.ToString("dd MMM yyyy") : effectiveRaw;
+                    string expiryDate = DateTime.TryParse(expiryRaw, out DateTime exp)
+                        ? exp.ToString("dd MMM yyyy") : expiryRaw;
+
+                    // Colour-code days remaining: green > 14, orange 7-14, red < 7
+                    System.Drawing.Color daysColor =
+                        daysLeft > 14 ? System.Drawing.Color.LightBlue :
+                        daysLeft > 6  ? System.Drawing.Color.Orange :
+                                        System.Drawing.Color.Tomato;
+
+                    airacCycleLabel.Text      = $"AIRAC  {cycle}";
+                    airacDaysLabel.Text       = $"{effectiveDate} → {expiryDate}  ({daysLeft}d left)";
+                    airacDaysLabel.ForeColor  = daysColor;
+                }
+            }
+            catch
+            {
+                // Non-critical — if the cycle fetch fails, the tool still works fine
+                airacCycleLabel.Text     = "AIRAC  ─ ─ ─";
+                airacDaysLabel.Text      = "Cycle info unavailable";
+                airacDaysLabel.ForeColor = System.Drawing.Color.Gray;
+            }
+        }
+
+        // ────────────────────────────────────────────────────────────────────
+        // Search button — orchestrates SID + STAR fetch
+        // ────────────────────────────────────────────────────────────────────
+
         private async void SearchButton_Click(object sender, EventArgs e)
         {
+            string icaoCode = searchBox.Text.Trim().ToUpper();
+            if (string.IsNullOrEmpty(icaoCode))
+            {
+                MessageBox.Show("Please enter an ICAO airport code.", "Input Required",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Reset state
             loadingProgressBar.Value = 0;
+            sidOutput  = "";
+            starOutput = "";
+            logRichTextBox.Clear();
 
-            string icaoCode = searchBox.Text.Trim().ToLower(); // Get the ICAO code
-            string filePath = $"{airacDirectory}/{icaoCode}.xml";
-            string icaoCode_upper = searchBox.Text.Trim().ToUpper(); // Get the ICAO code
+            // Attribution header
+            AppendLog("Sector File Conversion made by ");
+            AppendLog("Veda Moola (656077)", isHyperlink: true, url: "https://ivao.aero/Member.aspx?Id=656077");
+            AppendLog("\nFully tested by ");
+            AppendLog("Nilay Parsodkar (709833)", isHyperlink: true, url: "https://ivao.aero/Member.aspx?Id=709833");
+            AppendLog(". Please blame him for any bugs — or raise an issue on the GitHub repo.");
+            AppendLog("\n⚠  NOT FOR REAL WORLD USE", bold: true, color: System.Drawing.Color.Tomato);
+            AppendLog($"\n\nData sourced from a free, publicly available API.");
+            AppendLog($"\nAirport     : {icaoCode}\n");
 
-            // Append processing completion information
-            AppendToDebugTextBox("Sector File Conversion made by ");
-            AppendToDebugTextBox("Veda Moola (656077)", isHyperlink: true, hyperlinkUrl: "https://ivao.aero/Member.aspx?Id=656077");
-            AppendToDebugTextBox("\nFully tested by ");
-            AppendToDebugTextBox("Nilay Parsodkar (709833)", isHyperlink: true, hyperlinkUrl: "https://ivao.aero/Member.aspx?Id=709833");
-            AppendToDebugTextBox(" Please blame him for any bugs. Haha!. \nBut if you face any problems please dm me or raise an issue on Github repo");
-            AppendToDebugTextBox("\nNOT FOR REAL WORLD USE", isBold: true, textColor: Color.Red);
-            AppendToDebugTextBox($"\nFetching SID and STAR data for airport: {icaoCode_upper}");
+            // Ask user options up-front (SID then STAR)
+            bool sidAlt   = Ask("Include altitude in SID file?",   "SID Options");
+            bool sidSpd   = Ask("Include speed in SID file?",       "SID Options");
+            bool sidCoord = Ask("Include coordinates in SID file?", "SID Options");
 
-            // Start timing the process
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            bool starAlt   = Ask("Include altitude in STAR file?",   "STAR Options");
+            bool starSpd   = Ask("Include speed in STAR file?",       "STAR Options");
+            bool starCoord = Ask("Include coordinates in STAR file?", "STAR Options");
+
+            searchButton.Enabled = false;
+            Stopwatch sw = Stopwatch.StartNew();
 
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    HttpResponseMessage response = await client.GetAsync(filePath); // Use filePath as the URL
-                    response.EnsureSuccessStatusCode();
+                    // ── SID ──────────────────────────────────────────────────
+                    SetStatus("Fetching SID procedure list...");
+                    AppendLog("\n── SID ─────────────────────────────────────────");
+                    await FetchAndFormatProcedures(client, icaoCode, "SID",
+                        sidAlt, sidSpd, sidCoord);
+                    UpdateProgress(50);
 
-                    string xmlContent = await response.Content.ReadAsStringAsync();
-
-                    UpdateProgress(25); // Assuming the SID processing is 25% of the total work
-                    // Process SID and STAR data
-                    FormatSidData(xmlContent, icaoCode_upper);
-                    UpdateProgress(50); // 50% after SID, STAR starts
-
-                    FormatStarData(xmlContent, icaoCode_upper);
-                    UpdateProgress(100); // Completed processing
+                    // ── STAR ─────────────────────────────────────────────────
+                    SetStatus("Fetching STAR procedure list...");
+                    AppendLog("\n── STAR ────────────────────────────────────────");
+                    await FetchAndFormatProcedures(client, icaoCode, "STAR",
+                        starAlt, starSpd, starCoord);
+                    UpdateProgress(100);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error fetching data for ICAO code '{icaoCode}': {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error fetching data for '{icaoCode}':\n{ex.Message}",
+                    "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                searchButton.Enabled = true;
+                SetStatus("Ready");
             }
 
-            // Stop the stopwatch and log the time taken
-            stopwatch.Stop();
-            string timeMessage = stopwatch.Elapsed.TotalSeconds > 1
-                ? $"\nPROCESS COMPLETED in {stopwatch.Elapsed.TotalSeconds:F2} seconds"
-                : $"\nPROCESS COMPLETED in {stopwatch.Elapsed.TotalMilliseconds:F2} ms";
+            sw.Stop();
+            string elapsed = sw.Elapsed.TotalSeconds > 1
+                ? $"{sw.Elapsed.TotalSeconds:F2}s"
+                : $"{sw.Elapsed.TotalMilliseconds:F0}ms";
 
-            AppendToDebugTextBox(timeMessage, isBold: true, textColor: Color.Green); // Append the completion message
+            AppendLog($"\n\n✔  Done in {elapsed}", bold: true, color: System.Drawing.Color.LightGreen);
         }
 
+        // ────────────────────────────────────────────────────────────────────
+        // Fetch all procedures of a given type (SID / STAR) for an airport
+        // ────────────────────────────────────────────────────────────────────
 
-        private void UpdateProgress(int value)
+        private async Task FetchAndFormatProcedures(
+            HttpClient client, string icaoCode, string type,
+            bool inclAlt, bool inclSpd, bool inclCoord)
         {
-            if (loadingProgressBar.InvokeRequired)
+            // Step 1 — collect unique identifiers (list endpoint duplicates per transition)
+            var identifiers = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            int  page    = 1;
+            bool hasMore = true;
+
+            while (hasMore)
             {
-                loadingProgressBar.Invoke((MethodInvoker)delegate {
-                    loadingProgressBar.Value = value;
-                });
+                string url = $"{ApiBaseUrl}/procedures?airport={icaoCode}&type={type}&page={page}&per_page=100";
+                HttpResponseMessage res = await client.GetAsync(url);
+
+                if (!res.IsSuccessStatusCode)
+                {
+                    AppendLog($"\n  No {type} procedures found (HTTP {(int)res.StatusCode})");
+                    return;
+                }
+
+                JObject listObj = JObject.Parse(await res.Content.ReadAsStringAsync());
+                JArray  data    = listObj["data"] as JArray;
+                if (data == null || !data.Any()) break;
+
+                foreach (JObject proc in data)
+                {
+                    string id = proc["identifier"]?.ToString();
+                    if (!string.IsNullOrEmpty(id)) identifiers.Add(id);
+                }
+
+                hasMore = listObj["pagination"]?["has_more"]?.Value<bool>() ?? false;
+                page++;
             }
-            else
+
+            if (!identifiers.Any())
             {
-                loadingProgressBar.Value = value;
+                AppendLog($"\n  No {type} procedures found for {icaoCode}");
+                return;
             }
+
+            AppendLog($"\n  Found {identifiers.Count} candidate(s) in {type} list");
+
+            // Step 2 — fetch each procedure detail and format it
+            // NOTE: The airac.net list endpoint sometimes returns wrong-type procedures
+            // (e.g. STARs appear in the SID list). We verify type.code in the detail
+            // response and skip any procedure that doesn't match the requested type.
+            int done = 0, skipped = 0;
+            foreach (string id in identifiers)
+            {
+                done++;
+                SetStatus($"Processing {type}  {done}/{identifiers.Count}  —  {id}");
+
+                string detailUrl = $"{ApiBaseUrl}/procedures/{icaoCode}/{id}";
+                HttpResponseMessage detailRes = await client.GetAsync(detailUrl);
+
+                if (!detailRes.IsSuccessStatusCode)
+                {
+                    AppendLog($"\n  Skipped {id} (HTTP {(int)detailRes.StatusCode})");
+                    continue;
+                }
+
+                JObject detail   = JObject.Parse(await detailRes.Content.ReadAsStringAsync());
+                JObject procData = detail["data"] as JObject;
+                if (procData == null) continue;
+
+                // Guard against mis-categorised procedures in the list endpoint
+                string actualType = procData["type"]?["code"]?.ToString() ?? "";
+                if (!actualType.Equals(type, StringComparison.OrdinalIgnoreCase))
+                {
+                    skipped++;
+                    AppendLog($"\n  Skipped {id} (is {actualType}, not {type})");
+                    continue;
+                }
+
+                if (type == "SID")
+                    FormatSidProcedure(procData, icaoCode, id, inclAlt, inclSpd, inclCoord);
+                else
+                    FormatStarProcedure(procData, icaoCode, id, inclAlt, inclSpd, inclCoord);
+            }
+
+            int correct = identifiers.Count - skipped;
+            AppendLog($"\n  Processed {correct} {type} procedure(s)" +
+                      (skipped > 0 ? $"  ({skipped} wrong-type skipped)" : ""));
         }
 
-        private void FormatSidData(string xmlContent, string icaoCode)
-        {
-            sidOutput = ""; // Reset the SID output
+        // ────────────────────────────────────────────────────────────────────
+        // Format a single SID procedure into the IVAO sector file format
+        //
+        // Output structure (unchanged from original):
+        //   // SID Start
+        //   ICAO;RUNWAY;PROCNAME;MATCHFIX;MATCHFIX; //coord
+        //   FIX;FIX;altFormat | speedFormat; //coord
+        //   ...
+        //   // TRANSITION START
+        //   ICAO;RUNWAY;TRANSNAME;TRANSNAME;TRANSNAME;1;
+        //   FIX;FIX;
+        //   ...
+        //   // TRANSITION END TRANSNAME
+        //   // TRANSITION END
+        //   // SID ended
+        // ────────────────────────────────────────────────────────────────────
 
+        private void FormatSidProcedure(
+            JObject data, string icaoCode, string identifier,
+            bool inclAlt, bool inclSpd, bool inclCoord)
+        {
             try
             {
-                XDocument doc = XDocument.Parse(xmlContent);
+                JObject runwayTrans = data["runway_transitions"] as JObject;
+                JObject transitions = data["transitions"] as JObject;
+                if (runwayTrans == null || !runwayTrans.HasValues) return;
 
-                if (doc == null)
+                string prefix = ProcedurePrefix(identifier);
+
+                foreach (var rwEntry in runwayTrans)
                 {
-                    MessageBox.Show($"Failed to load SID data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                    string runway  = rwEntry.Key;
+                    JArray wpts    = rwEntry.Value as JArray;
+                    if (wpts == null || !wpts.Any()) continue;
 
-                XNamespace ns = "http://tempuri.org/XMLSchema.xsd";
+                    string matchFix  = FindMatchingFix(wpts, transitions, prefix, identifier);
+                    string hdrCoord  = FirstWaypointCoord(wpts, inclCoord);
 
-                var airport = doc.Descendants(ns + "Airport")
-                                 .FirstOrDefault(a => a.Attribute("ICAOcode").Value.Equals(icaoCode, StringComparison.OrdinalIgnoreCase));
-
-                if (airport == null)
-                {
-                    MessageBox.Show($"No airport found for '{icaoCode}'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                bool includeAltitude = MessageBox.Show("Do you want altitude in the SID file?", "Altitude Option for SID", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-                bool includeSpeed = MessageBox.Show("Do you want speed in the SID file?", "Speed Option for SID", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-                bool includeCoordinates = MessageBox.Show("Do you want coordinates in the SID file?", "Coordinate Option for SID", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-
-                var sids = airport.Descendants(ns + "Sid")
-                                       .Select(s => new
-                                       {
-                                           Runway = s.Attribute("Runways").Value.Replace(",", ":"), // Replace commas with colons
-                                           Name = s.Attribute("Name").Value,
-                                           Waypoints = s.Elements(ns + "Sid_Waypoint")
-                                                       .Select(w => new
-                                                       {
-                                                           Name = (string)w.Element(ns + "Name"),
-                                                           Altitude = (int)w.Element(ns + "Altitude"),
-                                                           AltitudeCons = (int?)w.Element(ns + "AltitudeCons") ?? 0,
-                                                           AltitudeRestriction = (string)w.Element(ns + "AltitudeRestriction"),
-                                                           Speed = (int?)w.Element(ns + "Speed") ?? 0,
-                                                           Latitude = (double?)w.Element(ns + "Latitude") ?? 0,
-                                                           Longitude = (double?)w.Element(ns + "Longitude") ?? 0
-                                                       }).ToList(),
-                                           Transitions = s.Elements(ns + "Sid_Transition")
-                                                          .Select(t => new
-                                                          {
-                                                              Name = (string)t.Attribute("Name"),
-                                                              Waypoints = t.Elements(ns + "SidTr_Waypoint")
-                                                                          .Select(w => new
-                                                                          {
-                                                                              Name = (string)w.Element(ns + "Name"),
-                                                                              Altitude = (int)w.Element(ns + "Altitude"),
-                                                                              AltitudeCons = (int?)w.Element(ns + "AltitudeCons") ?? 0,
-                                                                              AltitudeRestriction = (string)w.Element(ns + "AltitudeRestriction"),
-                                                                              Speed = (int?)w.Element(ns + "Speed") ?? 0,
-                                                                              Latitude = (double?)w.Element(ns + "Latitude") ?? 0,
-                                                                              Longitude = (double?)w.Element(ns + "Longitude") ?? 0
-                                                                          }).ToList()
-                                                          }).ToList()
-                                       }).ToList();
-
-                if (!sids.Any())
-                {
-                    AppendToDebugTextBox($"\nNo SID for airport: {icaoCode}");
-                    return;
-                }
-
-                foreach (var sid in sids)
-                {
-                    // Start of SID section
                     sidOutput += "// SID Start\n";
+                    sidOutput += $"{icaoCode};{runway};{identifier};{matchFix};{matchFix};{hdrCoord}\n";
 
-                    string sidPrefix = sid.Name.Length >= 6 ? sid.Name.Substring(0, 4) :
-                                       sid.Name.Length > 0 && sid.Name.Length <= 5 ? sid.Name.Substring(0, 3) : sid.Name;
-
-                    string matchingWaypointName = sid.Waypoints
-                        .FirstOrDefault(w => w.Name.StartsWith(sidPrefix, StringComparison.OrdinalIgnoreCase))?.Name
-                        ?? sid.Transitions.SelectMany(t => t.Waypoints)
-                                          .FirstOrDefault(w => w.Name.StartsWith(sidPrefix, StringComparison.OrdinalIgnoreCase))?.Name
-                        ?? sid.Name;
-
-                    string firstLatLon = includeCoordinates ? $" //{ConvertToNFormat(sid.Waypoints.First().Latitude)};{ConvertToEFormat(sid.Waypoints.First().Longitude)}" : "";
-                    // Format SID output
-                    string formattedSid = $"{icaoCode};{sid.Runway};{sid.Name};{matchingWaypointName};{matchingWaypointName};{firstLatLon}";
-                    sidOutput += formattedSid + "\n"; // Add SID header on a new line
-
-                    foreach (var waypoint in sid.Waypoints)
-                    {
-                        if (waypoint.Name.StartsWith("(")) // Skip waypoints with names starting with '('
-                            continue;
-
-                        // Get formatted altitude using the FormatAltitudeWithConstraints method
-                        string altitudeFormat = includeAltitude ? FormatAltitudeWithConstraints(waypoint.Altitude, waypoint.AltitudeCons, waypoint.AltitudeRestriction) : "";
-                        string speedFormat = includeSpeed && waypoint.Speed > 0 ? $"{waypoint.Speed}kt" : "";
-                        string latLonComment = includeCoordinates ? $" //{ConvertToNFormat(waypoint.Latitude)};{ConvertToEFormat(waypoint.Longitude)}" : "";
-
-                        // Constructing the output format based on conditions with comment for latitude and longitude
-                        if (string.IsNullOrEmpty(altitudeFormat) && string.IsNullOrEmpty(speedFormat))
-                        {
-                            sidOutput += $"{waypoint.Name};{waypoint.Name};{latLonComment}\n";
-                        }
-                        else if (!string.IsNullOrEmpty(altitudeFormat) && !string.IsNullOrEmpty(speedFormat))
-                        {
-                            sidOutput += $"{waypoint.Name};{waypoint.Name};{altitudeFormat} | {speedFormat};{latLonComment}\n";
-                        }
-                        else if (!string.IsNullOrEmpty(altitudeFormat))
-                        {
-                            sidOutput += $"{waypoint.Name};{waypoint.Name};{altitudeFormat};{latLonComment}\n";
-                        }
-                        else if (!string.IsNullOrEmpty(speedFormat))
-                        {
-                            sidOutput += $"{waypoint.Name};{waypoint.Name};{speedFormat};{latLonComment}\n";
-                        }
-                    }
+                    foreach (JObject wp in wpts)
+                        sidOutput += WaypointLine(wp, inclAlt, inclSpd, inclCoord) ?? "";
 
                     sidOutput += "\n";
 
-                    if (sid.Transitions != null && sid.Transitions.Any())
+                    // Transitions (entry fixes that merge into the main route)
+                    if (transitions != null && transitions.HasValues)
                     {
                         sidOutput += "// TRANSITION START\n";
-
-                        foreach (var transition in sid.Transitions)
+                        foreach (var trEntry in transitions)
                         {
-                            string transitionSid = $"{icaoCode};{sid.Runway};{transition.Name};{transition.Name};{transition.Name};1;";
-                            sidOutput += transitionSid + "\n";
+                            string trName = trEntry.Key;
+                            JArray trWpts = trEntry.Value as JArray;
 
-                            // Insert the matching waypoint name at the start of each transition
-                            sidOutput += $"{matchingWaypointName};{matchingWaypointName};\n";
-                            foreach (var waypoint in transition.Waypoints)
-                            {
-                                string transitionAltitudeFormat = includeAltitude ? FormatAltitudeWithConstraints(waypoint.Altitude, waypoint.AltitudeCons, waypoint.AltitudeRestriction) : "";
-                                string transitionSpeedFormat = includeSpeed && waypoint.Speed > 0 ? $"{waypoint.Speed}kt" : "";
-                                string transitionLatLonComment = includeCoordinates ? $" //{ConvertToNFormat(waypoint.Latitude)};{ConvertToEFormat(waypoint.Longitude)}" : "";
+                            sidOutput += $"{icaoCode};{runway};{trName};{trName};{trName};1;\n";
+                            if (trWpts != null)
+                                foreach (JObject wp in trWpts)
+                                    sidOutput += WaypointLine(wp, inclAlt, inclSpd, inclCoord) ?? "";
 
-                                // Constructing the output format based on conditions with comment for latitude and longitude
-                                if (string.IsNullOrEmpty(transitionAltitudeFormat) && string.IsNullOrEmpty(transitionSpeedFormat))
-                                {
-                                    sidOutput += $"{waypoint.Name};{waypoint.Name};{transitionLatLonComment}\n";
-                                }
-                                else if (!string.IsNullOrEmpty(transitionAltitudeFormat) && !string.IsNullOrEmpty(transitionSpeedFormat))
-                                {
-                                    sidOutput += $"{waypoint.Name};{waypoint.Name};{transitionAltitudeFormat} | {transitionSpeedFormat};{transitionLatLonComment}\n";
-                                }
-                                else if (!string.IsNullOrEmpty(transitionAltitudeFormat))
-                                {
-                                    sidOutput += $"{waypoint.Name};{waypoint.Name};{transitionAltitudeFormat};{transitionLatLonComment}\n";
-                                }
-                                else if (!string.IsNullOrEmpty(transitionSpeedFormat))
-                                {
-                                    sidOutput += $"{waypoint.Name};{waypoint.Name};{transitionSpeedFormat};{transitionLatLonComment}\n";
-                                }
-                            }
-
-                            sidOutput += $"// TRANSITION END {transition.Name}\n";
+                            sidOutput += $"// TRANSITION END {trName}\n";
                         }
-
                         sidOutput += "// TRANSITION END\n";
                     }
 
                     sidOutput += "// SID ended\n\n";
                 }
-
-                // logRichTextBox.AppendText(sidOutput);
             }
             catch (Exception ex)
             {
-                logRichTextBox.AppendText($"Error parsing SID data: {ex.Message}\n");
+                logRichTextBox.AppendText($"  Error parsing SID {identifier}: {ex.Message}\n");
             }
         }
 
-        // Convert latitude to the desired DMS format with milliseconds
-        private string ConvertToNFormat(double latitude)
-        {
-            string hemisphere = latitude >= 0 ? "N" : "S";
-            latitude = Math.Abs(latitude);
-            int degrees = (int)Math.Floor(latitude);
-            double minutesDecimal = (latitude - degrees) * 60;
-            int minutes = (int)Math.Floor(minutesDecimal);
-            double secondsDecimal = (minutesDecimal - minutes) * 60;
-            int seconds = (int)Math.Floor(secondsDecimal);
-            int milliseconds = (int)((secondsDecimal - seconds) * 1000) % 1000; // Ensure exactly 3 digits for milliseconds
-            return $"{hemisphere}{degrees:00}.{minutes:00}.{seconds:00}.{milliseconds:000}";
-        }
+        // ────────────────────────────────────────────────────────────────────
+        // Format a single STAR procedure into the IVAO sector file format
+        //
+        // Output structure mirrors the SID format above, using STAR Start /
+        // STAR ended markers.
+        // ────────────────────────────────────────────────────────────────────
 
-        // Convert longitude to the desired DMS format with milliseconds
-        private string ConvertToEFormat(double longitude)
+        private void FormatStarProcedure(
+            JObject data, string icaoCode, string identifier,
+            bool inclAlt, bool inclSpd, bool inclCoord)
         {
-            string hemisphere = longitude >= 0 ? "E" : "W";
-            longitude = Math.Abs(longitude);
-            int degrees = (int)Math.Floor(longitude);
-            double minutesDecimal = (longitude - degrees) * 60;
-            int minutes = (int)Math.Floor(minutesDecimal);
-            double secondsDecimal = (minutesDecimal - minutes) * 60;
-            int seconds = (int)Math.Floor(secondsDecimal);
-            int milliseconds = (int)((secondsDecimal - seconds) * 1000) % 1000; // Ensure exactly 3 digits for milliseconds
-            return $"{hemisphere}{degrees:00}.{minutes:00}.{seconds:00}.{milliseconds:000}";
-        }
-
-        private void FormatStarData(string xmlContent, string icaoCode)
-        {
-            starOutput = ""; // Reset the STAR output
-
             try
             {
-                XDocument doc = XDocument.Parse(xmlContent);
+                JObject runwayTrans = data["runway_transitions"] as JObject;
+                JObject transitions = data["transitions"] as JObject;
+                if (runwayTrans == null || !runwayTrans.HasValues) return;
 
-                if (doc == null)
+                string prefix = ProcedurePrefix(identifier);
+
+                foreach (var rwEntry in runwayTrans)
                 {
-                    MessageBox.Show($"Failed to load STAR data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                    string runway = rwEntry.Key;
+                    JArray wpts   = rwEntry.Value as JArray;
+                    if (wpts == null || !wpts.Any()) continue;
 
-                XNamespace ns = "http://tempuri.org/XMLSchema.xsd";
+                    string matchFix = FindMatchingFix(wpts, transitions, prefix, identifier);
+                    string hdrCoord = FirstWaypointCoord(wpts, inclCoord);
 
-                var airport = doc.Descendants(ns + "Airport")
-                                  .FirstOrDefault(a => a.Attribute("ICAOcode").Value.Equals(icaoCode, StringComparison.OrdinalIgnoreCase));
-
-                if (airport == null)
-                {
-                    MessageBox.Show($"No airport found for '{icaoCode}'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                bool includeAltitude = MessageBox.Show("Do you want altitude in the STAR file?", "Altitude Option for STAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-                bool includeSpeed = MessageBox.Show("Do you want speed in the STAR file?", "Speed Option for STAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-                bool includeCoordinates = MessageBox.Show("Do you want coordinates in the STAR file?", "Coordinate Option for STAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-
-                var stars = airport.Descendants(ns + "Star")
-                                    .Select(s => new
-                                    {
-                                        Runway = s.Attribute("Runways").Value.Replace(",", ":"), // Replace commas with colons
-                                        Name = s.Attribute("Name").Value,
-                                        Waypoints = s.Elements(ns + "Star_Waypoint")
-                                                    .Select(w => new
-                                                    {
-                                                        Name = (string)w.Element(ns + "Name"),
-                                                        Altitude = (int)w.Element(ns + "Altitude"),
-                                                        AltitudeCons = (int?)w.Element(ns + "AltitudeCons") ?? 0,
-                                                        AltitudeRestriction = (string)w.Element(ns + "AltitudeRestriction"),
-                                                        Speed = (int?)w.Element(ns + "Speed") ?? 0,
-                                                        Latitude = (double?)w.Element(ns + "Latitude") ?? 0,
-                                                        Longitude = (double?)w.Element(ns + "Longitude") ?? 0
-                                                    }).ToList(),
-                                        Transitions = s.Elements(ns + "Star_Transition")
-                                                       .Select(t => new
-                                                       {
-                                                           Name = (string)t.Attribute("Name"),
-                                                           Waypoints = t.Elements(ns + "StarTr_Waypoint")
-                                                                       .Select(w => new
-                                                                       {
-                                                                           Name = (string)w.Element(ns + "Name"),
-                                                                           Altitude = (int)w.Element(ns + "Altitude"),
-                                                                           AltitudeCons = (int?)w.Element(ns + "AltitudeCons") ?? 0,
-                                                                           AltitudeRestriction = (string)w.Element(ns + "AltitudeRestriction"),
-                                                                           Speed = (int?)w.Element(ns + "Speed") ?? 0,
-                                                                           Latitude = (double?)w.Element(ns + "Latitude") ?? 0,
-                                                                           Longitude = (double?)w.Element(ns + "Longitude") ?? 0
-                                                                       }).ToList()
-                                                       }).ToList()
-                                    }).ToList();
-
-                if (!stars.Any())
-                {
-                    AppendToDebugTextBox($"\nNo STARS for airport: {icaoCode}");
-                    return;
-                }
-
-                foreach (var star in stars)
-                {
-                    // Start of STAR section
                     starOutput += "// STAR Start\n";
+                    starOutput += $"{icaoCode};{runway};{identifier};{matchFix};{matchFix};{hdrCoord}\n";
 
-                    string starPrefix = star.Name.Length >= 6 ? star.Name.Substring(0, 4) :
-                                        star.Name.Length > 0 && star.Name.Length <= 5 ? star.Name.Substring(0, 3) : star.Name;
-
-                    string matchingWaypointName = star.Waypoints
-                        .FirstOrDefault(w => w.Name.StartsWith(starPrefix, StringComparison.OrdinalIgnoreCase))?.Name
-                        ?? star.Transitions.SelectMany(t => t.Waypoints)
-                                           .FirstOrDefault(w => w.Name.StartsWith(starPrefix, StringComparison.OrdinalIgnoreCase))?.Name
-                        ?? star.Name;
-
-                    // Format STAR output
-                    string firstLatLon = includeCoordinates ? $" //{ConvertToNFormat(star.Waypoints.First().Latitude)};{ConvertToEFormat(star.Waypoints.First().Longitude)}" : "";
-                    string formattedStar = $"{icaoCode};{star.Runway};{star.Name};{matchingWaypointName};{matchingWaypointName};{firstLatLon}";
-                    starOutput += formattedStar + "\n"; // Add STAR header on a new line
-
-                    foreach (var waypoint in star.Waypoints)
-                    {
-                        if (waypoint.Name.StartsWith("(")) // Skip waypoints with names starting with '('
-                            continue;
-
-                        string formattedAltitude = includeAltitude ? FormatAltitudeWithConstraints(waypoint.Altitude, waypoint.AltitudeCons, waypoint.AltitudeRestriction) : "";
-                        string speedFormat = includeSpeed && waypoint.Speed > 0 ? $"{waypoint.Speed}kt" : "";
-                        string latLonComment = includeCoordinates ? $" //{ConvertToNFormat(waypoint.Latitude)};{ConvertToEFormat(waypoint.Longitude)}" : "";
-
-                        // Constructing the output format based on conditions
-                        if (string.IsNullOrEmpty(formattedAltitude) && string.IsNullOrEmpty(speedFormat))
-                        {
-                            starOutput += $"{waypoint.Name};{waypoint.Name};{latLonComment}\n"; // Only name with one semicolon
-                        }
-                        else if (!string.IsNullOrEmpty(formattedAltitude) && !string.IsNullOrEmpty(speedFormat))
-                        {
-                            starOutput += $"{waypoint.Name};{waypoint.Name};{formattedAltitude} | {speedFormat};{latLonComment}\n"; // Both altitude and speed
-                        }
-                        else if (!string.IsNullOrEmpty(formattedAltitude))
-                        {
-                            starOutput += $"{waypoint.Name};{waypoint.Name};{formattedAltitude};{latLonComment}\n"; // Only altitude
-                        }
-                        else if (!string.IsNullOrEmpty(speedFormat))
-                        {
-                            starOutput += $"{waypoint.Name};{waypoint.Name};{speedFormat};{latLonComment}\n"; // Only speed
-                        }
-                    }
+                    foreach (JObject wp in wpts)
+                        starOutput += WaypointLine(wp, inclAlt, inclSpd, inclCoord) ?? "";
 
                     starOutput += "\n";
 
-                    if (star.Transitions != null && star.Transitions.Any())
+                    if (transitions != null && transitions.HasValues)
                     {
                         starOutput += "// TRANSITION START\n";
-
-                        foreach (var transition in star.Transitions)
+                        foreach (var trEntry in transitions)
                         {
-                            string transitionStar = $"{icaoCode};{star.Runway};{transition.Name};{transition.Name};{transition.Name};1;";
-                            starOutput += transitionStar + "\n";
+                            string trName = trEntry.Key;
+                            JArray trWpts = trEntry.Value as JArray;
 
-                            starOutput += $"{matchingWaypointName};{matchingWaypointName};\n";
+                            starOutput += $"{icaoCode};{runway};{trName};{trName};{trName};1;\n";
+                            if (trWpts != null)
+                                foreach (JObject wp in trWpts)
+                                    starOutput += WaypointLine(wp, inclAlt, inclSpd, inclCoord) ?? "";
 
-                            foreach (var waypoint in transition.Waypoints)
-                            {
-                                string transitionAltitudeFormat = includeAltitude ? FormatAltitudeWithConstraints(waypoint.Altitude, waypoint.AltitudeCons, waypoint.AltitudeRestriction) : "";
-                                string transitionSpeedFormat = includeSpeed && waypoint.Speed > 0 ? $"{waypoint.Speed}kt" : "";
-                                string transitionLatLonComment = includeCoordinates ? $" //{ConvertToNFormat(waypoint.Latitude)};{ConvertToEFormat(waypoint.Longitude)}" : "";
-
-                                // Constructing the output format based on conditions
-                                if (string.IsNullOrEmpty(transitionAltitudeFormat) && string.IsNullOrEmpty(transitionSpeedFormat))
-                                {
-                                    starOutput += $"{waypoint.Name};{waypoint.Name};{transitionLatLonComment}\n"; // Only name with one semicolon
-                                }
-                                else if (!string.IsNullOrEmpty(transitionAltitudeFormat) && !string.IsNullOrEmpty(transitionSpeedFormat))
-                                {
-                                    starOutput += $"{waypoint.Name};{waypoint.Name};{transitionAltitudeFormat} | {transitionSpeedFormat};{transitionLatLonComment}\n"; // Both altitude and speed
-                                }
-                                else if (!string.IsNullOrEmpty(transitionAltitudeFormat))
-                                {
-                                    starOutput += $"{waypoint.Name};{waypoint.Name};{transitionAltitudeFormat};{transitionLatLonComment}\n"; // Only altitude
-                                }
-                                else if (!string.IsNullOrEmpty(transitionSpeedFormat))
-                                {
-                                    starOutput += $"{waypoint.Name};{waypoint.Name};{transitionSpeedFormat};{transitionLatLonComment}\n"; // Only speed
-                                }
-                            }
-
-                            starOutput += $"// TRANSITION END {transition.Name}\n";
+                            starOutput += $"// TRANSITION END {trName}\n";
                         }
-
                         starOutput += "// TRANSITION END\n";
                     }
 
                     starOutput += "// STAR ended\n\n";
                 }
-
-                // logRichTextBox.AppendText(starOutput);
             }
             catch (Exception ex)
             {
-                logRichTextBox.AppendText($"Error parsing STAR data: {ex.Message}\n");
+                logRichTextBox.AppendText($"  Error parsing STAR {identifier}: {ex.Message}\n");
             }
         }
 
+        // ────────────────────────────────────────────────────────────────────
+        // Helpers — waypoint formatting
+        // ────────────────────────────────────────────────────────────────────
 
+        /// <summary>
+        /// Returns the 3- or 4-character prefix used to locate the "matching"
+        /// waypoint whose name begins with the same characters as the procedure.
+        /// </summary>
+        private static string ProcedurePrefix(string name) =>
+            name.Length >= 6 ? name[..4] :
+            name.Length >= 3 ? name[..3] : name;
 
-        private string FormatAltitudeWithConstraints(int altitude, int altitudeCons, string restriction)
+        /// <summary>
+        /// Scans main-route waypoints then transition waypoints for the first
+        /// fix whose identifier begins with <paramref name="prefix"/>.
+        /// Falls back to <paramref name="fallback"/> if nothing matches.
+        /// </summary>
+        private static string FindMatchingFix(
+            JArray mainWpts, JObject transitions, string prefix, string fallback)
         {
-            // Check if both altitudes are zero
-            if (altitude == 0 && altitudeCons == 0)
+            foreach (JObject wp in mainWpts)
             {
-                return string.Empty; // Return an empty string if both altitudes are zero
+                string n = wp["fix_identifier"]?.ToString();
+                if (n != null && n.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                    return n;
             }
 
-            string altitudeStr = altitude > 4000 ? $"FL{altitude / 100}" : altitude.ToString();
-            string altitudeConsStr = altitudeCons > 4000 ? $"FL{altitudeCons / 100}" : altitudeCons.ToString();
-
-            if (altitudeCons == 0)
+            if (transitions != null)
             {
-                if (restriction.Equals("at", StringComparison.OrdinalIgnoreCase))
+                foreach (var tr in transitions)
                 {
-                    return altitude > 0 ? $"={altitudeStr}" : $"={altitude}";
-                }
-                else if (restriction.Equals("below", StringComparison.OrdinalIgnoreCase))
-                {
-                    return altitude > 4000 ? $"-{altitudeStr}" : $"-{altitude}";
-                }
-                else if (restriction.Equals("above", StringComparison.OrdinalIgnoreCase))
-                {
-                    return altitude > 4000 ? $"+{altitudeStr}" : $"+{altitude}";
-                }
-            }
-            else
-            {
-                if (restriction.Equals("above", StringComparison.OrdinalIgnoreCase))
-                {
-                    return $"-{altitudeStr}/+{altitudeConsStr}";
-                }
-                else if (restriction.Equals("below", StringComparison.OrdinalIgnoreCase))
-                {
-                    return $"+{altitudeStr}/-{altitudeConsStr}";
+                    if (tr.Value is JArray trWpts)
+                        foreach (JObject wp in trWpts)
+                        {
+                            string n = wp["fix_identifier"]?.ToString();
+                            if (n != null && n.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                                return n;
+                        }
                 }
             }
 
-            return string.Empty; // Return an empty string if conditions are not met
+            return fallback;
         }
 
-
-        private void DownloadSidButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Builds the optional " //N00.00.00.000;E000.00.00.000" coordinate
+        /// comment from the first waypoint in a route.
+        /// </summary>
+        private string FirstWaypointCoord(JArray wpts, bool include)
         {
+            if (!include) return "";
+            double lat = wpts.First["fix_coordinates"]?["lat"]?.Value<double>() ?? 0;
+            double lon = wpts.First["fix_coordinates"]?["lon"]?.Value<double>() ?? 0;
+            return $" //{ToNFormat(lat)};{ToEFormat(lon)}";
+        }
+
+        /// <summary>
+        /// Formats a single waypoint into a semicolon-delimited sector-file line.
+        /// Returns null for waypoints that should be skipped (anonymous fixes).
+        /// </summary>
+        private string WaypointLine(JObject wp, bool inclAlt, bool inclSpd, bool inclCoord)
+        {
+            string name = wp["fix_identifier"]?.ToString();
+            if (string.IsNullOrEmpty(name) || name.StartsWith("(")) return null;
+
+            double alt    = wp["altitude_ft"]?.Value<double>() ?? 0;
+            string rstr   = wp["altitude_restriction"]?.ToString();
+            double speed  = wp["speed_kts"]?.Value<double>() ?? 0;
+            double lat    = wp["fix_coordinates"]?["lat"]?.Value<double>() ?? 0;
+            double lon    = wp["fix_coordinates"]?["lon"]?.Value<double>() ?? 0;
+
+            string altFmt   = inclAlt ? FormatAltitude(alt, rstr) : "";
+            string spdFmt   = inclSpd && speed > 0 ? $"{(int)speed}kt" : "";
+            string coordCmt = inclCoord ? $" //{ToNFormat(lat)};{ToEFormat(lon)}" : "";
+
+            bool hasAlt = !string.IsNullOrEmpty(altFmt);
+            bool hasSpd = !string.IsNullOrEmpty(spdFmt);
+
+            if (!hasAlt && !hasSpd) return $"{name};{name};{coordCmt}\n";
+            if ( hasAlt &&  hasSpd) return $"{name};{name};{altFmt} | {spdFmt};{coordCmt}\n";
+            if ( hasAlt)            return $"{name};{name};{altFmt};{coordCmt}\n";
+            /*  hasSpd only */      return $"{name};{name};{spdFmt};{coordCmt}\n";
+        }
+
+        // ────────────────────────────────────────────────────────────────────
+        // Altitude formatting  (airac.net restriction → IVAO sector file notation)
+        //
+        //   at_or_below  →  -FL200   (at or below)
+        //   at_or_above  →  +FL200   (at or above)
+        //   at           →  =FL200   (exactly at)
+        //   between      →  =FL200   (single value returned by API; treat as exact)
+        //   null / other →  ""       (no constraint)
+        // ────────────────────────────────────────────────────────────────────
+
+        private static string FormatAltitude(double altitude, string restriction)
+        {
+            if (altitude == 0 || string.IsNullOrEmpty(restriction))
+                return string.Empty;
+
+            // Altitudes > 4 000 ft are expressed as flight levels (÷100)
+            string altStr = altitude > 4000
+                ? $"FL{(int)(altitude / 100)}"
+                : ((int)altitude).ToString();
+
+            return restriction.ToLowerInvariant() switch
+            {
+                "at"          => $"={altStr}",
+                "at_or_below" => $"-{altStr}",
+                "at_or_above" => $"+{altStr}",
+                "between"     => $"={altStr}",  // only one altitude value available
+                _             => string.Empty
+            };
+        }
+
+        // ────────────────────────────────────────────────────────────────────
+        // Coordinate conversion  (decimal degrees → DMS with milliseconds)
+        // Format: N/S DD.MM.SS.mmm   E/W DDD.MM.SS.mmm
+        // ────────────────────────────────────────────────────────────────────
+
+        private static string ToNFormat(double lat)
+        {
+            string h = lat >= 0 ? "N" : "S";
+            lat = Math.Abs(lat);
+            int    deg = (int)lat;
+            double mDec = (lat - deg) * 60;
+            int    min = (int)mDec;
+            double sDec = (mDec - min) * 60;
+            int    sec = (int)sDec;
+            int    ms  = (int)((sDec - sec) * 1000) % 1000;
+            return $"{h}{deg:00}.{min:00}.{sec:00}.{ms:000}";
+        }
+
+        private static string ToEFormat(double lon)
+        {
+            string h = lon >= 0 ? "E" : "W";
+            lon = Math.Abs(lon);
+            int    deg = (int)lon;
+            double mDec = (lon - deg) * 60;
+            int    min = (int)mDec;
+            double sDec = (mDec - min) * 60;
+            int    sec = (int)sDec;
+            int    ms  = (int)((sDec - sec) * 1000) % 1000;
+            return $"{h}{deg:000}.{min:00}.{sec:00}.{ms:000}";
+        }
+
+        // ────────────────────────────────────────────────────────────────────
+        // Download buttons
+        // ────────────────────────────────────────────────────────────────────
+
+        private void DownloadSidButton_Click(object sender, EventArgs e) =>
             SaveToFile(sidOutput, "SID Files (*.SID)|*.SID", "Save SID Data", "SID");
-        }
 
-        private void DownloadStarButton_Click(object sender, EventArgs e)
-        {
+        private void DownloadStarButton_Click(object sender, EventArgs e) =>
             SaveToFile(starOutput, "STAR Files (*.STR)|*.STR", "Save STAR Data", "STR");
-        }
 
-        private void SaveToFile(string outputData, string filter, string title, string fileType)
+        private void SaveToFile(string data, string filter, string title, string ext)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            if (string.IsNullOrEmpty(data))
             {
-                string icaoCode = searchBox.Text.Trim().ToUpper();
-                saveFileDialog.Filter = filter;
-                saveFileDialog.Title = $"{title} for {icaoCode}";
-                saveFileDialog.FileName = $"{icaoCode}.{fileType}";
+                MessageBox.Show("No data to save. Search for an airport first.",
+                    "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            using SaveFileDialog dlg = new SaveFileDialog
+            {
+                Filter    = filter,
+                Title     = $"{title}  —  {searchBox.Text.Trim().ToUpper()}",
+                FileName  = $"{searchBox.Text.Trim().ToUpper()}.{ext}"
+            };
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                try
                 {
-                    try
-                    {
-                        File.WriteAllText(saveFileDialog.FileName, outputData);
-                        MessageBox.Show($"{fileType} data saved to {saveFileDialog.FileName}", "Save Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        logRichTextBox.AppendText($"Error saving file: {ex.Message}\n");
-                    }
+                    File.WriteAllText(dlg.FileName, data);
+                    MessageBox.Show($"Saved to {dlg.FileName}", "Saved",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    logRichTextBox.AppendText($"Error saving: {ex.Message}\n");
                 }
             }
         }
 
-        private void AppendToDebugTextBox(string message, bool isBold = false, Color? textColor = null, bool isHyperlink = false, string hyperlinkUrl = null)
+        // ────────────────────────────────────────────────────────────────────
+        // UI helpers
+        // ────────────────────────────────────────────────────────────────────
+
+        private static bool Ask(string question, string title) =>
+            MessageBox.Show(question, title,
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+
+        private void UpdateProgress(int value)
+        {
+            if (loadingProgressBar.InvokeRequired)
+                loadingProgressBar.Invoke((MethodInvoker)(() => loadingProgressBar.Value = value));
+            else
+                loadingProgressBar.Value = value;
+        }
+
+        private void SetStatus(string text)
+        {
+            if (statusLabel.InvokeRequired)
+                statusLabel.Invoke((MethodInvoker)(() => statusLabel.Text = text));
+            else
+                statusLabel.Text = text;
+        }
+
+        /// <summary>Appends styled text to the dark terminal log box.</summary>
+        private void AppendLog(
+            string text,
+            bool   bold      = false,
+            System.Drawing.Color? color = null,
+            bool   isHyperlink = false,
+            string url         = null)
         {
             if (logRichTextBox.InvokeRequired)
             {
-                logRichTextBox.Invoke((MethodInvoker)delegate {
-                    AppendFormattedText(message, isBold, textColor, isHyperlink, hyperlinkUrl);
-                });
+                logRichTextBox.Invoke((MethodInvoker)(() =>
+                    AppendLogDirect(text, bold, color, isHyperlink, url)));
             }
             else
             {
-                AppendFormattedText(message, isBold, textColor, isHyperlink, hyperlinkUrl);
+                AppendLogDirect(text, bold, color, isHyperlink, url);
             }
         }
 
-
-        private void AppendFormattedText(string message, bool isBold, Color? textColor, bool isHyperlink, string hyperlinkUrl)
+        private void AppendLogDirect(
+            string text, bool bold,
+            System.Drawing.Color? color,
+            bool isHyperlink, string url)
         {
-            Color colorToUse = textColor ?? Color.Black;
-
             int start = logRichTextBox.TextLength;
-            logRichTextBox.AppendText(message);  // Append the message
+            logRichTextBox.AppendText(text);
+            logRichTextBox.Select(start, text.Length);
 
-            logRichTextBox.Select(start, message.Length);
-
-            // Apply bold formatting if requested
-            logRichTextBox.SelectionFont = isBold ? new Font(logRichTextBox.Font, FontStyle.Bold) : new Font(logRichTextBox.Font, FontStyle.Regular);
-
-            // Apply hyperlink formatting if requested
             if (isHyperlink)
             {
-                logRichTextBox.SelectionColor = Color.Blue;
-                logRichTextBox.SelectionFont = new Font(logRichTextBox.Font, FontStyle.Underline);
-                // Set the hyperlink URL in the Tag for later use
-                logRichTextBox.Tag = hyperlinkUrl;  // Optional, if you want to store the hyperlink URL for later use
+                logRichTextBox.SelectionColor = System.Drawing.Color.CornflowerBlue;
+                logRichTextBox.SelectionFont  = new System.Drawing.Font(
+                    logRichTextBox.Font, System.Drawing.FontStyle.Underline);
+                logRichTextBox.Tag = url;
             }
             else
             {
-                // Set text color
-                logRichTextBox.SelectionColor = colorToUse;
+                logRichTextBox.SelectionFont = bold
+                    ? new System.Drawing.Font(logRichTextBox.Font, System.Drawing.FontStyle.Bold)
+                    : new System.Drawing.Font(logRichTextBox.Font, System.Drawing.FontStyle.Regular);
+                logRichTextBox.SelectionColor = color ?? System.Drawing.Color.FromArgb(220, 220, 220);
             }
 
             logRichTextBox.Select(logRichTextBox.TextLength, 0);
             logRichTextBox.ScrollToCaret();
         }
 
-        // LinkClicked event handler
-        private void debugTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            // Open the hyperlink when clicked
+        private void debugTextBox_LinkClicked(object sender, LinkClickedEventArgs e) =>
             System.Diagnostics.Process.Start(e.LinkText);
-        }
 
-        private void backButton_Click(object sender, EventArgs e)
-        {
-            // Code to go back to the main menu
+        private void backButton_Click(object sender, EventArgs e) =>
             this.Hide();
-        }
     }
 }

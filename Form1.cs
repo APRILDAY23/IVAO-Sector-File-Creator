@@ -11,7 +11,35 @@ namespace Sector_File
         {
             InitializeComponent();
             this.userId = userId;
-            this.Icon = new Icon("./tools.ico");
+            try { this.Icon = new Icon("./tools.ico"); } catch { }
+            this.Load += (s, e) => LayoutToolCards();
+        }
+
+        // Lays out 5 tool cards: 3 on row 1, 2 centred on row 2
+        // Called on Load and on gridPanel.Resize so nothing is hardcoded.
+        private void LayoutToolCards()
+        {
+            int w       = gridPanel.ClientSize.Width;
+            int pad     = 18;
+            int cardW   = (w - pad * 4) / 3;
+            int cardH   = 158;
+            int row1Y   = 20;
+            int row2Y   = row1Y + cardH + pad;
+
+            var row1 = new[] { sidStarCard, airportCard, firCard };
+            for (int i = 0; i < row1.Length; i++)
+            {
+                row1[i].Location = new System.Drawing.Point(pad + i * (cardW + pad), row1Y);
+                row1[i].Size     = new System.Drawing.Size(cardW, cardH);
+            }
+
+            // Row 2: 2 cards centred
+            int row2TotalW = 2 * cardW + pad;
+            int row2StartX = (w - row2TotalW) / 2;
+            countryCard.Location = new System.Drawing.Point(row2StartX, row2Y);
+            countryCard.Size     = new System.Drawing.Size(cardW, cardH);
+            kmlCard.Location     = new System.Drawing.Point(row2StartX + cardW + pad, row2Y);
+            kmlCard.Size         = new System.Drawing.Size(cardW, cardH);
         }
 
         // Event handler for the button click to choose KML
