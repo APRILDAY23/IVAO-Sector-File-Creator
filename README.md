@@ -22,6 +22,7 @@ A Windows desktop application for building IVAO sector files. Pulls real-world a
   - [Project Structure](#project-structure)
   - [How the App Works](#how-the-app-works)
   - [Branch Strategy](#branch-strategy)
+  - [Languages](#languages)
   - [Contributing](#contributing)
   - [Creating a Release](#creating-a-release)
   - [Push Secrets to GitHub](#push-secrets-to-github-repo-owner-only)
@@ -230,6 +231,36 @@ On startup `UpdateManager` calls the GitHub Releases API, compares the latest re
 - The repo owner merges `develop` into `main` when ready for a stable release.
 - No direct pushes to either branch - everything goes through a PR.
 - All conversations on a PR must be resolved before merging.
+
+---
+
+### Languages
+
+The app ships with translations for the following languages:
+
+| Code | Language |
+|---|---|
+| `en` | English |
+| `fr` | Français |
+| `es` | Español |
+| `de` | Deutsch |
+| `pt` | Português |
+| `ar` | العربية |
+| `tr` | Türkçe |
+| `it` | Italiano |
+| `nl` | Nederlands |
+| `zh` | 中文 |
+| `hi` | हिन्दी |
+| `te` | తెలుగు |
+
+Language packs live in the `langs/` folder as simple JSON files (e.g. `langs/fr.json`).
+
+> **Sorry in advance!** These translations were generated automatically and may contain errors. I don't personally speak all of these languages, so mistakes are likely.
+>
+> - **Found a translation error?** Please [open a GitHub issue](https://github.com/APRILDAY23/IVAO-Sector-File-Creator/issues) describing the incorrect string and the correct translation, or submit a PR fixing it directly.
+> - **Want to add a new language?** Copy `langs/en.json`, rename it to your language code (e.g. `langs/ja.json`), translate the strings, set the `"language"` field to your language's native name (e.g. `"日本語"`), and open a PR targeting `develop`.
+
+No API keys or build steps are needed to contribute a language pack — just edit the JSON file.
 
 ---
 

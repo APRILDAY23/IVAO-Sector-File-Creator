@@ -1,0 +1,64 @@
+{
+  "language": "العربية",
+  "code": "ar",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "الرئيسية",
+    "nav_airport": "بيانات المطار",
+    "nav_fir": "بيانات FIR",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "جداول الرحلات",
+    "nav_ground": "تخطيط الأرضية",
+    "nav_settings": "الإعدادات",
+    "nav_back": "رجوع",
+
+    "welcome_title": "مرحباً بك في IVAO Sector File Creator",
+    "welcome_hint": "أداة طرف ثالث لإنشاء ملفات قطاع IVAO.",
+    "disclaimer": "هذا تطبيق طرف ثالث وليس تطبيقاً رسمياً من IVAO.",
+
+    "login_button": "المتابعة باستخدام IVAO SSO",
+    "login_opening": "فتح المتصفح...",
+
+    "settings_appearance": "المظهر",
+    "settings_theme": "السمة:",
+    "settings_theme_light": "فاتح",
+    "settings_theme_dark": "داكن",
+    "settings_language": "اللغة",
+    "settings_language_label": "اللغة:",
+    "settings_language_restart": "أعد تشغيل التطبيق لتطبيق اللغة الجديدة.",
+    "settings_updates": "التحديثات",
+    "settings_version": "الإصدار الحالي:",
+    "settings_channel": "القناة:",
+    "settings_channel_stable": " مستقر",
+    "settings_channel_beta": " تجريبي",
+    "settings_check_now": "التحقق الآن",
+    "settings_install_update": "تثبيت التحديث",
+    "settings_up_to_date": "محدث",
+    "settings_update_available": "متاح",
+    "settings_checking": "جارٍ التحقق...",
+    "settings_downloading": "جارٍ التنزيل",
+
+    "airport_fetch": "جلب",
+    "airport_export": "تصدير",
+    "airport_fir_placeholder": "أدخل رمز ICAO للـ FIR (مثال: VOMF)",
+
+    "fir_fetch": "جلب",
+    "fir_export": "تصدير",
+
+    "sidstar_fetch": "جلب",
+    "sidstar_export_all": "تصدير الكل",
+    "sidstar_placeholder": "أدخل رمز ICAO للمطار (مثال: VOBL)",
+
+    "flights_fetch": "جلب",
+    "flights_export_excel": "تصدير إلى Excel",
+
+    "ground_import_kml": "استيراد KML",
+    "ground_export": "تصدير",
+
+    "error_access_denied": "تم رفض الوصول - حسابات الموظفين فقط.",
+    "error_invalid_file": "يرجى تحميل ملفات KML فقط.",
+
+    "airac_offline": "AIRAC غير متصل",
+    "airac_days_left": "أيام متبقية"
+  }
+}

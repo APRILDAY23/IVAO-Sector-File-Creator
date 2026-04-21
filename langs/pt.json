@@ -1,0 +1,64 @@
+{
+  "language": "Português",
+  "code": "pt",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "Início",
+    "nav_airport": "Dados do Aeroporto",
+    "nav_fir": "Dados FIR",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "Horários de Voo",
+    "nav_ground": "Layout de Solo",
+    "nav_settings": "Configurações",
+    "nav_back": "Voltar",
+
+    "welcome_title": "Bem-vindo ao IVAO Sector File Creator",
+    "welcome_hint": "Ferramenta de terceiros para criação de arquivos de setor do IVAO.",
+    "disclaimer": "Este é um aplicativo de terceiros e NÃO é um aplicativo oficial do IVAO.",
+
+    "login_button": "Continuar com IVAO SSO",
+    "login_opening": "Abrindo navegador...",
+
+    "settings_appearance": "APARÊNCIA",
+    "settings_theme": "Tema:",
+    "settings_theme_light": "Claro",
+    "settings_theme_dark": "Escuro",
+    "settings_language": "IDIOMA",
+    "settings_language_label": "Idioma:",
+    "settings_language_restart": "Reinicie o aplicativo para aplicar o novo idioma.",
+    "settings_updates": "ATUALIZAÇÕES",
+    "settings_version": "Versão atual:",
+    "settings_channel": "Canal:",
+    "settings_channel_stable": " Estável",
+    "settings_channel_beta": " Beta",
+    "settings_check_now": "Verificar agora",
+    "settings_install_update": "Instalar atualização",
+    "settings_up_to_date": "Atualizado",
+    "settings_update_available": "disponível",
+    "settings_checking": "Verificando...",
+    "settings_downloading": "Baixando",
+
+    "airport_fetch": "Buscar",
+    "airport_export": "Exportar",
+    "airport_fir_placeholder": "Insira o ICAO FIR (ex. VOMF)",
+
+    "fir_fetch": "Buscar",
+    "fir_export": "Exportar",
+
+    "sidstar_fetch": "Buscar",
+    "sidstar_export_all": "Exportar tudo",
+    "sidstar_placeholder": "Insira o ICAO do aeroporto (ex. VOBL)",
+
+    "flights_fetch": "Buscar",
+    "flights_export_excel": "Exportar para Excel",
+
+    "ground_import_kml": "Importar KML",
+    "ground_export": "Exportar",
+
+    "error_access_denied": "Acesso negado - apenas contas de equipe.",
+    "error_invalid_file": "Por favor, envie apenas arquivos KML.",
+
+    "airac_offline": "AIRAC offline",
+    "airac_days_left": "dias restantes"
+  }
+}

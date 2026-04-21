@@ -1,0 +1,64 @@
+{
+  "language": "తెలుగు",
+  "code": "te",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "హోమ్",
+    "nav_airport": "విమానాశ్రయ డేటా",
+    "nav_fir": "FIR డేటా",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "విమాన షెడ్యూళ్లు",
+    "nav_ground": "గ్రౌండ్ లేఅవుట్",
+    "nav_settings": "సెట్టింగ్లు",
+    "nav_back": "వెనుకకు",
+
+    "welcome_title": "IVAO Sector File Creator కి స్వాగతం",
+    "welcome_hint": "IVAO కోసం థర్డ్-పార్టీ సెక్టర్ ఫైల్ నిర్మాణ సాధనం.",
+    "disclaimer": "ఇది థర్డ్-పార్టీ యాప్ మరియు అధికారిక IVAO అప్లికేషన్ కాదు.",
+
+    "login_button": "IVAO SSO తో కొనసాగించు",
+    "login_opening": "బ్రౌజర్ తెరుచుచున్నాము...",
+
+    "settings_appearance": "రూపం",
+    "settings_theme": "థీమ్:",
+    "settings_theme_light": "లేత",
+    "settings_theme_dark": "చీకటి",
+    "settings_language": "భాష",
+    "settings_language_label": "భాష:",
+    "settings_language_restart": "కొత్త భాషను వర్తించడానికి యాప్‌ని రీస్టార్ట్ చేయండి.",
+    "settings_updates": "అప్‌డేట్‌లు",
+    "settings_version": "ప్రస్తుత వెర్షన్:",
+    "settings_channel": "ఛానల్:",
+    "settings_channel_stable": " స్థిరమైన",
+    "settings_channel_beta": " బీటా",
+    "settings_check_now": "ఇప్పుడు తనిఖీ చేయండి",
+    "settings_install_update": "అప్‌డేట్ ఇన్‌స్టాల్ చేయండి",
+    "settings_up_to_date": "అప్‌టు డేట్",
+    "settings_update_available": "అందుబాటులో ఉంది",
+    "settings_checking": "తనిఖీ చేస్తున్నాము...",
+    "settings_downloading": "డౌన్‌లోడ్ అవుతున్నాము",
+
+    "airport_fetch": "పొందు",
+    "airport_export": "ఎగుమతి చేయి",
+    "airport_fir_placeholder": "FIR ICAO నమోదు చేయండి (ఉదా. VOMF)",
+
+    "fir_fetch": "పొందు",
+    "fir_export": "ఎగుమతి చేయి",
+
+    "sidstar_fetch": "పొందు",
+    "sidstar_export_all": "అన్నీ ఎగుమతి చేయి",
+    "sidstar_placeholder": "విమానాశ్రయం ICAO నమోదు చేయండి (ఉదా. VOBL)",
+
+    "flights_fetch": "పొందు",
+    "flights_export_excel": "Excel కి ఎగుమతి చేయి",
+
+    "ground_import_kml": "KML దిగుమతి",
+    "ground_export": "ఎగుమతి చేయి",
+
+    "error_access_denied": "యాక్సెస్ నిరాకరించబడింది - స్టాఫ్ అకౌంట్లు మాత్రమే.",
+    "error_invalid_file": "దయచేసి KML ఫైళ్లు మాత్రమే అప్‌లోడ్ చేయండి.",
+
+    "airac_offline": "AIRAC ఆఫ్‌లైన్",
+    "airac_days_left": "రోజులు మిగిలాయి"
+  }
+}

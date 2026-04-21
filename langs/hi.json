@@ -1,0 +1,64 @@
+{
+  "language": "हिन्दी",
+  "code": "hi",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "होम",
+    "nav_airport": "हवाई अड्डा डेटा",
+    "nav_fir": "FIR डेटा",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "उड़ान अनुसूची",
+    "nav_ground": "ग्राउंड लेआउट",
+    "nav_settings": "सेटिंग्स",
+    "nav_back": "वापस",
+
+    "welcome_title": "IVAO Sector File Creator में आपका स्वागत है",
+    "welcome_hint": "IVAO के लिए तृतीय-पक्ष सेक्टर फ़ाइल निर्माण उपकरण।",
+    "disclaimer": "यह एक तृतीय-पक्ष ऐप है और यह IVAO का आधिकारिक एप्लिकेशन नहीं है।",
+
+    "login_button": "IVAO SSO के साथ जारी रखें",
+    "login_opening": "ब्राउज़र खोल रहे हैं...",
+
+    "settings_appearance": "दिखावट",
+    "settings_theme": "थीम:",
+    "settings_theme_light": "हल्का",
+    "settings_theme_dark": "गहरा",
+    "settings_language": "भाषा",
+    "settings_language_label": "भाषा:",
+    "settings_language_restart": "नई भाषा लागू करने के लिए ऐप को पुनः आरंभ करें।",
+    "settings_updates": "अपडेट",
+    "settings_version": "वर्तमान संस्करण:",
+    "settings_channel": "चैनल:",
+    "settings_channel_stable": " स्थिर",
+    "settings_channel_beta": " बीटा",
+    "settings_check_now": "अभी जांचें",
+    "settings_install_update": "अपडेट इंस्टॉल करें",
+    "settings_up_to_date": "अद्यतन",
+    "settings_update_available": "उपलब्ध",
+    "settings_checking": "जांच हो रही है...",
+    "settings_downloading": "डाउनलोड हो रहा है",
+
+    "airport_fetch": "प्राप्त करें",
+    "airport_export": "निर्यात करें",
+    "airport_fir_placeholder": "FIR ICAO दर्ज करें (उदा. VOMF)",
+
+    "fir_fetch": "प्राप्त करें",
+    "fir_export": "निर्यात करें",
+
+    "sidstar_fetch": "प्राप्त करें",
+    "sidstar_export_all": "सभी निर्यात करें",
+    "sidstar_placeholder": "हवाई अड्डा ICAO दर्ज करें (उदा. VOBL)",
+
+    "flights_fetch": "प्राप्त करें",
+    "flights_export_excel": "Excel में निर्यात करें",
+
+    "ground_import_kml": "KML आयात करें",
+    "ground_export": "निर्यात करें",
+
+    "error_access_denied": "पहुंच अस्वीकृत - केवल स्टाफ खाते।",
+    "error_invalid_file": "कृपया केवल KML फ़ाइलें अपलोड करें।",
+
+    "airac_offline": "AIRAC ऑफलाइन",
+    "airac_days_left": "दिन शेष"
+  }
+}

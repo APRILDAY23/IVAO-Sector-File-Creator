@@ -1,0 +1,64 @@
+{
+  "language": "Français",
+  "code": "fr",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "Accueil",
+    "nav_airport": "Données Aéroport",
+    "nav_fir": "Données FIR",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "Horaires de Vol",
+    "nav_ground": "Plan de Sol",
+    "nav_settings": "Paramètres",
+    "nav_back": "Retour",
+
+    "welcome_title": "Bienvenue dans IVAO Sector File Creator",
+    "welcome_hint": "Outil tiers de création de fichiers de secteur pour IVAO.",
+    "disclaimer": "Cette application tierce N'EST PAS une application officielle IVAO.",
+
+    "login_button": "Continuer avec IVAO SSO",
+    "login_opening": "Ouverture du navigateur...",
+
+    "settings_appearance": "APPARENCE",
+    "settings_theme": "Thème :",
+    "settings_theme_light": "Clair",
+    "settings_theme_dark": "Sombre",
+    "settings_language": "LANGUE",
+    "settings_language_label": "Langue :",
+    "settings_language_restart": "Redémarrez l'application pour appliquer la nouvelle langue.",
+    "settings_updates": "MISES À JOUR",
+    "settings_version": "Version actuelle :",
+    "settings_channel": "Canal :",
+    "settings_channel_stable": " Stable",
+    "settings_channel_beta": " Bêta",
+    "settings_check_now": "Vérifier maintenant",
+    "settings_install_update": "Installer la mise à jour",
+    "settings_up_to_date": "À jour",
+    "settings_update_available": "disponible",
+    "settings_checking": "Vérification...",
+    "settings_downloading": "Téléchargement",
+
+    "airport_fetch": "Récupérer",
+    "airport_export": "Exporter",
+    "airport_fir_placeholder": "Entrez le code ICAO FIR (ex. VOMF)",
+
+    "fir_fetch": "Récupérer",
+    "fir_export": "Exporter",
+
+    "sidstar_fetch": "Récupérer",
+    "sidstar_export_all": "Tout exporter",
+    "sidstar_placeholder": "Entrez le code ICAO aéroport (ex. VOBL)",
+
+    "flights_fetch": "Récupérer",
+    "flights_export_excel": "Exporter vers Excel",
+
+    "ground_import_kml": "Importer KML",
+    "ground_export": "Exporter",
+
+    "error_access_denied": "Accès refusé - comptes personnel uniquement.",
+    "error_invalid_file": "Veuillez télécharger uniquement des fichiers KML.",
+
+    "airac_offline": "AIRAC hors ligne",
+    "airac_days_left": "jours restants"
+  }
+}

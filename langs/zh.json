@@ -1,0 +1,64 @@
+{
+  "language": "中文",
+  "code": "zh",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "主页",
+    "nav_airport": "机场数据",
+    "nav_fir": "FIR 数据",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "航班时刻表",
+    "nav_ground": "地面布局",
+    "nav_settings": "设置",
+    "nav_back": "返回",
+
+    "welcome_title": "欢迎使用 IVAO Sector File Creator",
+    "welcome_hint": "用于创建 IVAO 扇区文件的第三方工具。",
+    "disclaimer": "这是第三方应用程序，不是 IVAO 的官方应用程序。",
+
+    "login_button": "通过 IVAO SSO 继续",
+    "login_opening": "正在打开浏览器...",
+
+    "settings_appearance": "外观",
+    "settings_theme": "主题：",
+    "settings_theme_light": "浅色",
+    "settings_theme_dark": "深色",
+    "settings_language": "语言",
+    "settings_language_label": "语言：",
+    "settings_language_restart": "重启应用程序以应用新语言。",
+    "settings_updates": "更新",
+    "settings_version": "当前版本：",
+    "settings_channel": "频道：",
+    "settings_channel_stable": " 稳定版",
+    "settings_channel_beta": " 测试版",
+    "settings_check_now": "立即检查",
+    "settings_install_update": "安装更新",
+    "settings_up_to_date": "已是最新",
+    "settings_update_available": "可用",
+    "settings_checking": "检查中...",
+    "settings_downloading": "下载中",
+
+    "airport_fetch": "获取",
+    "airport_export": "导出",
+    "airport_fir_placeholder": "输入 FIR ICAO（例如 VOMF）",
+
+    "fir_fetch": "获取",
+    "fir_export": "导出",
+
+    "sidstar_fetch": "获取",
+    "sidstar_export_all": "全部导出",
+    "sidstar_placeholder": "输入机场 ICAO（例如 VOBL）",
+
+    "flights_fetch": "获取",
+    "flights_export_excel": "导出到 Excel",
+
+    "ground_import_kml": "导入 KML",
+    "ground_export": "导出",
+
+    "error_access_denied": "访问被拒绝 - 仅限员工账户。",
+    "error_invalid_file": "请仅上传 KML 文件。",
+
+    "airac_offline": "AIRAC 离线",
+    "airac_days_left": "天剩余"
+  }
+}

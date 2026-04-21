@@ -1,0 +1,64 @@
+{
+  "language": "Nederlands",
+  "code": "nl",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "Home",
+    "nav_airport": "Luchthavengegevens",
+    "nav_fir": "FIR-gegevens",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "Vluchtroosters",
+    "nav_ground": "Grondindeling",
+    "nav_settings": "Instellingen",
+    "nav_back": "Terug",
+
+    "welcome_title": "Welkom bij IVAO Sector File Creator",
+    "welcome_hint": "Tool van derden voor het maken van IVAO-sectorbestanden.",
+    "disclaimer": "Dit is een app van derden en is GEEN officiële IVAO-applicatie.",
+
+    "login_button": "Doorgaan met IVAO SSO",
+    "login_opening": "Browser openen...",
+
+    "settings_appearance": "UITERLIJK",
+    "settings_theme": "Thema:",
+    "settings_theme_light": "Licht",
+    "settings_theme_dark": "Donker",
+    "settings_language": "TAAL",
+    "settings_language_label": "Taal:",
+    "settings_language_restart": "Herstart de app om de nieuwe taal toe te passen.",
+    "settings_updates": "UPDATES",
+    "settings_version": "Huidige versie:",
+    "settings_channel": "Kanaal:",
+    "settings_channel_stable": " Stabiel",
+    "settings_channel_beta": " Beta",
+    "settings_check_now": "Nu controleren",
+    "settings_install_update": "Update installeren",
+    "settings_up_to_date": "Up-to-date",
+    "settings_update_available": "beschikbaar",
+    "settings_checking": "Controleren...",
+    "settings_downloading": "Downloaden",
+
+    "airport_fetch": "Ophalen",
+    "airport_export": "Exporteren",
+    "airport_fir_placeholder": "Voer FIR ICAO in (bijv. VOMF)",
+
+    "fir_fetch": "Ophalen",
+    "fir_export": "Exporteren",
+
+    "sidstar_fetch": "Ophalen",
+    "sidstar_export_all": "Alles exporteren",
+    "sidstar_placeholder": "Voer luchthaven ICAO in (bijv. VOBL)",
+
+    "flights_fetch": "Ophalen",
+    "flights_export_excel": "Exporteren naar Excel",
+
+    "ground_import_kml": "KML importeren",
+    "ground_export": "Exporteren",
+
+    "error_access_denied": "Toegang geweigerd - alleen personeelsaccounts.",
+    "error_invalid_file": "Upload alleen KML-bestanden.",
+
+    "airac_offline": "AIRAC offline",
+    "airac_days_left": "dagen resterend"
+  }
+}
