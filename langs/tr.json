@@ -1,0 +1,64 @@
+{
+  "language": "Türkçe",
+  "code": "tr",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "Ana Sayfa",
+    "nav_airport": "Havalimanı Verileri",
+    "nav_fir": "FIR Verileri",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "Uçuş Takvimleri",
+    "nav_ground": "Yer Düzeni",
+    "nav_settings": "Ayarlar",
+    "nav_back": "Geri",
+
+    "welcome_title": "IVAO Sector File Creator'a Hoş Geldiniz",
+    "welcome_hint": "IVAO için üçüncü taraf sektör dosyası oluşturma aracı.",
+    "disclaimer": "Bu üçüncü taraf bir uygulamadır ve resmi bir IVAO uygulaması DEĞİLDİR.",
+
+    "login_button": "IVAO SSO ile Devam Et",
+    "login_opening": "Tarayıcı açılıyor...",
+
+    "settings_appearance": "GÖRÜNÜM",
+    "settings_theme": "Tema:",
+    "settings_theme_light": "Açık",
+    "settings_theme_dark": "Koyu",
+    "settings_language": "DİL",
+    "settings_language_label": "Dil:",
+    "settings_language_restart": "Yeni dili uygulamak için uygulamayı yeniden başlatın.",
+    "settings_updates": "GÜNCELLEMELER",
+    "settings_version": "Mevcut sürüm:",
+    "settings_channel": "Kanal:",
+    "settings_channel_stable": " Kararlı",
+    "settings_channel_beta": " Beta",
+    "settings_check_now": "Şimdi kontrol et",
+    "settings_install_update": "Güncellemeyi yükle",
+    "settings_up_to_date": "Güncel",
+    "settings_update_available": "mevcut",
+    "settings_checking": "Kontrol ediliyor...",
+    "settings_downloading": "İndiriliyor",
+
+    "airport_fetch": "Getir",
+    "airport_export": "Dışa aktar",
+    "airport_fir_placeholder": "FIR ICAO girin (örn. VOMF)",
+
+    "fir_fetch": "Getir",
+    "fir_export": "Dışa aktar",
+
+    "sidstar_fetch": "Getir",
+    "sidstar_export_all": "Tümünü dışa aktar",
+    "sidstar_placeholder": "Havalimanı ICAO girin (örn. VOBL)",
+
+    "flights_fetch": "Getir",
+    "flights_export_excel": "Excel'e aktar",
+
+    "ground_import_kml": "KML İçe Aktar",
+    "ground_export": "Dışa aktar",
+
+    "error_access_denied": "Erişim reddedildi - yalnızca personel hesapları.",
+    "error_invalid_file": "Lütfen yalnızca KML dosyaları yükleyin.",
+
+    "airac_offline": "AIRAC çevrimdışı",
+    "airac_days_left": "gün kaldı"
+  }
+}

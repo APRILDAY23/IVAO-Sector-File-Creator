@@ -1,0 +1,64 @@
+{
+  "language": "Deutsch",
+  "code": "de",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "Startseite",
+    "nav_airport": "Flughafendaten",
+    "nav_fir": "FIR-Daten",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "Flugpläne",
+    "nav_ground": "Bodenlayout",
+    "nav_settings": "Einstellungen",
+    "nav_back": "Zurück",
+
+    "welcome_title": "Willkommen beim IVAO Sector File Creator",
+    "welcome_hint": "Drittanbieter-Tool zur Erstellung von IVAO-Sektordateien.",
+    "disclaimer": "Dies ist eine Drittanbieter-App und KEINE offizielle IVAO-Anwendung.",
+
+    "login_button": "Mit IVAO SSO fortfahren",
+    "login_opening": "Browser wird geöffnet...",
+
+    "settings_appearance": "ERSCHEINUNGSBILD",
+    "settings_theme": "Design:",
+    "settings_theme_light": "Hell",
+    "settings_theme_dark": "Dunkel",
+    "settings_language": "SPRACHE",
+    "settings_language_label": "Sprache:",
+    "settings_language_restart": "Starten Sie die App neu, um die neue Sprache anzuwenden.",
+    "settings_updates": "UPDATES",
+    "settings_version": "Aktuelle Version:",
+    "settings_channel": "Kanal:",
+    "settings_channel_stable": " Stabil",
+    "settings_channel_beta": " Beta",
+    "settings_check_now": "Jetzt prüfen",
+    "settings_install_update": "Update installieren",
+    "settings_up_to_date": "Aktuell",
+    "settings_update_available": "verfügbar",
+    "settings_checking": "Überprüfe...",
+    "settings_downloading": "Herunterladen",
+
+    "airport_fetch": "Abrufen",
+    "airport_export": "Exportieren",
+    "airport_fir_placeholder": "FIR ICAO eingeben (z.B. VOMF)",
+
+    "fir_fetch": "Abrufen",
+    "fir_export": "Exportieren",
+
+    "sidstar_fetch": "Abrufen",
+    "sidstar_export_all": "Alle exportieren",
+    "sidstar_placeholder": "Flughafen ICAO eingeben (z.B. VOBL)",
+
+    "flights_fetch": "Abrufen",
+    "flights_export_excel": "Nach Excel exportieren",
+
+    "ground_import_kml": "KML importieren",
+    "ground_export": "Exportieren",
+
+    "error_access_denied": "Zugriff verweigert - nur Mitarbeiterkonten.",
+    "error_invalid_file": "Bitte nur KML-Dateien hochladen.",
+
+    "airac_offline": "AIRAC offline",
+    "airac_days_left": "Tage verbleibend"
+  }
+}

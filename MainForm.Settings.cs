@@ -394,15 +394,16 @@ namespace Sector_File
                 Font      = new Font("Segoe UI", 9f),
                 ForeColor = Color.FromArgb(55, 65, 81),
                 Location  = new Point(20, 24),
-                AutoSize  = true,
+                Width     = 90,
+                AutoSize  = false,
                 BackColor = Color.Transparent,
             };
             var langCombo = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Font          = new Font("Segoe UI", 9f),
-                Location      = new Point(104, 20),
-                Width         = 180,
+                Location      = new Point(120, 20),
+                Width         = 200,
             };
             var langs = Localization.Available();
             foreach (var (code, name) in langs)
@@ -777,9 +778,11 @@ namespace Sector_File
     }
 
     // Helper for language dropdown items
-    internal record LangItem(string Code, string Name)
+    internal sealed class LangItem
     {
+        public string Code { get; }
+        public string Name { get; }
+        public LangItem(string code, string name) { Code = code; Name = name; }
         public override string ToString() => Name;
     }
-}
 }

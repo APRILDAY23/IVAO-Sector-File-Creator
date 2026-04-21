@@ -42,7 +42,7 @@ namespace Sector_File
         // ── List all available language packs in the langs folder ─────────────
         internal static List<(string Code, string Name)> Available()
         {
-            var result = new List<(string, string)>();
+            var result = new List<(string Code, string Name)>();
             if (!Directory.Exists(LangsDir)) return result;
 
             foreach (var file in Directory.GetFiles(LangsDir, "*.json"))

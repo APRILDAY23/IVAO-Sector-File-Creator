@@ -1,0 +1,64 @@
+{
+  "language": "Italiano",
+  "code": "it",
+  "author": "Auto-translated",
+  "strings": {
+    "nav_home": "Home",
+    "nav_airport": "Dati Aeroporto",
+    "nav_fir": "Dati FIR",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "Orari Voli",
+    "nav_ground": "Layout di Terra",
+    "nav_settings": "Impostazioni",
+    "nav_back": "Indietro",
+
+    "welcome_title": "Benvenuto in IVAO Sector File Creator",
+    "welcome_hint": "Strumento di terze parti per la creazione di file di settore IVAO.",
+    "disclaimer": "Questa è un'app di terze parti e NON è un'applicazione ufficiale IVAO.",
+
+    "login_button": "Continua con IVAO SSO",
+    "login_opening": "Apertura del browser...",
+
+    "settings_appearance": "ASPETTO",
+    "settings_theme": "Tema:",
+    "settings_theme_light": "Chiaro",
+    "settings_theme_dark": "Scuro",
+    "settings_language": "LINGUA",
+    "settings_language_label": "Lingua:",
+    "settings_language_restart": "Riavvia l'app per applicare la nuova lingua.",
+    "settings_updates": "AGGIORNAMENTI",
+    "settings_version": "Versione attuale:",
+    "settings_channel": "Canale:",
+    "settings_channel_stable": " Stabile",
+    "settings_channel_beta": " Beta",
+    "settings_check_now": "Controlla ora",
+    "settings_install_update": "Installa aggiornamento",
+    "settings_up_to_date": "Aggiornato",
+    "settings_update_available": "disponibile",
+    "settings_checking": "Verifica in corso...",
+    "settings_downloading": "Download in corso",
+
+    "airport_fetch": "Recupera",
+    "airport_export": "Esporta",
+    "airport_fir_placeholder": "Inserisci il codice ICAO FIR (es. VOMF)",
+
+    "fir_fetch": "Recupera",
+    "fir_export": "Esporta",
+
+    "sidstar_fetch": "Recupera",
+    "sidstar_export_all": "Esporta tutto",
+    "sidstar_placeholder": "Inserisci il codice ICAO dell'aeroporto (es. VOBL)",
+
+    "flights_fetch": "Recupera",
+    "flights_export_excel": "Esporta in Excel",
+
+    "ground_import_kml": "Importa KML",
+    "ground_export": "Esporta",
+
+    "error_access_denied": "Accesso negato - solo account staff.",
+    "error_invalid_file": "Caricare solo file KML.",
+
+    "airac_offline": "AIRAC offline",
+    "airac_days_left": "giorni rimanenti"
+  }
+}
