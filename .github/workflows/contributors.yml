@@ -1,0 +1,40 @@
+name: Add Contributor
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop]
+
+jobs:
+  add-contributor:
+    if: github.event.pull_request.merged == true && github.event.pull_request.user.login != 'APRILDAY23'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: develop
+
+      - name: Add contributor to CONTRIBUTORS.md
+        shell: bash
+        run: |
+          USERNAME="${{ github.event.pull_request.user.login }}"
+          FILE="CONTRIBUTORS.md"
+
+          if grep -q "@${USERNAME}" "$FILE"; then
+            echo "${USERNAME} already listed, skipping."
+            exit 0
+          fi
+
+          # Insert new row before the closing --- line
+          NEW_ROW="| [@${USERNAME}](https://github.com/${USERNAME}) | Contributor |"
+          sed -i "s|^---$|${NEW_ROW}\n---|" "$FILE"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$FILE"
+          git commit -m "Add @${USERNAME} to contributors"
+          git push
