@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -10,24 +10,40 @@
     <StartupObject></StartupObject>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <ApplicationIcon>tools.ico</ApplicationIcon>
-    <UserSecretsId>2741e01d-926c-4a5e-b322-21ee67f5607d</UserSecretsId>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Product>IVAO Sector File Creator</Product>
+    <Company>Veda Moola</Company>
+    <Copyright>Copyright © 2025 Veda Moola</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="tools.ico" />
+    <EmbeddedResource Remove="MainForm.Country.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ivao_white_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <!-- Copy secrets.json when present.
+         Debug: seeded from your local secrets.json (gitignored).
+         Release (CI): created by the release workflow from GitHub Secrets.
+         The app deletes the file after reading it on first launch. -->
+    <Content Include="secrets.json" Condition="Exists('secrets.json')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <!-- Runtime icon (used by Form code at startup) -->
+    <Content Include="tools.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.104.1" />
-    <PackageReference Include="EPPlus" Version="7.4.2" />
-    <PackageReference Include="itext7" Version="8.0.5" />
-    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="NewFolder\NewFolder\" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

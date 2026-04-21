@@ -1,0 +1,68 @@
+MIT License
+
+Copyright (c) 2025 Veda Moola
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-------------------------------------------------------------------------------
+ABOUT THIS APPLICATION
+-------------------------------------------------------------------------------
+This application was built by Veda Moola (IVAO VID 656077).
+
+This is an UNOFFICIAL, COMMUNITY-MADE tool. It is NOT affiliated with,
+endorsed by, or officially associated with IVAO (International Virtual
+Aviation Organisation) in any way.
+
+This application respects IVAO branding and uses the IVAO logo in accordance
+with IVAO brand guidelines. If you identify any branding errors or concerns,
+please report them to the application owner via the GitHub issue tracker.
+
+-------------------------------------------------------------------------------
+IVAO DATA
+-------------------------------------------------------------------------------
+This application may display IVAO network data (pilot positions, ATC positions,
+flight plans) sourced via the IVAO public API. This data:
+
+  - Belongs to IVAO and its members
+  - Is used solely for building sector files for simulation on the IVAO network
+  - Is never stored, sold, redistributed, or used outside of this application
+  - Is fetched in real time and not retained beyond the current session
+
+Use of IVAO data is subject to the IVAO Terms of Service.
+If you believe this application misuses IVAO data, please report it
+to the application owner via the GitHub issue tracker.
+
+-------------------------------------------------------------------------------
+DATA SOURCES
+-------------------------------------------------------------------------------
+This application uses multiple free, publicly available APIs to give you the
+best possible outcome when building IVAO sector files. All API usage is legal,
+safe, and strictly for flight simulation purposes. No data sourced by this
+application is suitable for real-world aviation use.
+
+-------------------------------------------------------------------------------
+DISCLAIMER
+-------------------------------------------------------------------------------
+⚠  NOT FOR REAL WORLD USE  ⚠
+
+This software is intended for flight SIMULATION purposes only.
+Do not use this software or any data it generates for real-world aviation
+navigation, flight planning, air traffic control, or any safety-critical
+application. All data sourced by this application may be inaccurate,
+incomplete, or out of date.

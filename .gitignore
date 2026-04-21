@@ -1,0 +1,22 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Secrets — NEVER commit this file
+secrets.json
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# OS
+.DS_Store
+Thumbs.db

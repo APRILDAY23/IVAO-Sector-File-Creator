@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Extract version from tag
+        id: version
+        shell: bash
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      # Derive the AES-256 key (same parameters as SecretsEmbed.cs),
+      # encrypt each key, and patch SecretsEmbed.cs before compiling.
+      # Real key values never appear as plaintext in the binary.
+      - name: Encrypt and embed secrets into SecretsEmbed.cs
+        shell: pwsh
+        env:
+          OPEN_AIP_API_KEY:     ${{ secrets.OPEN_AIP_API_KEY }}
+          IVAO_API_KEY:         ${{ secrets.IVAO_API_KEY }}
+          MAPBOX_TOKEN:         ${{ secrets.MAPBOX_TOKEN }}
+          OAUTH_CLIENT_ID:      ${{ secrets.OAUTH_CLIENT_ID }}
+          OAUTH_CLIENT_SECRET:  ${{ secrets.OAUTH_CLIENT_SECRET }}
+          AERO_DATABOX_API_KEY: ${{ secrets.AERO_DATABOX_API_KEY }}
+        run: |
+          # --- Must match SecretsEmbed.cs exactly ---
+          $salt       = [byte[]]@(0x3E,0x9A,0x1C,0x7F,0x52,0xB4,0xD8,0x2A,
+                                   0x6B,0xF3,0x45,0xC9,0x18,0x7E,0xA2,0x5D)
+          $passphrase = "IVXSec.24!kF@zR9"
+          $iterations = 2000
+
+          # Derive 256-bit key via PBKDF2-SHA256
+          $kdf = New-Object System.Security.Cryptography.Rfc2898DeriveBytes(
+              $passphrase, $salt, $iterations,
+              [System.Security.Cryptography.HashAlgorithmName]::SHA256)
+          $key = $kdf.GetBytes(32)
+
+          # Generate a random 16-byte IV for this release
+          $iv = [byte[]]::new(16)
+          [System.Security.Cryptography.RandomNumberGenerator]::Fill($iv)
+
+          function Encrypt-Value($plain) {
+              $plainBytes = [System.Text.Encoding]::UTF8.GetBytes($plain)
+              $aes         = [System.Security.Cryptography.Aes]::Create()
+              $aes.Key     = $key
+              $aes.IV      = $iv
+              $aes.Mode    = [System.Security.Cryptography.CipherMode]::CBC
+              $aes.Padding = [System.Security.Cryptography.PaddingMode]::PKCS7
+              $enc         = $aes.CreateEncryptor()
+              $cipher      = $enc.TransformFinalBlock($plainBytes, 0, $plainBytes.Length)
+              return [Convert]::ToBase64String($cipher)
+          }
+
+          $names = @(
+              "openAipApiKey",     $env:OPEN_AIP_API_KEY,
+              "ivaoApiKey",        $env:IVAO_API_KEY,
+              "mapboxToken",       $env:MAPBOX_TOKEN,
+              "oauthClientId",     $env:OAUTH_CLIENT_ID,
+              "oauthClientSecret", $env:OAUTH_CLIENT_SECRET,
+              "aeroDataBoxApiKey", $env:AERO_DATABOX_API_KEY
+          )
+
+          $entries = @()
+          for ($i = 0; $i -lt $names.Length; $i += 2) {
+              $entries += "`"$($names[$i])`""
+              $entries += "`"$(Encrypt-Value $names[$i+1])`""
+          }
+          $dataLine = "        private static readonly string[] _data = { $($entries -join ', ') };"
+
+          $ivBytes  = ($iv | ForEach-Object { "0x$($_.ToString('X2'))" }) -join ', '
+          $ivLine   = "        private static readonly byte[] _iv = { $ivBytes };"
+
+          $src = Get-Content SecretsEmbed.cs
+          $src = $src -replace '        private static readonly string\[\] _data = \{ \};', $dataLine
+          $src = $src -replace '        private static readonly byte\[\] _iv = \{ \};',    $ivLine
+          $src | Set-Content SecretsEmbed.cs -Encoding UTF8
+
+          Write-Host "SecretsEmbed.cs patched — AES-256-CBC, PBKDF2 key, random IV"
+
+      - name: Restore dependencies
+        run: dotnet restore "Sector File.sln"
+
+      - name: Publish (self-contained, win-x64)
+        run: >
+          dotnet publish "Sector File.csproj"
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          --output publish
+          -p:PublishReadyToRun=true
+
+      - name: Update installer version
+        shell: pwsh
+        run: |
+          $ver = "${{ steps.version.outputs.VERSION }}"
+          (Get-Content installer.iss) -replace '#define MyAppVersion\s+"[^"]+"', "#define MyAppVersion `"$ver`"" |
+            Set-Content installer.iss
+
+      - name: Build installer
+        run: iscc installer.iss
+
+      - name: Detect pre-release from tag
+        id: prerelease
+        shell: bash
+        run: |
+          if [[ "${{ github.ref_name }}" == *-* ]]; then
+            echo "IS_PRERELEASE=true" >> $GITHUB_OUTPUT
+          else
+            echo "IS_PRERELEASE=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "IVAO Sector File Creator ${{ github.ref_name }}"
+          prerelease: ${{ steps.prerelease.outputs.IS_PRERELEASE }}
+          generate_release_notes: true
+          files: Output/IVAO-Sector-File-Creator-Setup-*.exe

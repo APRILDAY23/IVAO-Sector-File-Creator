@@ -1,17 +1,42 @@
 namespace Sector_File
 {
+    internal static class AppInfo
+    {
+        public const string Name = "IVAO Sector File Creator";
+
+        public static string Version
+        {
+            get
+            {
+                var v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                return v != null ? $"v{v.Major}.{v.Minor}.{v.Build}" : "v1.0.0";
+            }
+        }
+
+        public static System.Version AssemblyVersion =>
+            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version
+            ?? new System.Version(1, 0, 0);
+    }
+
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Login());
+
+            // Load persisted config (API keys etc.) before any form opens
+            ConfigManager.Load();
+            SecretsEmbed.SeedOnce();         // decode compile-time keys into %AppData% (release builds)
+            ConfigManager.LoadSecretsFile(); // overlay keys from secrets.json if present (dev only)
+            ConfigManager.SeedDefaults();    // no-op in open-source builds
+
+            // Show splash (blocks until startup checks complete)
+            using (var splash = new SplashForm())
+                splash.ShowDialog();
+
+            // Single main window for the entire application
+            Application.Run(new MainForm());
         }
     }
 }

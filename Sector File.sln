@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.10.35027.167
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11709.299 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sector File", "Sector File.csproj", "{7D8A5924-665F-4AFB-8CC9-DB99644CC650}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ivao_india_sector_creator", "..\ivao_india_sector_creator\ivao_india_sector_creator.vdproj", "{DBB88064-7561-4ECC-B4E1-54AE4C997DA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +27,6 @@ Global
 		{7D8A5924-665F-4AFB-8CC9-DB99644CC650}.Release|x64.Build.0 = Release|x64
 		{7D8A5924-665F-4AFB-8CC9-DB99644CC650}.Release|x86.ActiveCfg = Release|x86
 		{7D8A5924-665F-4AFB-8CC9-DB99644CC650}.Release|x86.Build.0 = Release|x86
-		{DBB88064-7561-4ECC-B4E1-54AE4C997DA9}.Debug|Any CPU.ActiveCfg = Debug
-		{DBB88064-7561-4ECC-B4E1-54AE4C997DA9}.Debug|x64.ActiveCfg = Debug
-		{DBB88064-7561-4ECC-B4E1-54AE4C997DA9}.Debug|x86.ActiveCfg = Debug
-		{DBB88064-7561-4ECC-B4E1-54AE4C997DA9}.Release|Any CPU.ActiveCfg = Release
-		{DBB88064-7561-4ECC-B4E1-54AE4C997DA9}.Release|x64.ActiveCfg = Release
-		{DBB88064-7561-4ECC-B4E1-54AE4C997DA9}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
