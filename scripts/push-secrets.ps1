@@ -1,21 +1,32 @@
 # push-secrets.ps1
-# Reads secrets.json from the project root and pushes each key as a
-# GitHub Actions Secret using the GitHub CLI (gh).
+# Reads secrets.json and pushes each key as a GitHub Actions Secret.
+# Skips secrets that already exist on GitHub.
 #
-# Run this once after cloning, or whenever you update your keys:
-#   pwsh scripts/push-secrets.ps1
+# Run this once after cloning, or whenever you add a NEW key:
+#   powershell -ExecutionPolicy Bypass -File scripts/push-secrets.ps1
 #
 # Prerequisites:
 #   - GitHub CLI installed  (https://cli.github.com)
 #   - Authenticated:        gh auth login
 #   - secrets.json present  (copy from secrets.example.json and fill in values)
 
+# Auto-locate gh.exe if not on PATH
+$gh = (Get-Command gh -ErrorAction SilentlyContinue)?.Source
+if (-not $gh) {
+    $fallback = "C:\Program Files\GitHub CLI\gh.exe"
+    if (Test-Path $fallback) { $gh = $fallback }
+    else {
+        Write-Error "GitHub CLI (gh) not found. Install from https://cli.github.com"
+        exit 1
+    }
+}
+
 $root        = Split-Path $PSScriptRoot -Parent
 $secretsFile = Join-Path $root "secrets.json"
 
 if (-not (Test-Path $secretsFile)) {
     Write-Error "secrets.json not found at: $secretsFile"
-    Write-Host  "Copy secrets.example.json → secrets.json and fill in your keys first."
+    Write-Host  "Copy secrets.example.json -> secrets.json and fill in your keys first."
     exit 1
 }
 
@@ -31,14 +42,29 @@ $keyMap = @{
     aeroDataBoxApiKey = "AERO_DATABOX_API_KEY"
 }
 
-$pushed = 0
+# Fetch existing secret names from GitHub (values are never returned by the API)
+$existingRaw = & $gh secret list --json name 2>$null
+$existing    = @()
+if ($existingRaw) {
+    try { $existing = ($existingRaw | ConvertFrom-Json) | ForEach-Object { $_.name } }
+    catch { }
+}
+
+$pushed  = 0
+$skipped = 0
 foreach ($prop in $keyMap.GetEnumerator()) {
     $value = $secrets.($prop.Key)
     if ([string]::IsNullOrWhiteSpace($value)) {
         Write-Host "  SKIP  $($prop.Value)  (empty in secrets.json)"
+        $skipped++
         continue
     }
-    $value | gh secret set $prop.Value
+    if ($existing -contains $prop.Value) {
+        Write-Host "  SKIP  $($prop.Value)  (already exists on GitHub)"
+        $skipped++
+        continue
+    }
+    $value | & $gh secret set $prop.Value
     if ($LASTEXITCODE -eq 0) {
         Write-Host "  OK    $($prop.Value)"
         $pushed++
@@ -48,5 +74,4 @@ foreach ($prop in $keyMap.GetEnumerator()) {
 }
 
 Write-Host ""
-Write-Host "$pushed secret(s) pushed to GitHub."
-Write-Host "Run 'git tag v1.0.0 && git push origin v1.0.0' to trigger a release."
+Write-Host "$pushed secret(s) pushed, $skipped skipped."
