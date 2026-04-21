@@ -35,7 +35,7 @@ namespace Sector_File
         private const string TokenEndpoint         = "https://api.ivao.aero/v2/oauth/token";
         private const string RedirectUri           = "http://localhost:5000/callback";
         private const string Scopes                = "openid profile email";
-        private const string State                 = "12345678";
+        private string _oauthState = "";
         // ClientId / ClientSecret are loaded from encrypted config (ConfigManager)
         private static string ClientId     => ConfigManager.OAuthClientId;
         private static string ClientSecret => ConfigManager.OAuthClientSecret;
@@ -237,9 +237,11 @@ namespace Sector_File
         {
             loginButton.Enabled = false;
             loginButton.Text    = "Opening browser…";
+            _oauthState = Convert.ToBase64String(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32))
+                              .Replace("+", "-").Replace("/", "_").TrimEnd('=');
             StartListener();
             string url = $"{AuthorizationEndpoint}?response_type=code&client_id={ClientId}" +
-                         $"&redirect_uri={RedirectUri}&scope={Scopes}&state={State}";
+                         $"&redirect_uri={RedirectUri}&scope={Scopes}&state={_oauthState}";
             Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
         }
 
@@ -253,11 +255,12 @@ namespace Sector_File
 
         private async void OnRequestReceived(IAsyncResult result)
         {
-            var ctx     = _listener.EndGetContext(result);
-            string code = ctx.Request.QueryString["code"];
-            var resp    = ctx.Response;
+            var ctx           = _listener.EndGetContext(result);
+            string code       = ctx.Request.QueryString["code"];
+            string returnedState = ctx.Request.QueryString["state"];
+            var resp          = ctx.Response;
 
-            if (!string.IsNullOrEmpty(code))
+            if (!string.IsNullOrEmpty(code) && returnedState == _oauthState)
             {
                 string token = await ExchangeCodeForTokenAsync(code);
                 if (!string.IsNullOrEmpty(token))

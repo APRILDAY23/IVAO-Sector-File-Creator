@@ -31,8 +31,8 @@ namespace Sector_File
             0x6B, 0xF3, 0x45, 0xC9, 0x18, 0x7E, 0xA2, 0x5D,
         };
 
-        // PBKDF2 passphrase - combined with salt to derive the 256-bit AES key
-        private const string _p = "IVXSec.24!kF@zR9";
+        // PBKDF2 passphrase - injected by CI via SECRETS_PASSPHRASE GitHub Secret, empty in source
+        private const string _p = "";
 
         // AES IV - populated by release workflow, empty in source
         private static readonly byte[] _iv = { };
@@ -66,7 +66,7 @@ namespace Sector_File
         {
             using var kdf = new Rfc2898DeriveBytes(
                 _p, _s,
-                iterations: 2000,
+                iterations: 600_000,
                 hashAlgorithm: HashAlgorithmName.SHA256);
             return kdf.GetBytes(32); // 256-bit
         }

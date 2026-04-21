@@ -39,12 +39,13 @@ jobs:
           OAUTH_CLIENT_ID:      ${{ secrets.OAUTH_CLIENT_ID }}
           OAUTH_CLIENT_SECRET:  ${{ secrets.OAUTH_CLIENT_SECRET }}
           AERO_DATABOX_API_KEY: ${{ secrets.AERO_DATABOX_API_KEY }}
+          SECRETS_PASSPHRASE:   ${{ secrets.SECRETS_PASSPHRASE }}
         run: |
           # --- Must match SecretsEmbed.cs exactly ---
           $salt       = [byte[]]@(0x3E,0x9A,0x1C,0x7F,0x52,0xB4,0xD8,0x2A,
                                    0x6B,0xF3,0x45,0xC9,0x18,0x7E,0xA2,0x5D)
-          $passphrase = "IVXSec.24!kF@zR9"
-          $iterations = 2000
+          $passphrase = $env:SECRETS_PASSPHRASE
+          $iterations = 600000
 
           # Derive 256-bit key via PBKDF2-SHA256
           $kdf = New-Object System.Security.Cryptography.Rfc2898DeriveBytes(
@@ -90,9 +91,10 @@ jobs:
           $src = Get-Content SecretsEmbed.cs
           $src = $src -replace '        private static readonly string\[\] _data = \{ \};', $dataLine
           $src = $src -replace '        private static readonly byte\[\] _iv = \{ \};',    $ivLine
+          $src = $src -replace 'private const string _p = "";', "private const string _p = `"$passphrase`";"
           $src | Set-Content SecretsEmbed.cs -Encoding UTF8
 
-          Write-Host "SecretsEmbed.cs patched - AES-256-CBC, PBKDF2 key, random IV"
+          Write-Host "SecretsEmbed.cs patched - AES-256-CBC, PBKDF2-SHA256 600k iterations, random IV"
 
       - name: Restore dependencies
         run: dotnet restore "Sector File.sln"
