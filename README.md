@@ -306,6 +306,16 @@ The script:
 | **Branch protection** | PR + owner approval + CI pass required on both `main` and `develop` |
 | **Secrets file** | `secrets.json` is gitignored and auto-deleted from the output folder after first run |
 
+### Reporting a Vulnerability
+
+If you find a security issue, **do not open a public GitHub issue**.
+Contact the maintainer directly:
+
+- **Discord:** `veda3848`
+- **IVAO:** VID `656077`
+
+Issues will be addressed as soon as possible and credited in the release notes.
+
 ---
 
 ## Contributors
