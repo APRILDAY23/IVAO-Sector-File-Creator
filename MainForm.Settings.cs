@@ -485,19 +485,30 @@ namespace Sector_File
             {
                 _updateStatusLabel.Text      = $"✔  Up to date  ({AppInfo.Version})";
                 _updateStatusLabel.ForeColor = Color.FromArgb(22, 163, 74);
-                _updateActionBtn.Text        = "Check Now";
+                _updateActionBtn.Text        = L("settings_check_now");
                 _updateActionBtn.BackColor   = Color.FromArgb(13, 27, 75);
                 _updateActionBtn.Click      -= InstallUpdate_Click;
+                if (_updateBannerPanel != null) _updateBannerPanel.Visible = false;
             }
             else
             {
                 string badge = _pendingUpdate.IsPreRelease ? "  [Beta]" : "";
-                _updateStatusLabel.Text      = $"⬆  {_pendingUpdate.Version}{badge} available";
+                _updateStatusLabel.Text      = $"⬆  {_pendingUpdate.Version}{badge} {L("settings_update_available")}";
                 _updateStatusLabel.ForeColor = Color.FromArgb(234, 88, 12);
-                _updateActionBtn.Text        = "Install Update";
+                _updateActionBtn.Text        = L("settings_install_update");
                 _updateActionBtn.BackColor   = Color.FromArgb(234, 88, 12);
                 _updateActionBtn.Click      -= InstallUpdate_Click;
                 _updateActionBtn.Click      += InstallUpdate_Click;
+
+                // Show global banner across all pages
+                if (_updateBannerPanel != null)
+                {
+                    var bannerLabel = _updateBannerPanel.Controls.OfType<Label>()
+                        .FirstOrDefault(c => c.Tag?.ToString() == "updateBannerLabel");
+                    if (bannerLabel != null)
+                        bannerLabel.Text = $"⬆  {_pendingUpdate.Version}{badge} {L("settings_update_available")} — {L("settings_install_update")} in Settings";
+                    _updateBannerPanel.Visible = true;
+                }
             }
             _updateStatusLabel.Parent?.Invalidate();
         }

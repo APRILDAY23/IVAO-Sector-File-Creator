@@ -41,24 +41,48 @@ namespace Sector_File
             step1Label.ForeColor = ColDone;
 
             // Step 2 - network check
-            await MarkStep(step2Label, "Checking network connection...", 40);
+            await MarkStep(step2Label, "Checking network connection...", 35);
             bool online = await CheckNetworkAsync();
             step2Label.Text      = online ? "✔   Network connection OK" : "✖   No network - working offline";
             step2Label.ForeColor = online ? ColDone : ColFail;
 
             // Step 3 - AIRAC cycle
-            await MarkStep(step3Label, "Fetching AIRAC cycle data...", 70);
+            await MarkStep(step3Label, "Fetching AIRAC cycle data...", 60);
             if (online) await FetchAiracCycleAsync();
             step3Label.Text      = AiracDaysLeft >= 0
                 ? $"✔   AIRAC {AiracCycle}  ({AiracDaysLeft} days left)"
                 : "✖   AIRAC data unavailable";
             step3Label.ForeColor = AiracDaysLeft >= 0 ? ColDone : ColMuted;
 
-            // Step 4 - ready
-            await MarkStep(step4Label, "Ready - opening login...", 100);
-            step4Label.Text      = "✔   Ready";
-            step4Label.ForeColor = ColDone;
-            await Task.Delay(700);
+            // Step 4 - update check then ready
+            await MarkStep(step4Label, "Checking for updates...", 85);
+            UpdateInfo? update = null;
+            if (online) update = await UpdateManager.CheckAsync();
+
+            if (update != null)
+            {
+                step4Label.Text      = $"⬆   Update available: {update.Version}";
+                step4Label.ForeColor = System.Drawing.Color.FromArgb(234, 88, 12);
+                await Task.Delay(300);
+
+                var result = MessageBox.Show(
+                    $"A new update is available: {update.Version}\n\nWould you like to install it now?",
+                    "Update Available",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information);
+
+                if (result == DialogResult.Yes)
+                {
+                    step4Label.Text = "⬇   Downloading update...";
+                    await UpdateManager.DownloadAndInstallAsync(update);
+                    return;
+                }
+            }
+
+            progressBar.Value    = 100;
+            step4Label.Text      = update != null ? "─   Update skipped - continuing" : "✔   Ready";
+            step4Label.ForeColor = update != null ? ColMuted : ColDone;
+            await Task.Delay(500);
         }
 
         // Marks a step label as active (dark blue) and animates the progress bar

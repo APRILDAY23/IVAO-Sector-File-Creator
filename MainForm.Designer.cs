@@ -54,6 +54,7 @@ namespace Sector_File
 
         // ── Content panel ─────────────────────────────────────────────────────
         private Panel  contentPanel;
+        private Panel  _updateBannerPanel;
 
         // ── Page: Login ───────────────────────────────────────────────────────
         private Panel  loginPage;
@@ -2486,8 +2487,49 @@ namespace Sector_File
             this.contentPanel.Controls.Add(this.cntDropdownOverlay);
             this.cntDropdownOverlay.BringToFront();
 
+            // ── Global update banner (shown above all pages when update is available) ──
+            _updateBannerPanel = new Panel
+            {
+                Dock      = DockStyle.Top,
+                Height    = 40,
+                BackColor = System.Drawing.Color.FromArgb(234, 88, 12),
+                Visible   = false,
+            };
+            var _updateBannerLabel = new Label
+            {
+                AutoSize  = false,
+                Dock      = DockStyle.Fill,
+                TextAlign = System.Drawing.ContentAlignment.MiddleLeft,
+                ForeColor = System.Drawing.Color.White,
+                Font      = new System.Drawing.Font("Segoe UI", 9f),
+                Padding   = new Padding(12, 0, 0, 0),
+                Tag       = "updateBannerLabel",
+            };
+            var _updateBannerBtn = new Button
+            {
+                Text      = "Install",
+                Dock      = DockStyle.Right,
+                Width     = 90,
+                BackColor = System.Drawing.Color.FromArgb(194, 65, 12),
+                ForeColor = System.Drawing.Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font      = new System.Drawing.Font("Segoe UI", 9f, System.Drawing.FontStyle.Bold),
+                Cursor    = Cursors.Hand,
+            };
+            _updateBannerBtn.FlatAppearance.BorderSize = 0;
+            _updateBannerBtn.Click += async (s, e) =>
+            {
+                if (_pendingUpdate == null) return;
+                _updateBannerBtn.Enabled = false;
+                _updateBannerLabel.Text  = "⬇  Downloading update...";
+                await UpdateManager.DownloadAndInstallAsync(_pendingUpdate);
+            };
+            _updateBannerPanel.Controls.Add(_updateBannerLabel);
+            _updateBannerPanel.Controls.Add(_updateBannerBtn);
+
             this.mainBodyPanel = new Panel { Dock = DockStyle.Fill };
             this.mainBodyPanel.Controls.Add(this.contentPanel);  // added first → fills right
+            this.mainBodyPanel.Controls.Add(_updateBannerPanel); // docks to top of content area
             this.mainBodyPanel.Controls.Add(this.sidebarPanel);  // DockStyle.Left, collapsible
 
             // Stubs kept for field declaration satisfaction only (unused at runtime)
