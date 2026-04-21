@@ -318,13 +318,20 @@ namespace Sector_File
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 Font          = new Font("Segoe UI", 9f),
-                Location      = new Point(84, 44),
-                Width         = 120,
+                Location      = new Point(90, 44),
+                Width         = 160,
             };
-            channelCombo.Items.AddRange(new object[] { "Stable", "Beta" });
+            channelCombo.Items.AddRange(new object[] { " Stable", " Beta" });
             channelCombo.SelectedIndex = UpdateManager.Channel == "beta" ? 1 : 0;
-            channelCombo.SelectedIndexChanged += (s, e) =>
+            channelCombo.SelectedIndexChanged += async (s, e) =>
+            {
                 UpdateManager.Channel = channelCombo.SelectedIndex == 1 ? "beta" : "stable";
+                _updateActionBtn.Enabled = false;
+                _updateStatusLabel.Text  = "Checking…";
+                _pendingUpdate = await UpdateManager.CheckAsync();
+                RefreshUpdateUI();
+                _updateActionBtn.Enabled = true;
+            };
 
             _updateStatusLabel = new Label
             {

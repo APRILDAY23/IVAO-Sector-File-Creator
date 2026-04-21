@@ -1273,7 +1273,7 @@ namespace Sector_File
             // contentWrapper: no DockStyle → AutoScroll sees its Height as virtual size
             var contentWrapper = new Panel
             {
-                Location  = new Point(0, 0),
+                Location  = new Point(0, 36),
                 BackColor = Color.White,
                 Padding   = new Padding(52, 36, 52, 36),
             };
@@ -1543,6 +1543,25 @@ namespace Sector_File
                 contentWrapper.Width = welcomePage.ClientSize.Width;
                 LayoutCards();
             };
+
+            // ── Disclaimer banner ─────────────────────────────────────────
+            var disclaimerBanner = new Panel
+            {
+                Dock      = DockStyle.Top,
+                Height    = 36,
+                BackColor = Color.FromArgb(220, 38, 38),
+            };
+            var disclaimerLabel = new Label
+            {
+                Text      = "⚠  This is a third-party app and is NOT an official IVAO application.",
+                Font      = new Font("Segoe UI", 9f, FontStyle.Bold),
+                ForeColor = Color.White,
+                Dock      = DockStyle.Fill,
+                TextAlign = System.Drawing.ContentAlignment.MiddleCenter,
+                BackColor = Color.Transparent,
+            };
+            disclaimerBanner.Controls.Add(disclaimerLabel);
+            this.welcomePage.Controls.Add(disclaimerBanner);
 
             this.welcomePage.Controls.Add(contentWrapper);
         }
