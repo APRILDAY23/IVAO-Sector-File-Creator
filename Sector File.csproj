@@ -27,6 +27,9 @@
     <Content Include="ivao_white_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ivao_blue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <!-- Copy secrets.json when present.
          Debug: seeded from your local secrets.json (gitignored).
          Release (CI): created by the release workflow from GitHub Secrets.
