@@ -11,7 +11,8 @@
 #   - secrets.json present  (copy from secrets.example.json and fill in values)
 
 # Auto-locate gh.exe if not on PATH
-$gh = (Get-Command gh -ErrorAction SilentlyContinue)?.Source
+$ghCmd = Get-Command gh -ErrorAction SilentlyContinue
+$gh    = if ($ghCmd) { $ghCmd.Source } else { $null }
 if (-not $gh) {
     $fallback = "C:\Program Files\GitHub CLI\gh.exe"
     if (Test-Path $fallback) { $gh = $fallback }
