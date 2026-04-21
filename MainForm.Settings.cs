@@ -380,7 +380,7 @@ namespace Sector_File
             var langRow = new Panel
             {
                 Dock      = DockStyle.Top,
-                Height    = 70,
+                Height    = 100,
                 BackColor = LightCard,
             };
             langRow.Paint += (s, e) =>
@@ -409,27 +409,32 @@ namespace Sector_File
             foreach (var (code, name) in langs)
                 langCombo.Items.Add(new LangItem(code, name));
             langCombo.SelectedIndex = Math.Max(0, langs.FindIndex(l => l.Code == ConfigManager.Language));
-            var langRestartLabel = new Label
+            var langRestartBtn = new Button
             {
-                Text      = "Restart the app to apply the new language.",
-                Font      = new Font("Segoe UI", 8f, FontStyle.Italic),
-                ForeColor = Color.FromArgb(148, 163, 184),
-                Location  = new Point(20, 46),
-                AutoSize  = true,
-                BackColor = Color.Transparent,
+                Text      = "Restart Now",
+                Font      = new Font("Segoe UI", 9f),
+                Location  = new Point(120, 54),
+                Width     = 120,
+                Height    = 30,
+                BackColor = Color.FromArgb(37, 99, 235),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Cursor    = Cursors.Hand,
                 Visible   = false,
             };
+            langRestartBtn.FlatAppearance.BorderSize = 0;
+            langRestartBtn.Click += (s, e) => Application.Restart();
             langCombo.SelectedIndexChanged += (s, e) =>
             {
                 if (langCombo.SelectedItem is LangItem item)
                 {
-                    ConfigManager.Language   = item.Code;
-                    langRestartLabel.Visible = item.Code != Localization.CurrentCode;
+                    ConfigManager.Language  = item.Code;
+                    langRestartBtn.Visible  = item.Code != Localization.CurrentCode;
                 }
             };
             langRow.Controls.Add(langLabel);
             langRow.Controls.Add(langCombo);
-            langRow.Controls.Add(langRestartLabel);
+            langRow.Controls.Add(langRestartBtn);
 
             // ── Stack sections (last added = topmost) ────────────────────────
             // Visual order top→bottom: APPEARANCE → LANGUAGE → UPDATES
