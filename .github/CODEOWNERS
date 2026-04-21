@@ -1,1 +1,7 @@
+# All files require owner approval
 * @APRILDAY23
+
+# Critical files - explicitly locked to owner only
+/.github/CODEOWNERS @APRILDAY23
+/.github/workflows/ @APRILDAY23
+/scripts/push-secrets.ps1 @APRILDAY23
