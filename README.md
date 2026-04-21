@@ -151,8 +151,8 @@ The app relies on several free-tier APIs. Get your own keys to develop locally:
 
 | Key in `secrets.json` | Where to get it |
 |---|---|
-| `openAipApiKey` | [app.openaip.net](https://app.openaip.net) - Account → API Key |
-| `ivaoApiKey` | [api.ivao.aero](https://api.ivao.aero) developer portal |
+| `openAipApiKey` | [openaip.net](https://www.openaip.net) - Account → API Key |
+| `ivaoApiKey` | [developers.ivao.aero](https://developers.ivao.aero) - register and get your API key |
 | `mapboxToken` | [account.mapbox.com](https://account.mapbox.com) |
 | `oauthClientId` / `oauthClientSecret` | Register an OAuth app at [sso.ivao.aero](https://sso.ivao.aero) |
 | `aeroDataBoxApiKey` | [rapidapi.com](https://rapidapi.com) - subscribe to AeroDataBox (free tier) |
