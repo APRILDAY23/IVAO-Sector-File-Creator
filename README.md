@@ -165,9 +165,9 @@ IVAO-Sector-File-Creator/
 
 ## Contributors
 
-<a href="https://github.com/APRILDAY23/IVAO-Sector-File-Creator/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=APRILDAY23/IVAO-Sector-File-Creator" />
-</a>
+<!-- CONTRIBUTORS-START -->
+<a href="https://github.com/APRILDAY23"><img src="https://github.com/APRILDAY23.png" width="48" height="48" alt="APRILDAY23" title="APRILDAY23"/></a>
+<!-- CONTRIBUTORS-END -->
 
 ---
 
