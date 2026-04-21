@@ -8,6 +8,7 @@ on:
 jobs:
   release:
     runs-on: windows-latest
+    if: github.actor == 'APRILDAY23'
 
     steps:
       - uses: actions/checkout@v4

@@ -82,13 +82,15 @@ Fill them into `secrets.json` (copied from `secrets.example.json`). Never commit
 
 ### Push Secrets to GitHub (repo owner only)
 
-Contributors do **not** push secrets. Only the repo owner runs this - after approving a PR from a feature branch into `develop`, if that PR introduced a new API key:
+Contributors do **not** push secrets. The script is locked to the repo owner's GitHub account - it will refuse to run if you are authenticated as anyone else.
+
+The owner runs this after approving and merging a PR into `develop`, only if that PR introduced a new API key:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/push-secrets.ps1
 ```
 
-The script skips secrets already set on GitHub, so it is safe to re-run. Requires the GitHub CLI (`gh`) installed and authenticated (`gh auth login`).
+The script verifies your GitHub identity, skips secrets already set, and requires the GitHub CLI (`gh auth login`).
 
 ### Branch Strategy
 

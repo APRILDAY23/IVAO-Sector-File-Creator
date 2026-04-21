@@ -22,6 +22,14 @@ if (-not $gh) {
     }
 }
 
+# Only the repo owner may push secrets
+$OWNER = "APRILDAY23"
+$whoami = & $gh api user --jq ".login" 2>$null
+if ($whoami -ne $OWNER) {
+    Write-Error "Access denied. Only the repo owner ($OWNER) can push secrets. You are logged in as: $whoami"
+    exit 1
+}
+
 $root        = Split-Path $PSScriptRoot -Parent
 $secretsFile = Join-Path $root "secrets.json"
 
