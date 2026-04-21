@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  MainForm  —  single-window shell for IVAO Sector File Creator
+    //  MainForm  -  single-window shell for IVAO Sector File Creator
     //  Handles: login → hub → ATC grid / Flight grid → embedded tools
     // ─────────────────────────────────────────────────────────────────────────
     public partial class MainForm : Form
@@ -137,7 +137,7 @@ namespace Sector_File
                 if (c is Panel p) p.Visible = false;
             page.Visible = true;
 
-            // Hide sidebar and header on the login page — let it fill the whole window
+            // Hide sidebar and header on the login page - let it fill the whole window
             bool isLogin = (page == loginPage);
             sidebarPanel.Visible = !isLogin;
             headerPanel.Visible  = !isLogin;
@@ -230,7 +230,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Login page — IVAO OAuth 2.0 SSO
+        //  Login page - IVAO OAuth 2.0 SSO
         // ────────────────────────────────────────────────────────────────────
 
         private void LoginButton_Click(object sender, EventArgs e)
@@ -294,7 +294,7 @@ namespace Sector_File
                             {
                                 loginButton.Enabled = true;
                                 loginButton.Text    = "Continue with IVAO SSO";
-                                MessageBox.Show("Access denied — staff accounts only.",
+                                MessageBox.Show("Access denied - staff accounts only.",
                                     "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             });
                         }

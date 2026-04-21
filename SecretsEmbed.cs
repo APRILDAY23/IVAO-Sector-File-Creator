@@ -5,7 +5,7 @@ using System.Text;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  SecretsEmbed  —  AES-256-CBC encrypted key store
+    //  SecretsEmbed  -  AES-256-CBC encrypted key store
     //
     //  Source build : _data is empty. No keys, no cipher text, nothing.
     //  Release build: GitHub Actions derives the AES key (matching _s + _p),
@@ -24,17 +24,17 @@ namespace Sector_File
     // ─────────────────────────────────────────────────────────────────────────
     internal static class SecretsEmbed
     {
-        // PBKDF2 salt  — 16 random bytes, fixed at build time
+        // PBKDF2 salt  - 16 random bytes, fixed at build time
         private static readonly byte[] _s =
         {
             0x3E, 0x9A, 0x1C, 0x7F, 0x52, 0xB4, 0xD8, 0x2A,
             0x6B, 0xF3, 0x45, 0xC9, 0x18, 0x7E, 0xA2, 0x5D,
         };
 
-        // PBKDF2 passphrase — combined with salt to derive the 256-bit AES key
+        // PBKDF2 passphrase - combined with salt to derive the 256-bit AES key
         private const string _p = "IVXSec.24!kF@zR9";
 
-        // AES IV — populated by release workflow, empty in source
+        // AES IV - populated by release workflow, empty in source
         private static readonly byte[] _iv = { };
 
         // Encrypted payload: flat array [keyName, cipherB64, keyName, cipherB64, ...]

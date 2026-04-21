@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  FIR & Airspace Data  — embedded panel in MainForm
+    //  FIR & Airspace Data  - embedded panel in MainForm
     //
     //  All airspace types (FIR / UIR / TMA / CTR / CTA / R / D / P):
     //    1. airac.net  GET /airspaces?fir={ID}  (paginated)
@@ -58,7 +58,7 @@ namespace Sector_File
         // 26 = CTA/WARNING       27 = ACC SECTOR     28 = TRNG
         // 29 = OTHER             30 = MCTR (Military CTR)
         //
-        // NOTE: type=11 has 0 entries globally in OpenAIP — FIR is actually type=10.
+        // NOTE: type=11 has 0 entries globally in OpenAIP - FIR is actually type=10.
         // UIR is not a separate type; UIR boundaries are included in type=10.
         //
         // FIR entries in OpenAIP use city/ICAO names (e.g. "MUMBAI", "FIR LFBB", "EDGG").
@@ -303,7 +303,7 @@ namespace Sector_File
             if (!string.IsNullOrEmpty(firHumanName))
                 FirLog($"  FIR name: {firHumanName}", color: Color.FromArgb(80, 100, 150));
 
-            // ── 2. OpenAIP fallback — only for types missing from airac.net ──
+            // ── 2. OpenAIP fallback - only for types missing from airac.net ──
             var missingTypes = new[] { "FIR", "UIR", "TMA", "CTR", "CTA", "RESTRICTED", "DANGER", "PROHIBITED" }
                 .Where(t => !result.ContainsKey(t) || result[t].Count == 0)
                 .ToList();
@@ -331,7 +331,7 @@ namespace Sector_File
             }
             else if (missingTypes.Count > 0)
             {
-                FirLog("\nAdditional airspace source not configured — skipping.",
+                FirLog("\nAdditional airspace source not configured - skipping.",
                     color: Color.FromArgb(150, 130, 0));
             }
 
@@ -341,7 +341,7 @@ namespace Sector_File
         // ────────────────────────────────────────────────────────────────────
         //  Fetch from airac.net  GET /airspace/fir?identifier={term}
         //  Returns: (shapes, firHumanName)
-        //    firHumanName — the human city/region name from the "FIR" type entry
+        //    firHumanName - the human city/region name from the "FIR" type entry
         //                   (e.g. "MUMBAI" for VABF, used to match OpenAIP results)
         // ────────────────────────────────────────────────────────────────────
         private async Task<(Dictionary<string, List<FirShape>> Shapes, string FirHumanName)>
@@ -391,7 +391,7 @@ namespace Sector_File
                 string typeKey = NormaliseAiracType(rawType);
 
                 // Capture the human FIR name from the first true "FIR" entry
-                // (not sub-regions / ACC sectors) — strip "FIR"/"UIR" suffix
+                // (not sub-regions / ACC sectors) - strip "FIR"/"UIR" suffix
                 if (string.IsNullOrEmpty(firHumanName) &&
                     rawType.Equals("FIR", StringComparison.OrdinalIgnoreCase) &&
                     item["is_subregion"]?.Value<bool>() != true)
@@ -423,7 +423,7 @@ namespace Sector_File
         // ────────────────────────────────────────────────────────────────────
         //  Fetch from OpenAIP  /airspaces
         //  firTerm:      4-letter ICAO FIR code (e.g. "VABF")
-        //  firHumanName: city name from airac.net (e.g. "MUMBAI") — used to
+        //  firHumanName: city name from airac.net (e.g. "MUMBAI") - used to
         //                match OpenAIP type=10 FIR entries by name
         // ────────────────────────────────────────────────────────────────────
         private async Task<Dictionary<string, List<FirShape>>> FetchOpenAIPAirspaces(
@@ -516,9 +516,9 @@ namespace Sector_File
                 //    country field, so Phase 1 works for many regions. But if it
                 //    returned 0, fall back to a global search matched by name.
                 //    Matching priority:
-                //      1. firHumanName (e.g. "MUMBAI" from airac.net) — city name match
-                //      2. firTerm (e.g. "VABF") — ICAO code in name (e.g. "FIR LFBB")
-                //      3. 2-letter prefix (e.g. "VA") — broad prefix fallback
+                //      1. firHumanName (e.g. "MUMBAI" from airac.net) - city name match
+                //      2. firTerm (e.g. "VABF") - ICAO code in name (e.g. "FIR LFBB")
+                //      3. 2-letter prefix (e.g. "VA") - broad prefix fallback
                 bool isFirUir = typeKey.Equals("FIR", StringComparison.OrdinalIgnoreCase) ||
                                 typeKey.Equals("UIR", StringComparison.OrdinalIgnoreCase);
 
@@ -528,7 +528,7 @@ namespace Sector_File
                 {
                     string prefix2 = firTerm.Length >= 2 ? firTerm[..2] : firTerm;
 
-                    FirLog($"\n  {typeKey}: no results with country filter — searching globally…",
+                    FirLog($"\n  {typeKey}: no results with country filter - searching globally…",
                         color: Color.FromArgb(150, 130, 0));
 
                     foreach (int typeNum in typeNums)
@@ -598,7 +598,7 @@ namespace Sector_File
                     // Phase 3: if still nothing, scan ICAO classes A–G globally
                     if (!result.ContainsKey(typeKey) || result[typeKey].Count == 0)
                     {
-                        FirLog($"\n  Still 0 — scanning ICAO classes A–G globally for '{firTerm}'…",
+                        FirLog($"\n  Still 0 - scanning ICAO classes A–G globally for '{firTerm}'…",
                             color: Color.FromArgb(150, 130, 0));
 
                         for (int icaoClass = 0; icaoClass <= 6; icaoClass++)
@@ -667,7 +667,7 @@ namespace Sector_File
                         FirLog($" {found} shape(s) found.",
                             color: Color.FromArgb(22, 163, 74));
                     else
-                        FirLog($" still 0 — {typeKey} not found in OpenAIP for '{firTerm}'.",
+                        FirLog($" still 0 - {typeKey} not found in OpenAIP for '{firTerm}'.",
                             color: Color.FromArgb(200, 60, 60));
                 }
             }
@@ -679,7 +679,7 @@ namespace Sector_File
         //  Aurora file header
         // ────────────────────────────────────────────────────────────────────
         private static string FirFileHeader(string label, string firId) =>
-            $"// IVAO Aurora Sector File — {label} (.artcc)\n" +
+            $"// IVAO Aurora Sector File - {label} (.artcc)\n" +
             $"// FIR: {firId}\n" +
             $"// Format: T;IDENTIFIER;LAT;LON;\n" +
             $"//   IDENTIFIER : airspace name or ID\n" +
@@ -786,7 +786,7 @@ namespace Sector_File
                     if (ring == null) continue;
                     if (pts.Count > 0)
                     {
-                        // Separator between polygons — caller handles via Dummy lines
+                        // Separator between polygons - caller handles via Dummy lines
                     }
                     foreach (JArray pt in ring.OfType<JArray>())
                         if (pt.Count >= 2)
@@ -798,7 +798,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Type normalisation — airac.net type string → our canonical key
+        //  Type normalisation - airac.net type string → our canonical key
         // ────────────────────────────────────────────────────────────────────
         private static string NormaliseAiracType(string raw)
         {
@@ -899,7 +899,7 @@ namespace Sector_File
         {
             if (string.IsNullOrEmpty(data))
             {
-                MessageBox.Show($"No {label} data to save — run a search first.",
+                MessageBox.Show($"No {label} data to save - run a search first.",
                     "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -909,7 +909,7 @@ namespace Sector_File
             {
                 Filter   = "ARTCC Files (*.artcc)|*.artcc|All Files (*.*)|*.*",
                 FileName = $"{term}_{tag}.artcc",
-                Title    = $"Save {label}  —  {term}",
+                Title    = $"Save {label}  -  {term}",
             };
             if (dlg.ShowDialog() == DialogResult.OK)
                 File.WriteAllText(dlg.FileName, data);
@@ -948,7 +948,7 @@ namespace Sector_File
             string combined = sb.ToString();
             if (string.IsNullOrEmpty(combined.Trim()))
             {
-                MessageBox.Show("No airspace data to save — run a search first.",
+                MessageBox.Show("No airspace data to save - run a search first.",
                     "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -957,7 +957,7 @@ namespace Sector_File
             {
                 Filter   = "ARTCC Files (*.artcc)|*.artcc|All Files (*.*)|*.*",
                 FileName = $"{term}_Airspace.artcc",
-                Title    = $"Save Combined Airspace  —  {term}",
+                Title    = $"Save Combined Airspace  -  {term}",
             };
             if (dlg.ShowDialog() == DialogResult.OK)
                 File.WriteAllText(dlg.FileName, combined);

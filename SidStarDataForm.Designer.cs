@@ -217,16 +217,16 @@ namespace Sector_File
             this.backButton.Click += new System.EventHandler(this.backButton_Click);
 
             // ────────────────────────────────────────────────────────────────
-            // FORM  — controls added in dock-stacking order:
+            // FORM  - controls added in dock-stacking order:
             //   Top controls: last added = topmost
             //   Bottom controls: last added = bottommost
             // ────────────────────────────────────────────────────────────────
-            this.Controls.Add(this.logRichTextBox);     // Fill — always first
-            this.Controls.Add(this.downloadPanel);      // Bottom — inner (just above fill)
-            this.Controls.Add(this.backButton);         // Bottom — outer (very bottom edge)
-            this.Controls.Add(this.progressPanel);      // Top — inner (just below search)
-            this.Controls.Add(this.searchPanel);        // Top — middle
-            this.Controls.Add(this.headerPanel);        // Top — outer (very top edge)
+            this.Controls.Add(this.logRichTextBox);     // Fill - always first
+            this.Controls.Add(this.downloadPanel);      // Bottom - inner (just above fill)
+            this.Controls.Add(this.backButton);         // Bottom - outer (very bottom edge)
+            this.Controls.Add(this.progressPanel);      // Top - inner (just below search)
+            this.Controls.Add(this.searchPanel);        // Top - middle
+            this.Controls.Add(this.headerPanel);        // Top - outer (very top edge)
 
             this.AutoScaleMode  = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize     = new System.Drawing.Size(700, 580);

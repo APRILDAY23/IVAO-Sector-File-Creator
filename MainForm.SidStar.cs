@@ -11,12 +11,12 @@ using Newtonsoft.Json.Linq;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  SID & STAR tool logic  — embedded panel in MainForm
+    //  SID & STAR tool logic  - embedded panel in MainForm
     //
     //  Design principle:
     //   • Collect the union of both list endpoints (SID + STAR).
     //   • Fetch each detail exactly once and classify by type.code from the
-    //     detail endpoint — this is authoritative even when the list endpoint
+    //     detail endpoint - this is authoritative even when the list endpoint
     //     misclassifies (e.g. DEEZZ6 in STAR list but detail says SID).
     //   • Cache detail responses so generation never double-fetches.
     //   • A clear inventory of all found + reclassified names is printed.
@@ -97,14 +97,14 @@ namespace Sector_File
                 SsUpdateProgress(30);
 
                 // ── Step 2: Print raw API inventory ──────────────────────
-                SsLog("\n━━  RAW API — SID endpoint  ━━━━━━━━━━━━━━━━━━━━━━━━━━",
+                SsLog("\n━━  RAW API - SID endpoint  ━━━━━━━━━━━━━━━━━━━━━━━━━━",
                       bold: true, color: System.Drawing.Color.FromArgb(13, 71, 161));
                 SsLog(sidIds.Count == 0
                     ? "\n  None."
                     : $"\n  {string.Join("   ", sidIds.OrderBy(x => x))}",
                       color: System.Drawing.Color.FromArgb(20, 100, 60));
 
-                SsLog("\n\n━━  RAW API — STAR endpoint  ━━━━━━━━━━━━━━━━━━━━━━━━━",
+                SsLog("\n\n━━  RAW API - STAR endpoint  ━━━━━━━━━━━━━━━━━━━━━━━━━",
                       bold: true, color: System.Drawing.Color.FromArgb(130, 60, 0));
                 SsLog(starIds.Count == 0
                     ? "\n  None."
@@ -114,7 +114,7 @@ namespace Sector_File
 
                 // ── Step 3: Classify using list source + type.code heuristics ─
                 //
-                //  Rules (pure list-membership — no type.code guessing):
+                //  Rules (pure list-membership - no type.code guessing):
                 //   • ID in SID list ONLY  → SID file only
                 //   • ID in STAR list ONLY → STAR file only
                 //   • ID in BOTH lists     → included in BOTH files
@@ -210,14 +210,14 @@ namespace Sector_File
             foreach (string id in allIds.OrderBy(x => x))
             {
                 done++;
-                SsSetStatus($"Classifying {done}/{allIds.Count}  —  {id}");
+                SsSetStatus($"Classifying {done}/{allIds.Count}  -  {id}");
 
                 string url = $"{ApiBaseUrl}/procedures/{icao}/{id}";
                 HttpResponseMessage res = await client.GetAsync(url);
 
                 if (!res.IsSuccessStatusCode)
                 {
-                    SsLog($"\n  ⚠  {id} — HTTP {(int)res.StatusCode}, skipped");
+                    SsLog($"\n  ⚠  {id} - HTTP {(int)res.StatusCode}, skipped");
                     continue;
                 }
 
@@ -225,7 +225,7 @@ namespace Sector_File
                 JObject procData = detail["data"] as JObject;
                 if (procData == null)
                 {
-                    SsLog($"\n  ⚠  {id} — no data in response, skipped");
+                    SsLog($"\n  ⚠  {id} - no data in response, skipped");
                     continue;
                 }
 
@@ -312,7 +312,7 @@ namespace Sector_File
             foreach (string id in identifiers.OrderBy(x => x))
             {
                 done++;
-                SsSetStatus($"Generating {type}  {done}/{identifiers.Count}  —  {id}");
+                SsSetStatus($"Generating {type}  {done}/{identifiers.Count}  -  {id}");
 
                 JObject procData = null;
 
@@ -324,7 +324,7 @@ namespace Sector_File
                     HttpResponseMessage dr = await client.GetAsync(detailUrl);
                     if (!dr.IsSuccessStatusCode)
                     {
-                        SsLog($"\n  ⚠  {id} — HTTP {(int)dr.StatusCode}, skipped");
+                        SsLog($"\n  ⚠  {id} - HTTP {(int)dr.StatusCode}, skipped");
                         continue;
                     }
                     JObject detail = JObject.Parse(await dr.Content.ReadAsStringAsync());
@@ -333,7 +333,7 @@ namespace Sector_File
 
                 if (procData == null)
                 {
-                    SsLog($"\n  ⚠  {id} — no data, skipped");
+                    SsLog($"\n  ⚠  {id} - no data, skipped");
                     continue;
                 }
 
@@ -485,7 +485,7 @@ namespace Sector_File
                 }
                 else if (trn != null && trn.HasValues)
                 {
-                    // STAR ends at a fix (vectors-to-final) — no runway-specific legs.
+                    // STAR ends at a fix (vectors-to-final) - no runway-specific legs.
                     // Each named transition is a separate arrival path to the terminal fix.
                     // Use the transition name as the "runway" field in the sector file header.
                     foreach (var t in trn)
@@ -608,7 +608,7 @@ namespace Sector_File
         // ── Format header comments ────────────────────────────────────────────
 
         private static string SsHeader_Sid(string icao) =>
-            $"// IVAO Aurora Sector File — SID Procedures (.sid)\n" +
+            $"// IVAO Aurora Sector File - SID Procedures (.sid)\n" +
             $"// Airport: {icao}\n" +
             $"// Format: ICAO;RUNWAY;PROC_ID;MATCH_FIX;MATCH_FIX;[//LAT;LON]\n" +
             $"//         FIX;FIX;[RESTRICTION];[//LAT;LON]\n" +
@@ -623,7 +623,7 @@ namespace Sector_File
             $"// ⚠  NOT FOR REAL WORLD USE\n\n";
 
         private static string SsHeader_Star(string icao) =>
-            $"// IVAO Aurora Sector File — STAR Procedures (.str)\n" +
+            $"// IVAO Aurora Sector File - STAR Procedures (.str)\n" +
             $"// Airport: {icao}\n" +
             $"// Format: ICAO;RUNWAY;PROC_ID;MATCH_FIX;MATCH_FIX;[//LAT;LON]\n" +
             $"//         FIX;FIX;[RESTRICTION];[//LAT;LON]\n" +
@@ -652,7 +652,7 @@ namespace Sector_File
             using var dlg = new SaveFileDialog
             {
                 Filter   = filter,
-                Title    = $"Save {ext} — {icao}",
+                Title    = $"Save {ext} - {icao}",
                 FileName = $"{icao}.{ext}"
             };
             if (dlg.ShowDialog() == DialogResult.OK)

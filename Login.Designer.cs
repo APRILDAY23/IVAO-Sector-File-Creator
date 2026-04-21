@@ -317,7 +317,7 @@ namespace Sector_File
                 g.FillRectangle(bg, rect);
             }
 
-            // Radar origin — centre of panel, shifted slightly up
+            // Radar origin - centre of panel, shifted slightly up
             int cx = rect.Width  / 2 + 24;
             int cy = rect.Height / 2 - 10;
 

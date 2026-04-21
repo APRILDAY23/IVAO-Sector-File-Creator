@@ -250,7 +250,7 @@ namespace Sector_File
                 using var thumbBrush = new SolidBrush(Color.White);
                 g.FillEllipse(thumbBrush, tx, 2, 24, 24);
             };
-            // Toggle hidden — dark mode not yet implemented (badge shown instead)
+            // Toggle hidden - dark mode not yet implemented (badge shown instead)
             this.settingsToggleSwitch.Visible = false;
 
             this.settingsDarkModeRow.Controls.Add(moonIcon);

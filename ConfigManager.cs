@@ -8,15 +8,15 @@ using Newtonsoft.Json.Linq;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  ConfigManager  —  loads / saves application configuration
+    //  ConfigManager  -  loads / saves application configuration
     //
     //  Encrypted store: %AppData%\IVAOSectorFileCreator\config.json
     //  Developer keys : secrets.json  (project root, gitignored)
     //
     //  On startup call order:
-    //    1. Load()             — read encrypted store from %AppData%
-    //    2. LoadSecretsFile()  — overlay keys from secrets.json (dev only)
-    //    3. SeedDefaults()     — no-op in open-source builds
+    //    1. Load()             - read encrypted store from %AppData%
+    //    2. LoadSecretsFile()  - overlay keys from secrets.json (dev only)
+    //    3. SeedDefaults()     - no-op in open-source builds
     //
     //  Sensitive values are encrypted with Windows DPAPI so they are only
     //  readable by the current Windows user on this machine.
@@ -133,7 +133,7 @@ namespace Sector_File
         /// Load developer keys from secrets.json next to the .exe.
         /// Keys present in the file always overwrite the encrypted store so
         /// editing secrets.json and restarting is enough to update any key.
-        /// This file must never be committed — it is listed in .gitignore.
+        /// This file must never be committed - it is listed in .gitignore.
         /// </summary>
         public static void LoadSecretsFile()
         {
@@ -154,13 +154,13 @@ namespace Sector_File
                 // never present in a distributed build.
                 try { File.Delete(SecretsFile); } catch { }
             }
-            catch { /* malformed secrets.json — silently skip */ }
+            catch { /* malformed secrets.json - silently skip */ }
         }
 
         /// <summary>No default secrets are bundled. Configure keys via Settings or secrets.json.</summary>
         public static void SeedDefaults() { }
 
-        /// <summary>Write a key only if it is not already set — used by SecretsEmbed.</summary>
+        /// <summary>Write a key only if it is not already set - used by SecretsEmbed.</summary>
         public static void SetKeyIfEmpty(string key, string value)
         {
             if (string.IsNullOrEmpty(GetSecure(key)))
@@ -198,7 +198,7 @@ namespace Sector_File
             Save();
         }
 
-        // DPAPI encrypt/decrypt — tied to current user on this machine
+        // DPAPI encrypt/decrypt - tied to current user on this machine
         private static string Protect(string plaintext)
         {
             byte[] encrypted = ProtectedData.Protect(

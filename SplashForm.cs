@@ -34,19 +34,19 @@ namespace Sector_File
 
         private async Task RunStartupAsync()
         {
-            // Step 1 — init
+            // Step 1 - init
             await MarkStep(step1Label, "Initializing application...", 15);
             await Task.Delay(300);
             step1Label.Text      = "✔   Application initialized";
             step1Label.ForeColor = ColDone;
 
-            // Step 2 — network check
+            // Step 2 - network check
             await MarkStep(step2Label, "Checking network connection...", 40);
             bool online = await CheckNetworkAsync();
-            step2Label.Text      = online ? "✔   Network connection OK" : "✖   No network — working offline";
+            step2Label.Text      = online ? "✔   Network connection OK" : "✖   No network - working offline";
             step2Label.ForeColor = online ? ColDone : ColFail;
 
-            // Step 3 — AIRAC cycle
+            // Step 3 - AIRAC cycle
             await MarkStep(step3Label, "Fetching AIRAC cycle data...", 70);
             if (online) await FetchAiracCycleAsync();
             step3Label.Text      = AiracDaysLeft >= 0
@@ -54,8 +54,8 @@ namespace Sector_File
                 : "✖   AIRAC data unavailable";
             step3Label.ForeColor = AiracDaysLeft >= 0 ? ColDone : ColMuted;
 
-            // Step 4 — ready
-            await MarkStep(step4Label, "Ready — opening login...", 100);
+            // Step 4 - ready
+            await MarkStep(step4Label, "Ready - opening login...", 100);
             step4Label.Text      = "✔   Ready";
             step4Label.ForeColor = ColDone;
             await Task.Delay(700);

@@ -87,7 +87,7 @@ jobs:
           $src = $src -replace '        private static readonly byte\[\] _iv = \{ \};',    $ivLine
           $src | Set-Content SecretsEmbed.cs -Encoding UTF8
 
-          Write-Host "SecretsEmbed.cs patched — AES-256-CBC, PBKDF2 key, random IV"
+          Write-Host "SecretsEmbed.cs patched - AES-256-CBC, PBKDF2 key, random IV"
 
       - name: Restore dependencies
         run: dotnet restore "Sector File.sln"

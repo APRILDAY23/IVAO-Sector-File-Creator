@@ -35,7 +35,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        // Form load — fetch current AIRAC cycle and display it in the header
+        // Form load - fetch current AIRAC cycle and display it in the header
         // ────────────────────────────────────────────────────────────────────
 
         private async void SidStarDataForm_Load(object sender, EventArgs e)
@@ -81,7 +81,7 @@ namespace Sector_File
             }
             catch
             {
-                // Non-critical — if the cycle fetch fails, the tool still works fine
+                // Non-critical - if the cycle fetch fails, the tool still works fine
                 airacCycleLabel.Text     = "AIRAC  ─ ─ ─";
                 airacDaysLabel.Text      = "Cycle info unavailable";
                 airacDaysLabel.ForeColor = System.Drawing.Color.Gray;
@@ -89,7 +89,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        // Search button — orchestrates SID + STAR fetch
+        // Search button - orchestrates SID + STAR fetch
         // ────────────────────────────────────────────────────────────────────
 
         private async void SearchButton_Click(object sender, EventArgs e)
@@ -113,7 +113,7 @@ namespace Sector_File
             AppendLog("Veda Moola (656077)", isHyperlink: true, url: "https://ivao.aero/Member.aspx?Id=656077");
             AppendLog("\nFully tested by ");
             AppendLog("Nilay Parsodkar (709833)", isHyperlink: true, url: "https://ivao.aero/Member.aspx?Id=709833");
-            AppendLog(". Please blame him for any bugs — or raise an issue on the GitHub repo.");
+            AppendLog(". Please blame him for any bugs - or raise an issue on the GitHub repo.");
             AppendLog("\n⚠  NOT FOR REAL WORLD USE", bold: true, color: System.Drawing.Color.Tomato);
             AppendLog($"\n\nData sourced from a free, publicly available API.");
             AppendLog($"\nAirport     : {icaoCode}\n");
@@ -176,7 +176,7 @@ namespace Sector_File
             HttpClient client, string icaoCode, string type,
             bool inclAlt, bool inclSpd, bool inclCoord)
         {
-            // Step 1 — collect unique identifiers (list endpoint duplicates per transition)
+            // Step 1 - collect unique identifiers (list endpoint duplicates per transition)
             var identifiers = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             int  page    = 1;
             bool hasMore = true;
@@ -214,7 +214,7 @@ namespace Sector_File
 
             AppendLog($"\n  Found {identifiers.Count} candidate(s) in {type} list");
 
-            // Step 2 — fetch each procedure detail and format it
+            // Step 2 - fetch each procedure detail and format it
             // NOTE: The airac.net list endpoint sometimes returns wrong-type procedures
             // (e.g. STARs appear in the SID list). We verify type.code in the detail
             // response and skip any procedure that doesn't match the requested type.
@@ -222,7 +222,7 @@ namespace Sector_File
             foreach (string id in identifiers)
             {
                 done++;
-                SetStatus($"Processing {type}  {done}/{identifiers.Count}  —  {id}");
+                SetStatus($"Processing {type}  {done}/{identifiers.Count}  -  {id}");
 
                 string detailUrl = $"{ApiBaseUrl}/procedures/{icaoCode}/{id}";
                 HttpResponseMessage detailRes = await client.GetAsync(detailUrl);
@@ -395,7 +395,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        // Helpers — waypoint formatting
+        // Helpers - waypoint formatting
         // ────────────────────────────────────────────────────────────────────
 
         /// <summary>
@@ -561,7 +561,7 @@ namespace Sector_File
             using SaveFileDialog dlg = new SaveFileDialog
             {
                 Filter    = filter,
-                Title     = $"{title}  —  {searchBox.Text.Trim().ToUpper()}",
+                Title     = $"{title}  -  {searchBox.Text.Trim().ToUpper()}",
                 FileName  = $"{searchBox.Text.Trim().ToUpper()}.{ext}"
             };
 

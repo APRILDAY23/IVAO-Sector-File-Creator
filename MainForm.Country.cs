@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  Country Data tool logic  — embedded panel in MainForm
+    //  Country Data tool logic  - embedded panel in MainForm
     //
     //  Country list:   airac.net /countries  (paginated, cached after first load)
     //  Boundary data:  datahub.io countries GeoJSON  (cached after first fetch)
@@ -45,7 +45,7 @@ namespace Sector_File
 
             // Seed with built-in list immediately so the dropdown works right away
             _apiCountries = CntBuiltInCountries();
-            CntStatus($"{_apiCountries.Count} countries loaded — type to search");
+            CntStatus($"{_apiCountries.Count} countries loaded - type to search");
 
             // Try to enrich from airac.net in the background (silently, no blocking)
             _ = CntEnrichFromApiAsync();
@@ -91,10 +91,10 @@ namespace Sector_File
                     countries.Sort((a, b) =>
                         string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
                     _apiCountries = countries;
-                    CntStatus($"{_apiCountries.Count} countries loaded — type to search");
+                    CntStatus($"{_apiCountries.Count} countries loaded - type to search");
                 }
             }
-            catch { /* silent — built-in list is sufficient */ }
+            catch { /* silent - built-in list is sufficient */ }
         }
 
         // ─────────────────────────────────────────────────────────────────────
@@ -401,7 +401,7 @@ namespace Sector_File
                 int lines = _countryOutput.Split('\n', StringSplitOptions.RemoveEmptyEntries)
                                           .Count(l => l.StartsWith("T;"));
 
-                CntProgress(100, $"Done — {lines} coordinate points");
+                CntProgress(100, $"Done - {lines} coordinate points");
                 CntLog($"\n✔  Conversion complete in {sw.Elapsed.TotalSeconds:F2}s  " +
                        $"({lines} points)",
                        bold: true,
@@ -476,7 +476,7 @@ namespace Sector_File
             string cycle = SplashForm.AiracDaysLeft >= 0
                 ? $"  ·  AIRAC {SplashForm.AiracCycle}" : "";
             return
-                $"// IVAO Aurora Sector File — Country Boundary (.artcc)\n" +
+                $"// IVAO Aurora Sector File - Country Boundary (.artcc)\n" +
                 $"// Country: {_selectedCountry}  ({code})\n" +
                 $"// Format: T;IDENTIFIER;LAT;LON;\n" +
                 $"//   IDENTIFIER : ISO-2 country code\n" +
@@ -492,7 +492,7 @@ namespace Sector_File
         // ─────────────────────────────────────────────────────────────────────
 
         // ─────────────────────────────────────────────────────────────────────
-        //  GeoJSON property helper — tries each name in order, returns first hit
+        //  GeoJSON property helper - tries each name in order, returns first hit
         // ─────────────────────────────────────────────────────────────────────
 
         private static string CntGetProp(JsonElement props, params string[] names)
@@ -545,7 +545,7 @@ namespace Sector_File
             using var dlg = new SaveFileDialog
             {
                 Filter   = "ARTCC Files (*.artcc)|*.artcc|All Files (*.*)|*.*",
-                Title    = $"Save Country Boundary — {_selectedCountry}",
+                Title    = $"Save Country Boundary - {_selectedCountry}",
                 FileName = $"{safeName}_boundary.artcc",
             };
 

@@ -281,7 +281,7 @@ namespace Sector_File
         }
 
         // ═══════════════════════════════════════════════════════════════════
-        //  HEADER  — 72 px, split brand-zone / content-zone layout
+        //  HEADER  - 72 px, split brand-zone / content-zone layout
         //  Brand zone (0 → sidebarW) matches sidebar background exactly so
         //  they form one seamless dark chrome column visually.
         // ═══════════════════════════════════════════════════════════════════
@@ -299,7 +299,7 @@ namespace Sector_File
                 BackColor = hdrBg,
             };
 
-            // ── IVAO white logo — full height, proportional width ─────────
+            // ── IVAO white logo - full height, proportional width ─────────
             const int LogoH   = HeaderH;      // stretch to full header height
             const int LogoW   = 160;          // wide enough to show full logo
             const int LogoX   = 16;
@@ -503,7 +503,7 @@ namespace Sector_File
         }
 
         // ================================================================
-        //  SIDEBAR  — collapsible nav panel
+        //  SIDEBAR  - collapsible nav panel
         // ================================================================
         private void BuildSidebar()
         {
@@ -659,7 +659,7 @@ namespace Sector_File
 
             // Items placed directly in sidebarNavPanel with manual Y positions
             // (no DockStyle so AutoScroll can measure them) and AutoScrollMinSize
-            // is set explicitly — the only 100 % reliable way to fix the scroll range.
+            // is set explicitly - the only 100 % reliable way to fix the scroll range.
             var navOrder = new Control[]
             {
                 navDashboardCard,
@@ -698,7 +698,7 @@ namespace Sector_File
             // DockStyle.Bottom: first added = TOPMOST in footer, last added = VERY BOTTOM
             this.sidebarPanel.Controls.Add(collapseDivider);
             this.sidebarPanel.Controls.Add(collapseBtn);
-            // Fill panel goes last — takes all remaining space between top and footer
+            // Fill panel goes last - takes all remaining space between top and footer
             this.sidebarPanel.Controls.Add(this.sidebarNavPanel);
         }
 
@@ -814,7 +814,7 @@ namespace Sector_File
                 }
             };
 
-            // Hover highlight — light gray background
+            // Hover highlight - light gray background
             void SetHover(bool on)
             {
                 if (_activeSidebarItem == item) return;   // don't override active state
@@ -942,7 +942,7 @@ namespace Sector_File
         }
 
         // ─────────────────────────────────────────────────────────────────
-        //  LOGIN PAGE  — two-panel: dark gradient left + white right
+        //  LOGIN PAGE  - two-panel: dark gradient left + white right
         // ─────────────────────────────────────────────────────────────────
         private void BuildLoginPage()
         {
@@ -1036,7 +1036,7 @@ namespace Sector_File
             this.loginLeftPanel.Controls.Add(heroArea);
             this.loginLeftPanel.Controls.Add(leftLogo);
 
-            // ── Right white panel (loginCard — referenced in ApplyTheme) ──
+            // ── Right white panel (loginCard - referenced in ApplyTheme) ──
             this.loginCard = new Panel
             {
                 Dock      = DockStyle.Fill,
@@ -1053,7 +1053,7 @@ namespace Sector_File
                 innerCard.Location = new Point(Math.Max(0, cx), Math.Max(12, cy));
             };
 
-            // IVAO logo — centred above title, zoom-fitted so full image is always visible
+            // IVAO logo - centred above title, zoom-fitted so full image is always visible
             this.loginIconLabel = new PictureBox
             {
                 Size      = new Size(280, 72),
@@ -1062,7 +1062,7 @@ namespace Sector_File
                 SizeMode  = PictureBoxSizeMode.Zoom,
             };
             try   { this.loginIconLabel.Image = Image.FromFile("./ivao_blue.png"); }
-            catch { /* no image — space stays blank */ }
+            catch { /* no image - space stays blank */ }
 
             this.loginTitleLabel = new Label
             {
@@ -1251,7 +1251,7 @@ namespace Sector_File
         }
 
         // ─────────────────────────────────────────────────────────────────
-        //  WELCOME / HOME PAGE  — clean document style matching IVAO Data Website
+        //  WELCOME / HOME PAGE  - clean document style matching IVAO Data Website
         // ─────────────────────────────────────────────────────────────────
         private void BuildWelcomePage()
         {
@@ -1265,7 +1265,7 @@ namespace Sector_File
                 AutoScroll = true,
             };
 
-            // Field stubs — kept so MainForm.cs compiles
+            // Field stubs - kept so MainForm.cs compiles
             this.hubAiracCard       = new Panel { Visible = false };
             this.hubAiracCycleLabel = new Label { Visible = false };
             this.hubAiracDatesLabel = new Label { Visible = false };
@@ -1333,7 +1333,7 @@ namespace Sector_File
             {
                 Text      = airacOk
                     ? $"  AIRAC {SplashForm.AiracCycle}  ·  {SplashForm.AiracEffective} → {SplashForm.AiracExpiry}  ·  {SplashForm.AiracDaysLeft} days remaining"
-                    : "  AIRAC data unavailable — check your internet connection",
+                    : "  AIRAC data unavailable - check your internet connection",
                 Font      = new Font("Segoe UI", 9f, FontStyle.Bold),
                 ForeColor = airacOk ? Color.FromArgb(22, 101, 52)   : Color.FromArgb(107, 114, 128),
                 BackColor = airacOk ? Color.FromArgb(220, 252, 231) : Color.FromArgb(243, 244, 246),
@@ -1677,7 +1677,7 @@ namespace Sector_File
                 Visible   = false,
             };
 
-            // Hidden CheckBox fields — read by SidStar.cs logic; not rendered directly
+            // Hidden CheckBox fields - read by SidStar.cs logic; not rendered directly
             this.chkSidAlt    = new CheckBox { Visible = false, Checked = true };
             this.chkSidSpd    = new CheckBox { Visible = false, Checked = true };
             this.chkSidCoord  = new CheckBox { Visible = false, Checked = true };
@@ -1734,8 +1734,8 @@ namespace Sector_File
             {
                 Text        = "Using the form below, generate SID (Standard Instrument Departure) and STAR " +
                               "(Standard Terminal Arrival Route) procedures for any airport using real AIRAC " +
-                              "navigation data. Toggle which data fields to include — altitude limits, speed " +
-                              "restrictions, and waypoint coordinates — then click Generate and download the " +
+                              "navigation data. Toggle which data fields to include - altitude limits, speed " +
+                              "restrictions, and waypoint coordinates - then click Generate and download the " +
                               "output files directly into your Aurora sector files.",
                 Font        = new Font("Segoe UI", 10f),
                 ForeColor   = Color.FromArgb(55, 65, 81),
@@ -2470,7 +2470,7 @@ namespace Sector_File
         {
             this.contentPanel = new Panel { Dock = DockStyle.Fill, BackColor = Color.Transparent };
 
-            // All pages added to contentPanel (Fill — all layered, only one visible)
+            // All pages added to contentPanel (Fill - all layered, only one visible)
             this.contentPanel.Controls.Add(this.loginPage);
             this.contentPanel.Controls.Add(this.welcomePage);
             this.contentPanel.Controls.Add(this.sidStarPage);
@@ -2482,7 +2482,7 @@ namespace Sector_File
             this.contentPanel.Controls.Add(this.creditsPage);
             this.contentPanel.Controls.Add(this.flightPage);
 
-            // Floating country dropdown — parented to contentPanel so it overlays all pages
+            // Floating country dropdown - parented to contentPanel so it overlays all pages
             this.contentPanel.Controls.Add(this.cntDropdownOverlay);
             this.cntDropdownOverlay.BringToFront();
 
@@ -2859,7 +2859,7 @@ namespace Sector_File
             var firDescLabel = new Label
             {
                 Text        = "Enter a FIR identifier to fetch its boundary and all contained airspace shapes. " +
-                              "Toggle which airspace types to include — FIR/UIR boundaries, Terminal Maneuvering " +
+                              "Toggle which airspace types to include - FIR/UIR boundaries, Terminal Maneuvering " +
                               "Areas, Control Zones, Control Areas, and Restricted/Danger/Prohibited areas. " +
                               "Each type downloads as a separate .artcc file for use in Aurora sector files.",
                 Font        = new Font("Segoe UI", 10f),
@@ -2978,7 +2978,7 @@ namespace Sector_File
             };
 
             // ── Toggle cards ───────────────────────────────────────────────
-            // Hidden checkboxes — state holders read by logic
+            // Hidden checkboxes - state holders read by logic
             this.chkFirBoundary  = new CheckBox { Checked = true,  Visible = false };
             this.chkFirUir       = new CheckBox { Checked = true,  Visible = false };
             this.chkFirTma       = new CheckBox { Checked = true,  Visible = false };
@@ -3322,7 +3322,7 @@ namespace Sector_File
         }
 
         // ─────────────────────────────────────────────────────────────────
-        //  GROUND LAYOUT PAGE  — embedded KML import
+        //  GROUND LAYOUT PAGE  - embedded KML import
         // ─────────────────────────────────────────────────────────────────
         private void BuildGroundLayoutPage()
         {
@@ -3375,15 +3375,15 @@ namespace Sector_File
             var grDescLabel = new Label
             {
                 Text        = "Import a KML or KMZ file exported from Google Earth or QGIS to generate " +
-                              "Aurora ground layout files. Geometry type is detected automatically — " +
+                              "Aurora ground layout files. Geometry type is detected automatically - " +
                               "polygons → .tfl (filled areas), line strings → .geo (centre-lines), " +
                               "points → .txi or .rw depending on the placemark name.\n\n" +
                               "Point naming rules:  name a point  \"Runway 09\",  \"Runway 27L\",  or  \"R09L\" " +
                               "(starts with \"Runway\" or \"R\" followed by a digit) to mark a runway endpoint. " +
-                              "Opposite pairs are linked automatically — Runway 09 pairs with Runway 27. " +
+                              "Opposite pairs are linked automatically - Runway 09 pairs with Runway 27. " +
                               "Any other point name (e.g. A, B, Gate 12, Stand 4) becomes a taxi label in the .txi file.\n\n" +
                               "Polygon and line names are written as comments only. " +
-                              "The colours you set in Google Earth or QGIS are carried directly into Aurora — " +
+                              "The colours you set in Google Earth or QGIS are carried directly into Aurora - " +
                               "fill colour, line colour, and opacity all reflect exactly as styled, so what you " +
                               "see in Google Earth is what you get in Aurora.",
                 Font        = new Font("Segoe UI", 10f),
@@ -3418,7 +3418,7 @@ namespace Sector_File
 
             this.grFileLabel = new Label
             {
-                Text      = "No file selected — click Import to browse for a KML or KMZ file",
+                Text      = "No file selected - click Import to browse for a KML or KMZ file",
                 Font      = new Font("Segoe UI", 9.5f),
                 ForeColor = Color.FromArgb(148, 163, 184),
                 Dock      = DockStyle.None,
@@ -3488,7 +3488,7 @@ namespace Sector_File
 
             this.grStatusLabel = new Label
             {
-                Text      = "Ready — select a KML or KMZ file to begin",
+                Text      = "Ready - select a KML or KMZ file to begin",
                 Font      = new Font("Segoe UI", 7.5f),
                 ForeColor = Color.FromArgb(120, 140, 165),
                 Location  = new Point(10, 10),
@@ -3523,7 +3523,7 @@ namespace Sector_File
             };
             grLogWrapper.Controls.Add(this.grLogBox);
 
-            // ── Download bar — 4 buttons: TFL, GEO, TXI, RW ───────────────
+            // ── Download bar - 4 buttons: TFL, GEO, TXI, RW ───────────────
             this.grDownloadPanel = new Panel
             {
                 Dock      = DockStyle.Bottom,
@@ -3571,7 +3571,7 @@ namespace Sector_File
         }
 
         // ─────────────────────────────────────────────────────────────────
-        //  OSM DATA PAGE  — Coming Soon placeholder
+        //  OSM DATA PAGE  - Coming Soon placeholder
         // ─────────────────────────────────────────────────────────────────
         private void BuildOsmPage()
         {
@@ -3623,7 +3623,7 @@ namespace Sector_File
 
             var osmDescLabel = new Label
             {
-                Text        = "Generate complete airport ground layouts with a single click — no manual KML " +
+                Text        = "Generate complete airport ground layouts with a single click - no manual KML " +
                               "drawing required. Simply enter an airport ICAO code and the tool will automatically " +
                               "build taxiways, aprons, stands, and runways, outputting ready-to-use Aurora sector " +
                               "files in the same .tfl / .geo / .txi / .rw format as the KML importer.",
@@ -3679,7 +3679,7 @@ namespace Sector_File
 
             var osmCardDesc = new Label
             {
-                Text      = "With a single click, generate stunning ground layouts for any airport in the world — instantly.",
+                Text      = "With a single click, generate stunning ground layouts for any airport in the world - instantly.",
                 Font      = new Font("Segoe UI", 10.5f),
                 ForeColor = Color.FromArgb(107, 114, 128),
                 BackColor = Color.Transparent,
@@ -3732,7 +3732,7 @@ namespace Sector_File
         }
 
         // ─────────────────────────────────────────────────────────────────
-        //  CREDITS PAGE  — embedded, same style as other pages
+        //  CREDITS PAGE  - embedded, same style as other pages
         // ─────────────────────────────────────────────────────────────────
         private void BuildCreditsPage()
         {
@@ -3745,7 +3745,7 @@ namespace Sector_File
                 Visible   = false,
             };
 
-            // ── Header — dark navy with IVAO logo ──────────────────────────
+            // ── Header - dark navy with IVAO logo ──────────────────────────
             this.creditsHeaderPanel = new Panel
             {
                 Dock      = DockStyle.Top,
@@ -3978,7 +3978,7 @@ namespace Sector_File
         }
 
         // ─────────────────────────────────────────────────────────────────
-        //  FLIGHT SCHEDULES PAGE  — AeroDataBox (RapidAPI)
+        //  FLIGHT SCHEDULES PAGE  - AeroDataBox (RapidAPI)
         // ─────────────────────────────────────────────────────────────────
         private void BuildFlightPage()
         {
@@ -4071,7 +4071,7 @@ namespace Sector_File
                 BackColor = Color.Transparent,
             };
 
-            // Input wrapper factory — filled + bordered rounded box with centred TextBox
+            // Input wrapper factory - filled + bordered rounded box with centred TextBox
             Panel MakeFlWrapper(int w, ref Panel wrapperField, ref TextBox boxField,
                                 string placeholder, int maxLen)
             {
@@ -4124,7 +4124,7 @@ namespace Sector_File
             this.flArrWrapper     = arrW; this.flArrBox     = arrB;
             this.flAirlineWrapper = airW; this.flAirlineBox = airB;
 
-            // Arrow — fixed size, never wraps
+            // Arrow - fixed size, never wraps
             var flArrowLbl = new Label
             {
                 Text      = "→",
@@ -4162,7 +4162,7 @@ namespace Sector_File
                 Value  = DateTime.Today,
             };
 
-            // Time pickers — labels embedded in CustomFormat
+            // Time pickers - labels embedded in CustomFormat
             this.flFromTimePicker = new DateTimePicker
             {
                 Font         = new Font("Segoe UI", 10f),
@@ -4223,7 +4223,7 @@ namespace Sector_File
                 BackColor = Color.Transparent,
             };
 
-            // Right-anchored — resize keeps everything flush to right edge
+            // Right-anchored - resize keeps everything flush to right edge
             this.flSearchPanel.Resize += (s, e) =>
             {
                 int right  = flSearchPanel.ClientSize.Width - FlPadH;
@@ -4309,7 +4309,7 @@ namespace Sector_File
             };
 
             // ── Results log ────────────────────────────────────────────────
-            // RichTextBox ignores Padding — wrap in a Panel so the text is indented
+            // RichTextBox ignores Padding - wrap in a Panel so the text is indented
             this.flLogBox = new RichTextBox
             {
                 Dock        = DockStyle.Fill,

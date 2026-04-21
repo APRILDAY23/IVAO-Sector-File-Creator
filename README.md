@@ -4,7 +4,7 @@ A community-made Windows desktop tool for building IVAO sector files.
 Pulls real-world aviation data from free, publicly available APIs to generate
 airport data, FIR boundaries, SID/STAR procedures, and flight schedules.
 
-> **⚠ NOT FOR REAL WORLD USE** — simulation purposes only.
+> **⚠ NOT FOR REAL WORLD USE** - simulation purposes only.
 > This is an **unofficial** tool and is not affiliated with IVAO.
 
 ---
@@ -25,7 +25,7 @@ airport data, FIR boundaries, SID/STAR procedures, and flight schedules.
 
 1. Download the latest installer from the [Releases](https://github.com/APRILDAY23/IVAO-Sector-File-Creator/releases) page.
 2. Run `IVAO-Sector-File-Creator-Setup-vX.X.X.exe`.
-3. Follow the wizard — Start Menu and optional Desktop shortcut are created.
+3. Follow the wizard - Start Menu and optional Desktop shortcut are created.
 4. Launch **IVAO Sector File Creator** and log in with your IVAO credentials.
 
 No API keys to configure. The app comes ready to use.
@@ -38,7 +38,7 @@ No API keys to configure. The app comes ready to use.
 
 | Channel | Description | How to get |
 |---|---|---|
-| **Stable** | Tested releases from `main` | Default — install any release without `-beta` in the tag |
+| **Stable** | Tested releases from `main` | Default - install any release without `-beta` in the tag |
 | **Beta** | Development builds from `develop` | Install a release tagged `v*-beta.*` |
 
 Switch channel inside the app: **Settings → Updates → Channel**.
@@ -80,21 +80,21 @@ The app uses these free-tier APIs. Get your own keys to develop:
 
 Fill them into `secrets.json` (copied from `secrets.example.json`). Never commit this file.
 
-### Push Secrets to GitHub (one-time)
+### Push Secrets to GitHub (repo owner only)
 
-After filling `secrets.json`, run this to push your keys to GitHub Actions Secrets:
+Contributors do **not** push secrets. Only the repo owner runs this - after approving a PR from a feature branch into `develop`, if that PR introduced a new API key:
 
 ```powershell
-pwsh scripts/push-secrets.ps1
+powershell -ExecutionPolicy Bypass -File scripts/push-secrets.ps1
 ```
 
-This uses the GitHub CLI. You only need to do this once per key (or when keys change).
+The script skips secrets already set on GitHub, so it is safe to re-run. Requires the GitHub CLI (`gh`) installed and authenticated (`gh auth login`).
 
 ### Branch Strategy
 
 | Branch | Purpose | Releases |
 |---|---|---|
-| `main` | Production — stable, tested | Tagged `v1.0.0` → creates **Stable** release |
+| `main` | Production - stable, tested | Tagged `v1.0.0` → creates **Stable** release |
 | `develop` | Active development / staging | Tagged `v1.0.0-beta.1` → creates **Beta** pre-release |
 
 - All PRs target **`develop`**, not `main`.
@@ -127,8 +127,8 @@ GitHub Actions will:
 IVAO-Sector-File-Creator/
 ├── .github/
 │   ├── workflows/
-│   │   ├── build.yml          # CI — builds on every PR/push
-│   │   └── release.yml        # Release — triggered by version tags
+│   │   ├── build.yml          # CI - builds on every PR/push
+│   │   └── release.yml        # Release - triggered by version tags
 │   └── pull_request_template.md
 ├── scripts/
 │   └── push-secrets.ps1       # Push secrets.json → GitHub Secrets
@@ -137,7 +137,7 @@ IVAO-Sector-File-Creator/
 ├── SecretsEmbed.cs             # Compile-time AES-256 key store (CI only)
 ├── UpdateManager.cs            # GitHub Releases auto-updater
 ├── installer.iss               # Inno Setup installer script
-├── secrets.example.json        # Template — copy to secrets.json, fill in keys
+├── secrets.example.json        # Template - copy to secrets.json, fill in keys
 ├── secrets.json                # Your local keys (gitignored, never committed)
 └── LICENSE
 ```
@@ -148,14 +148,14 @@ IVAO-Sector-File-Creator/
 2. Fill in `secrets.json` with your own keys.
 3. Run `dotnet build` to verify.
 4. Open a PR targeting **`develop`** (not `main`).
-5. The PR template checklist must pass — especially: no secrets in the diff.
+5. The PR template checklist must pass - especially: no secrets in the diff.
 
 ---
 
 ## Security
 
 - API keys are **never** stored in source code.
-- Release builds embed keys using **AES-256-CBC + PBKDF2** — no plaintext file ships with the installer.
+- Release builds embed keys using **AES-256-CBC + PBKDF2** - no plaintext file ships with the installer.
 - On first launch the app decrypts keys into the Windows **DPAPI**-encrypted `%AppData%` store.
 - Contributors use their own free-tier keys via `secrets.json` (gitignored).
 
@@ -163,6 +163,6 @@ IVAO-Sector-File-Creator/
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
 Built by [Veda Moola](https://ivao.aero/Member.aspx?Id=656077) (IVAO VID 656077).
 Not affiliated with IVAO.

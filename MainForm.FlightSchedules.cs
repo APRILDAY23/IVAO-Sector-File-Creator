@@ -189,7 +189,7 @@ namespace Sector_File
                                   ?? f["_queriedDepIcao"]?.ToString() ?? "?";
                     string arrIcao = arrNode?["airport"]?["icao"]?.ToString()
                                   ?? f["_queriedArrIcao"]?.ToString() ?? "?";
-                    // Name is absent for the queried airport — fall back to ICAO
+                    // Name is absent for the queried airport - fall back to ICAO
                     string depName = depNode?["airport"]?["name"]?.ToString()
                                   ?? f["_queriedDepName"]?.ToString() ?? depIcao;
                     string arrName = arrNode?["airport"]?["name"]?.ToString()
@@ -307,7 +307,7 @@ namespace Sector_File
             var all = new List<JObject>();
 
             // Split the window into 12-hour chunks.
-            // Delay 1.1 s between calls — free tier enforces a per-second rate limit.
+            // Delay 1.1 s between calls - free tier enforces a per-second rate limit.
             DateTime cursor = from;
             bool firstChunk = true;
             while (cursor < to)
@@ -417,7 +417,7 @@ namespace Sector_File
                                     ?? f["_queriedDepIcao"]?.ToString() ?? "";
                     string exArrIcao = arrNode?["airport"]?["icao"]?.ToString()
                                     ?? f["_queriedArrIcao"]?.ToString() ?? "";
-                    // Name is absent for the queried airport — leave blank rather than repeating ICAO
+                    // Name is absent for the queried airport - leave blank rather than repeating ICAO
                     string rawDepName = depNode?["airport"]?["name"]?.ToString() ?? f["_queriedDepName"]?.ToString() ?? "";
                     string rawArrName = arrNode?["airport"]?["name"]?.ToString() ?? f["_queriedArrName"]?.ToString() ?? "";
                     string exDepName  = rawDepName == exDepIcao ? "" : rawDepName;

@@ -12,13 +12,13 @@ using System.Xml;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  Ground Layout tool  — embedded panel in MainForm
+    //  Ground Layout tool  - embedded panel in MainForm
     //
     //  Reads a KML file exported from Google Earth / QGIS and produces:
-    //    .tfl  — IVAO Aurora filled polygons (aprons, taxiways, buildings)
-    //    .geo  — IVAO Aurora geo lines (taxiway centre-lines, stand lines)
-    //    .txi  — IVAO Aurora taxiway labels
-    //    .rw   — IVAO Aurora runway config (from Point placemarks named "Runway XX")
+    //    .tfl  - IVAO Aurora filled polygons (aprons, taxiways, buildings)
+    //    .geo  - IVAO Aurora geo lines (taxiway centre-lines, stand lines)
+    //    .txi  - IVAO Aurora taxiway labels
+    //    .rw   - IVAO Aurora runway config (from Point placemarks named "Runway XX")
     //
     //  Conversion format identical to the standalone LoadingForm, targeting
     //  IVAO Aurora sector file specification.
@@ -34,7 +34,7 @@ namespace Sector_File
         private readonly HashSet<string> _grProcessedRunways = new(StringComparer.OrdinalIgnoreCase);
 
         // ────────────────────────────────────────────────────────────────────
-        //  Import button — select KML then process
+        //  Import button - select KML then process
         // ────────────────────────────────────────────────────────────────────
         private async void GrImport_Click(object sender, EventArgs e)
         {
@@ -135,7 +135,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  KML reading — runs on background thread.
+        //  KML reading - runs on background thread.
         //  Handles both .kml (plain XML) and .kmz (ZIP containing doc.kml).
         // ────────────────────────────────────────────────────────────────────
         private void GrReadKml(string filePath)
@@ -355,7 +355,7 @@ namespace Sector_File
             return (fill, line, lineW, fillOp);
         }
 
-        // KML encodes color as AABBGGRR — convert to RRGGBB for Aurora
+        // KML encodes color as AABBGGRR - convert to RRGGBB for Aurora
         private static string KmlColorToRgb(string kml)
         {
             kml = kml.Trim();
@@ -407,7 +407,7 @@ namespace Sector_File
         {
             if (string.IsNullOrEmpty(data))
             {
-                MessageBox.Show("No data to save — import a KML file first.",
+                MessageBox.Show("No data to save - import a KML file first.",
                     "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -417,7 +417,7 @@ namespace Sector_File
             {
                 Filter   = filter,
                 FileName = $"{name}.{ext}",
-                Title    = $"Save  —  {name}.{ext}",
+                Title    = $"Save  -  {name}.{ext}",
             };
             if (dlg.ShowDialog() == DialogResult.OK)
             {

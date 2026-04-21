@@ -40,7 +40,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Search — orchestrates all fetches for a 2-letter FIR/region prefix
+        //  Search - orchestrates all fetches for a 2-letter FIR/region prefix
         // ────────────────────────────────────────────────────────────────────
         private async void SearchButton_Click(object sender, EventArgs e)
         {
@@ -81,7 +81,7 @@ namespace Sector_File
                 var airports = await FetchAirportsInRegionAsync(client, region);
                 UpdateProgress(10);
 
-                AppendLog($"\n  Found {airports.Count} airport(s) — fetching details...");
+                AppendLog($"\n  Found {airports.Count} airport(s) - fetching details...");
 
                 // ── Per-airport: runways + frequencies ────────────────────────
                 var apLines  = new List<string>();
@@ -209,7 +209,7 @@ namespace Sector_File
             // Fallback: paginate all airports and filter by ICAO prefix (max 30 pages)
             if (!hasRegionFilter)
             {
-                AppendLog("\n  (region filter unsupported — scanning global list)");
+                AppendLog("\n  (region filter unsupported - scanning global list)");
                 const int maxPages = 30;
                 for (int p = 1; p <= maxPages; p++)
                 {
@@ -307,7 +307,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Navaids — paginated, filtered by ICAO region prefix
+        //  Navaids - paginated, filtered by ICAO region prefix
         //  vorType:  1=VOR  2=VOR/DME  4=DME  -1=NDB
         // ────────────────────────────────────────────────────────────────────
         private async Task<List<string>> FetchNavaidsAsync(
@@ -341,7 +341,7 @@ namespace Sector_File
 
                     if (vorType == -1)
                     {
-                        // NDB — frequency in kHz
+                        // NDB - frequency in kHz
                         double fkhz = nav["frequency_khz"]?.Value<double>()
                                    ?? nav["frequency"]?.Value<double>()
                                    ?? 0;
@@ -349,7 +349,7 @@ namespace Sector_File
                     }
                     else
                     {
-                        // VOR / VOR/DME / DME — frequency in MHz
+                        // VOR / VOR/DME / DME - frequency in MHz
                         double fmhz = nav["frequency_mhz"]?.Value<double>()
                                    ?? nav["frequency"]?.Value<double>()
                                    ?? 0;
@@ -366,7 +366,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Haversine offset — lat/lon → new point at bearing + distance (nm)
+        //  Haversine offset - lat/lon → new point at bearing + distance (nm)
         // ────────────────────────────────────────────────────────────────────
         private static (double lat, double lon) GeoOffset(
             double lat0, double lon0, double bearingDeg, double distNm)
@@ -453,7 +453,7 @@ namespace Sector_File
             using SaveFileDialog dlg = new SaveFileDialog
             {
                 Filter   = filter,
-                Title    = $"{title}  —  {term}XX FIR",
+                Title    = $"{title}  -  {term}XX FIR",
                 FileName = $"{term}.{ext}"
             };
             if (dlg.ShowDialog() == DialogResult.OK)

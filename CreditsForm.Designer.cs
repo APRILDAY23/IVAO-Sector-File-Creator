@@ -260,7 +260,7 @@ namespace Sector_File
                 Padding   = new System.Windows.Forms.Padding(8, 0, 8, 0),
             };
 
-            // Stack body controls — last added = topmost (DockStyle.Top)
+            // Stack body controls - last added = topmost (DockStyle.Top)
             this.bodyPanel.Controls.Add(apiNoticeLabel);
             this.bodyPanel.Controls.Add(MakeSectionLabel("DATA SOURCES"));
             this.bodyPanel.Controls.Add(MakeDivider());

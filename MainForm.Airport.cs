@@ -11,11 +11,11 @@ using Newtonsoft.Json.Linq;
 namespace Sector_File
 {
     // ─────────────────────────────────────────────────────────────────────────
-    //  Airport Data tool logic  — embedded panel in MainForm
+    //  Airport Data tool logic  - embedded panel in MainForm
     //
     //  Input:
-    //   • 4-letter ICAO  (e.g. VABB)  — single airport + navaids for its region
-    //   • 2-letter prefix (e.g. VA)   — all airports in that FIR + all navaids
+    //   • 4-letter ICAO  (e.g. VABB)  - single airport + navaids for its region
+    //   • 2-letter prefix (e.g. VA)   - all airports in that FIR + all navaids
     //
     //  Airport listing strategy (2-letter mode):
     //   1. Try /airports?region={prefix}          (may work on some API builds)
@@ -34,7 +34,7 @@ namespace Sector_File
         private string _apNdbOutput      = "";
         private string _apLastCountryIso = "";  // cached from ApDetectCountryAsync for OpenAIP fallback
 
-        // (country code is detected dynamically from the API — no hardcoded table)
+        // (country code is detected dynamically from the API - no hardcoded table)
 
         // ── Search / orchestrate ──────────────────────────────────────────────
         private async void ApSearch_Click(object sender, EventArgs e)
@@ -122,7 +122,7 @@ namespace Sector_File
                     ApLog($"\nFetching airports in {region}XX FIR…");
                     var airports = await ApFetchAirportsInRegionAsync(client, region);
                     ApProgress(15);
-                    ApLog($"\n  Found {airports.Count} airport(s) — fetching details…");
+                    ApLog($"\n  Found {airports.Count} airport(s) - fetching details…");
 
                     var apLines  = new List<string>();
                     var rwLines  = new List<string>();
@@ -133,7 +133,7 @@ namespace Sector_File
                     foreach (var ap in airports)
                     {
                         done++;
-                        ApStatus($"Fetching details {done}/{airports.Count}  —  {ap.Icao}");
+                        ApStatus($"Fetching details {done}/{airports.Count}  -  {ap.Icao}");
                         apLines.Add(
                             $"{ap.Icao};{ap.ElevFt};{ApToN(ap.Lat)};{ApToE(ap.Lon)};{ap.Name};");
 
@@ -156,7 +156,7 @@ namespace Sector_File
                     if (!hasCtr)
                     {
                         ApStatus("Looking for FIR CTR/FSS position…");
-                        ApLog("\n  No CTR/FSS found in airport data — probing FIR center…");
+                        ApLog("\n  No CTR/FSS found in airport data - probing FIR center…");
                         await ApFetchFirCtrAsync(client, region, frqLines, seenFreq);
                     }
 
@@ -241,17 +241,17 @@ namespace Sector_File
             await ApPagedAirports(client, $"?region={region}", region, results);
             if (results.Count > 0)
             {
-                ApLog($"\n  (used region filter — {results.Count} airports)");
+                ApLog($"\n  (used region filter - {results.Count} airports)");
                 return results;
             }
 
             // ── Strategy 2: probe likely ICAO codes to detect country ─────────
-            ApLog("\n  (detecting country from API — probing ICAO candidates…)");
+            ApLog("\n  (detecting country from API - probing ICAO candidates…)");
             string iso = await ApDetectCountryAsync(client, region);
             if (!string.IsNullOrEmpty(iso))
             {
                 _apLastCountryIso = iso;   // cache for OpenAIP fallback
-                ApLog($"\n  (country {iso} detected — fetching all {region}* airports)");
+                ApLog($"\n  (country {iso} detected - fetching all {region}* airports)");
                 await ApPagedAirports(client, $"?country={iso}", region, results);
                 if (results.Count > 0)
                 {
@@ -261,7 +261,7 @@ namespace Sector_File
             }
 
             // ── Strategy 3: full scan with smart stop (reliable fallback) ─────
-            ApLog("\n  (full scan — paginating all airports)");
+            ApLog("\n  (full scan - paginating all airports)");
             bool seenAny        = false;
             int  emptyAfterMatch = 0;
 
@@ -332,7 +332,7 @@ namespace Sector_File
                     return iso;
                 }
 
-                // Airport exists but API returned no country field —
+                // Airport exists but API returned no country field -
                 // log it and keep trying other candidates
                 ApLog($"\n  → {apIcao} found but no country field in API response");
             }
@@ -450,7 +450,7 @@ namespace Sector_File
                     "RADIO"       => "FSS",
                     "UNICOM"      => "UNICOM",
                     "MULTICOM"    => "UNICOM",
-                    _             => null,   // ATIS and unrecognised — skip in pass 1
+                    _             => null,   // ATIS and unrecognised - skip in pass 1
                 };
                 if (suffix == null) continue;
 
@@ -460,7 +460,7 @@ namespace Sector_File
                 frqOut.Add($"{callsign};{fmhz:F3};{ap.Icao};;ATIS\\voice{rwyType}.atis;0;;ATIS\\{rwyType}rwy.atis;");
             }
 
-            // ── Pass 2: FIR/CTR fallback — if no ATC freqs found at all ──────
+            // ── Pass 2: FIR/CTR fallback - if no ATC freqs found at all ──────
             //   Some small airports have no dedicated ATC positions. Include any
             //   non-ATIS frequency as a FSS (Flight Service Station) fallback so
             //   the airport at least appears in the .atc output.
@@ -487,7 +487,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  FIR CTR / FSS probe — called when no CTR or FSS was found in the
+        //  FIR CTR / FSS probe - called when no CTR or FSS was found in the
         //  regular airport frequency sweep.
         //
         //  Strategy:
@@ -550,18 +550,18 @@ namespace Sector_File
                 if (added) return;
             }
 
-            ApLog("\n  No FIR CTR/FSS found — checking secondary source…",
+            ApLog("\n  No FIR CTR/FSS found - checking secondary source…",
                   color: Color.FromArgb(100, 120, 150));
 
             // ── Step 2: OpenAIP fallback ──────────────────────────────────────
             bool oaipFound = await ApFetchFirCtrFromOpenAipAsync(client, region, frqOut, seenFreq);
             if (!oaipFound)
-                ApLog("\n  ⚠ No FIR CTR/FSS position found — may need to be added manually",
+                ApLog("\n  ⚠ No FIR CTR/FSS position found - may need to be added manually",
                       color: Color.FromArgb(200, 80, 0));
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  OpenAIP fallback — queries api.openaip.net for airports whose ICAO
+        //  OpenAIP fallback - queries api.openaip.net for airports whose ICAO
         //  starts with the FIR prefix and extracts CENTER / FIS / FSS freqs.
         //  Requires OpenAIP API key in Settings.
         // ────────────────────────────────────────────────────────────────────
@@ -571,7 +571,7 @@ namespace Sector_File
         {
             if (string.IsNullOrEmpty(_openAipApiKey))
             {
-                ApLog("\n  ℹ Secondary data source not configured — set it in Settings to enable this fallback",
+                ApLog("\n  ℹ Secondary data source not configured - set it in Settings to enable this fallback",
                       color: Color.FromArgb(130, 140, 160));
                 return false;
             }
@@ -665,7 +665,7 @@ namespace Sector_File
 
             _apAirportOutput = ApHeader_Airport() +
                 $"{airIcao};{airElev};{ApToN(airLat)};{ApToE(airLon)};{airName};";
-            ApLog($"\n  Airport  : {airIcao} — {airName}  elev={airElev}ft");
+            ApLog($"\n  Airport  : {airIcao} - {airName}  elev={airElev}ft");
 
             var rwLines  = new List<string>();
             var frqLines = new List<string>();
@@ -679,14 +679,14 @@ namespace Sector_File
 
             ApLog($"\n  Runways  : {rwCount}");
             if (frqCount == 0)
-                ApLog($"\n  Freqs    : 0  ⚠ no ATC frequencies found — FSS fallback applied if any freq existed",
+                ApLog($"\n  Freqs    : 0  ⚠ no ATC frequencies found - FSS fallback applied if any freq existed",
                       color: Color.FromArgb(200, 120, 0));
             else
                 ApLog($"\n  Freqs    : {frqCount}");
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Navaid fetch — paginated, filtered by ICAO region prefix
+        //  Navaid fetch - paginated, filtered by ICAO region prefix
         //  vorType: 1=VOR  2=VOR/DME  4=DME  -1=NDB
         // ────────────────────────────────────────────────────────────────────
         private async Task<List<string>> ApFetchNavaidsAsync(
@@ -740,7 +740,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Haversine offset — centre lat/lon → new point at bearing + dist (nm)
+        //  Haversine offset - centre lat/lon → new point at bearing + dist (nm)
         // ────────────────────────────────────────────────────────────────────
         private static (double lat, double lon) ApGeoOffset(
             double lat0, double lon0, double bearingDeg, double distNm)
@@ -758,7 +758,7 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  DMS conversion  — decimal degrees → N/S DD.MM.SS.mmm
+        //  DMS conversion  - decimal degrees → N/S DD.MM.SS.mmm
         // ────────────────────────────────────────────────────────────────────
         private static string ApToN(double lat)
         {
@@ -781,10 +781,10 @@ namespace Sector_File
         }
 
         // ────────────────────────────────────────────────────────────────────
-        //  Format header comments — prepended to each output file
+        //  Format header comments - prepended to each output file
         // ────────────────────────────────────────────────────────────────────
         private static string ApHeader_Airport() =>
-            $"// IVAO Aurora Sector File — Airport Data (.ap)\n" +
+            $"// IVAO Aurora Sector File - Airport Data (.ap)\n" +
             $"// Format: ICAO;ELEVATION_FT;LAT;LON;NAME;\n" +
             $"//   ELEVATION_FT : airport elevation in feet\n" +
             $"//   LAT/LON      : DMS  N/S DD.MM.SS.mmm  /  E/W DDD.MM.SS.mmm\n" +
@@ -794,7 +794,7 @@ namespace Sector_File
             $"// ⚠  NOT FOR REAL WORLD USE\n\n";
 
         private static string ApHeader_Runway() =>
-            $"// IVAO Aurora Sector File — Runway Data (.rw)\n" +
+            $"// IVAO Aurora Sector File - Runway Data (.rw)\n" +
             $"// Format: ICAO;BASE_ID;RECIP_ID;BASE_BRG;RECIP_BRG;BASE_THRESH_LAT;BASE_THRESH_LON;RECIP_THRESH_LAT;RECIP_THRESH_LON;\n" +
             $"//   BASE_ID / RECIP_ID  : runway designators (e.g. 09, 27)\n" +
             $"//   BASE_BRG / RECIP_BRG: magnetic bearing in degrees\n" +
@@ -806,7 +806,7 @@ namespace Sector_File
             $"// ⚠  NOT FOR REAL WORLD USE\n\n";
 
         private static string ApHeader_Atc() =>
-            $"// IVAO Aurora Sector File — ATC Frequencies (.atc)\n" +
+            $"// IVAO Aurora Sector File - ATC Frequencies (.atc)\n" +
             $"// Format: CALLSIGN;FREQ_MHZ;VIS_POINTS;ALIAS;VOICE_ATIS;FLAGS;RESERVED;ATIS_FILE;\n" +
             $"//   CALLSIGN  : ICAO_SUFFIX  (e.g. VABB_TWR, VABB_GND, VABB_APP, VABB_DEL, VABB_DEP, VABB_CTR)\n" +
             $"//   FREQ_MHZ  : frequency in MHz to 3 decimal places\n" +
@@ -822,7 +822,7 @@ namespace Sector_File
             $"// ⚠  NOT FOR REAL WORLD USE\n\n";
 
         private static string ApHeader_Vor() =>
-            $"// IVAO Aurora Sector File — VHF Navaids (.vor)\n" +
+            $"// IVAO Aurora Sector File - VHF Navaids (.vor)\n" +
             $"// Includes: VOR, VOR/DME, DME\n" +
             $"// Format: IDENT;FREQ_MHZ;LAT;LON;1;TYPE;\n" +
             $"//   IDENT   : navaid identifier\n" +
@@ -836,7 +836,7 @@ namespace Sector_File
             $"// ⚠  NOT FOR REAL WORLD USE\n\n";
 
         private static string ApHeader_Ndb() =>
-            $"// IVAO Aurora Sector File — NDB Navaids (.ndb)\n" +
+            $"// IVAO Aurora Sector File - NDB Navaids (.ndb)\n" +
             $"// Format: IDENT;FREQ_KHZ;LAT;LON;\n" +
             $"//   IDENT   : navaid identifier\n" +
             $"//   FREQ_KHZ: frequency in kHz to 1 decimal place\n" +
@@ -861,7 +861,7 @@ namespace Sector_File
             using var dlg = new SaveFileDialog
             {
                 Filter   = filter,
-                Title    = $"Save  —  {term}",
+                Title    = $"Save  -  {term}",
                 FileName = $"{term}.{ext}",
             };
             if (dlg.ShowDialog() == DialogResult.OK)

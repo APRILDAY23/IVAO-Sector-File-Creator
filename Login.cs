@@ -45,7 +45,7 @@ namespace Sector_File
             }
             else
             {
-                airacBadgeLabel.Text      = "AIRAC data unavailable — working offline";
+                airacBadgeLabel.Text      = "AIRAC data unavailable - working offline";
                 airacBadgeLabel.ForeColor = System.Drawing.Color.FromArgb(100, 110, 130);
             }
 
@@ -57,7 +57,7 @@ namespace Sector_File
         {
             try
             {
-                // ivao_blue.png ships with the project — use it for the header
+                // ivao_blue.png ships with the project - use it for the header
                 if (System.IO.File.Exists("./ivao_blue.png"))
                 {
                     var img = System.Drawing.Image.FromFile("./ivao_blue.png");
@@ -135,7 +135,7 @@ namespace Sector_File
                                 LoginButton.Enabled = true;
                                 LoginButton.Text    = "Login with IVAO SSO";
                                 MessageBox.Show(
-                                    "Access denied — staff accounts only.",
+                                    "Access denied - staff accounts only.",
                                     "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             });
                         }
