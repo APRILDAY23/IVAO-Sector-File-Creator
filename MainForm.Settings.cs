@@ -376,12 +376,71 @@ namespace Sector_File
             updateRow.Controls.Add(_updateStatusLabel);
             updateRow.Controls.Add(_updateActionBtn);
 
+            // ── LANGUAGE section ──────────────────────────────────────────────
+            var langRow = new Panel
+            {
+                Dock      = DockStyle.Top,
+                Height    = 70,
+                BackColor = LightCard,
+            };
+            langRow.Paint += (s, e) =>
+            {
+                using var pen = new Pen(LightPanelBorder, 1);
+                e.Graphics.DrawRectangle(pen, 0, 0, langRow.Width - 1, langRow.Height - 1);
+            };
+            var langLabel = new Label
+            {
+                Text      = "Language:",
+                Font      = new Font("Segoe UI", 9f),
+                ForeColor = Color.FromArgb(55, 65, 81),
+                Location  = new Point(20, 24),
+                AutoSize  = true,
+                BackColor = Color.Transparent,
+            };
+            var langCombo = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Font          = new Font("Segoe UI", 9f),
+                Location      = new Point(104, 20),
+                Width         = 180,
+            };
+            var langs = Localization.Available();
+            foreach (var (code, name) in langs)
+                langCombo.Items.Add(new LangItem(code, name));
+            langCombo.SelectedIndex = Math.Max(0, langs.FindIndex(l => l.Code == ConfigManager.Language));
+            var langRestartLabel = new Label
+            {
+                Text      = "Restart the app to apply the new language.",
+                Font      = new Font("Segoe UI", 8f, FontStyle.Italic),
+                ForeColor = Color.FromArgb(148, 163, 184),
+                Location  = new Point(20, 46),
+                AutoSize  = true,
+                BackColor = Color.Transparent,
+                Visible   = false,
+            };
+            langCombo.SelectedIndexChanged += (s, e) =>
+            {
+                if (langCombo.SelectedItem is LangItem item)
+                {
+                    ConfigManager.Language   = item.Code;
+                    langRestartLabel.Visible = item.Code != Localization.CurrentCode;
+                }
+            };
+            langRow.Controls.Add(langLabel);
+            langRow.Controls.Add(langCombo);
+            langRow.Controls.Add(langRestartLabel);
+
             // ── Stack sections (last added = topmost) ────────────────────────
-            // Visual order top→bottom: APPEARANCE → UPDATES
+            // Visual order top→bottom: APPEARANCE → LANGUAGE → UPDATES
             settingsContent.Controls.Add(updateRow);
             settingsContent.Controls.Add(MakeStGap(8));
             settingsContent.Controls.Add(MakeStDivider());
             settingsContent.Controls.Add(MakeStSecLbl("UPDATES"));
+            settingsContent.Controls.Add(MakeStGap(8));
+            settingsContent.Controls.Add(langRow);
+            settingsContent.Controls.Add(MakeStGap(8));
+            settingsContent.Controls.Add(MakeStDivider());
+            settingsContent.Controls.Add(MakeStSecLbl("LANGUAGE"));
             settingsContent.Controls.Add(MakeStGap(16));
 
             settingsContent.Controls.Add(this.settingsDarkModeRow);
@@ -716,4 +775,11 @@ namespace Sector_File
             this.Refresh();
         }
     }
+
+    // Helper for language dropdown items
+    internal record LangItem(string Code, string Name)
+    {
+        public override string ToString() => Name;
+    }
+}
 }

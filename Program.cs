@@ -31,6 +31,9 @@ namespace Sector_File
             ConfigManager.LoadSecretsFile(); // overlay keys from secrets.json if present (dev only)
             ConfigManager.SeedDefaults();    // no-op in open-source builds
 
+            // Load saved language pack
+            Localization.Load(ConfigManager.Language);
+
             // Show splash (blocks until startup checks complete)
             using (var splash = new SplashForm())
                 splash.ShowDialog();

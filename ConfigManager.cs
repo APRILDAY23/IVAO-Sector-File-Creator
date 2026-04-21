@@ -101,6 +101,12 @@ namespace Sector_File
             set => SetSecure("updateChannel", value);
         }
 
+        public static string Language
+        {
+            get => GetSecure("language", "en");
+            set => SetSecure("language", value);
+        }
+
         public static string OAuthClientId
         {
             get => GetSecure("oauthClientId");

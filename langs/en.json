@@ -1,0 +1,64 @@
+{
+  "language": "English",
+  "code": "en",
+  "author": "Veda Moola",
+  "strings": {
+    "nav_home": "Home",
+    "nav_airport": "Airport Data",
+    "nav_fir": "FIR Data",
+    "nav_sidstar": "SID & STAR",
+    "nav_flights": "Flight Schedules",
+    "nav_ground": "Ground Layout",
+    "nav_settings": "Settings",
+    "nav_back": "Back",
+
+    "welcome_title": "Welcome to IVAO Sector File Creator",
+    "welcome_hint": "Third party sector file creation tool for IVAO.",
+    "disclaimer": "This is a third-party app and is NOT an official IVAO application.",
+
+    "login_button": "Continue with IVAO SSO",
+    "login_opening": "Opening browser...",
+
+    "settings_appearance": "APPEARANCE",
+    "settings_theme": "Theme:",
+    "settings_theme_light": "Light",
+    "settings_theme_dark": "Dark",
+    "settings_language": "LANGUAGE",
+    "settings_language_label": "Language:",
+    "settings_language_restart": "Restart the app to apply the new language.",
+    "settings_updates": "UPDATES",
+    "settings_version": "Current version:",
+    "settings_channel": "Channel:",
+    "settings_channel_stable": " Stable",
+    "settings_channel_beta": " Beta",
+    "settings_check_now": "Check Now",
+    "settings_install_update": "Install Update",
+    "settings_up_to_date": "Up to date",
+    "settings_update_available": "available",
+    "settings_checking": "Checking...",
+    "settings_downloading": "Downloading",
+
+    "airport_fetch": "Fetch",
+    "airport_export": "Export",
+    "airport_fir_placeholder": "Enter FIR ICAO (e.g. VOMF)",
+
+    "fir_fetch": "Fetch",
+    "fir_export": "Export",
+
+    "sidstar_fetch": "Fetch",
+    "sidstar_export_all": "Export All",
+    "sidstar_placeholder": "Enter airport ICAO (e.g. VOBL)",
+
+    "flights_fetch": "Fetch",
+    "flights_export_excel": "Export to Excel",
+
+    "ground_import_kml": "Import KML",
+    "ground_export": "Export",
+
+    "error_access_denied": "Access denied - staff accounts only.",
+    "error_invalid_file": "Please upload only KML files.",
+
+    "airac_offline": "AIRAC offline",
+    "airac_days_left": "days left"
+  }
+}

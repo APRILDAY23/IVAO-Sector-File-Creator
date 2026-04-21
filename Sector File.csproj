@@ -38,6 +38,10 @@
     <Content Include="tools.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <!-- Language packs - copied to langs/ subfolder in output -->
+    <Content Include="langs\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
